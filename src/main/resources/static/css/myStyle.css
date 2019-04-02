@@ -1,0 +1,58 @@
+@charset "UTF-8";
+/* Fonts */
+ @font-face{
+     font-family: "cubicfive";
+     src:url("../fonts/cubicfive10.ttf");
+}
+@font-face{
+    font-family:"LCD";
+    src:url("../fonts/LCD_Solid.ttf");
+}
+body{
+    color:white;
+    background-color: #000040;
+    font-family: "LCD";
+}
+.navbar{
+    border-bottom:3px solid #fff;
+    font-size:120%
+}
+.text-white{
+    color:white;
+}
+a{
+    color:inherit;
+}
+.comicthumb:hover{
+    
+}
+.username{
+    color: #8080ff; 
+}
+.username:hover{
+    color: #a0a0ff;
+}
+
+
+
+/*delete later*/
+#screensizechker{
+    color:white;
+    font-family: "arial";
+}
+/*collapse caret*/
+[data-toggle="collapse"]:before {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    margin-right: 6px;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    content: "\f0da";
+    transform: rotate(90deg) ;
+    transition: transform linear 0.1s;
+}   
+[data-toggle="collapse"].collapsed:before {
+    transform: rotate(0deg) ;
+}

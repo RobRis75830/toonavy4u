@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE-edge">
+<meta name="viewport" content="width = device-width, initial-scale = 1">
+
+<title>Welcome to Toonavy4U</title>
+
+<link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="../static/css/myStyle.css">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>    
+        
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../static/js/bootstrap.min.js"></script>
+    
+</head>
+
+<body>
+    
+ <!--Screen size checker-->
+        <div id="screensizechker">
+            <div class="card d-block d-sm-none">
+                <p>Screen &lt; 576px (xs)</p>
+            </div>
+
+            <div class="card d-none d-sm-block d-md-none">
+                <p>Screen &gt;= 576px and &lt; 768px (sm)</p>
+            </div>
+
+            <div class="card d-none d-md-block d-lg-none">
+                <p>Screen &gt;= 768px and &lt; 992px (md)</p>
+            </div>
+
+            <div class="card d-none d-lg-block d-xl-none">
+                <p>Screen &gt;= 992px and &lt; 1200px (lg)</p>
+            </div>
+
+            <div class="card d-none d-xl-block">
+                <p>Screen &gt; 1200px (xl)</p>
+            </div>
+        </div>
+    
+    <!--navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+          <a class="navbar-brand" href="#"><img src="../static/images/logo7.png" /></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Browse</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Random</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Create
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Create a comic</a>
+                  <a class="dropdown-item" href="#">Create a series</a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#">My Profile</a>
+              </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+          </div>
+        </nav>
+    <br>
+ 
+    
+    
+    
+    
+    <div class="container">
+        <div class="row">
+            <!--Popular Comics-->
+            <div class="col-12 mb-5">
+                <h3><a href="#popContent" data-toggle="collapse">Popular Comics</a></h3>
+                <div class="row comiclist" id="popContent" class="collapse show">
+                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
+                        <a href="#">
+                            <img class="comicthumb img-fluid img-thumbnail" src="../static/images/thumbnail2.jpg">
+                            <h5>Title</h5>
+                        </a>
+                        <a href="#">
+                            <p class="username">by username123</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
+                        <a href="#">
+                            <img class="comicthumb img-fluid img-thumbnail" src="../static/images/thumbnail2.jpg">
+                            <h5>Title</h5>
+                        </a>
+                        <a href="#">
+                            <p class="username">by username123</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
+                        <a href="#">
+                            <img class="comicthumb img-fluid img-thumbnail" src="../static/images/thumbnail2.jpg">
+                            <h5>Title</h5>
+                        </a>
+                        <a href="#">
+                            <p class="username">by username123</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
+                        <a href="#">
+                            <img class="comicthumb img-fluid img-thumbnail" src="../static/images/thumbnail2.jpg">
+                            <h5>Title</h5>
+                        </a>
+                        <a href="#">
+                            <p class="username">by username123</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
+                        <a href="#">
+                            <img class="comicthumb img-fluid img-thumbnail" src="../static/images/thumbnail2.jpg">
+                            <h5>Title</h5>
+                        </a>
+                        <a href="#">
+                            <p class="username">by username123</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
+                        <a href="#">
+                            <img class="comicthumb img-fluid img-thumbnail" src="../static/images/thumbnail2.jpg">
+                            <h5>Title</h5>
+                        </a>
+                        <a href="#">
+                            <p class="username">by username123</p>
+                        </a>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        
+            <!--Fill in the blanks part-->
+            <div class="col-12">
+                <h3>This Week's Fill in the Blanks!</h3>
+                <br>
+                <div class="text-center">
+                    <img class="img-fluid" src="../static/images/fillinthumb.jpg" />
+                </div>
+                <br>
+                <h4>Top Comments</h4>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+</body>
+</html>
