@@ -82,6 +82,7 @@
     <br>
     
     <div class="container">
+    <!--Create comic section; hide when creating series-->
         <h4>Create a New Comic</h4>
         <div class="border border-light">
             <div class="m-3">
@@ -155,6 +156,7 @@
             </div>
         </div>
         <br><br><br>
+        <!--Create series section; hide when creating comic-->
         <h4>Create a New Series</h4>
         <div class="border border-light">
             <div class="m-3">
@@ -176,6 +178,23 @@
                 <div class="form-group">
                   <label for="newComicDescription">Description</label>
                   <textarea class="form-control" id="newComicDescription" rows="3"></textarea>
+                </div>
+                <div class="row">
+                    <div class="form-group col-3">
+                      <label for="genreSelect">Genres</label>
+                        <div class="input-group" id="genreSelect">
+                            <select class="form-control">
+                                <option>Action</option>
+                                <option>Comedy</option>
+                                <option>Drama</option>
+                                <option>Political</option>
+                                <option>Romance</option>
+                            </select>
+                            <div class="input-group-append">
+                                <button type="button" class="btn btn-secondary">Add</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="">
                     <button type = "button" class="btn btn-link ">Create</button>
