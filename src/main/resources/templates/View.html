@@ -1,0 +1,210 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE-edge">
+<meta name="viewport" content="width = device-width, initial-scale = 1">
+
+<title>Welcome to Toonavy4U</title>
+
+<link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="../static/css/myStyle.css">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    
+        
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="../static/js/bootstrap.min.js"></script>
+    
+</head>
+
+<body>
+    
+ <!--Screen size checker-->
+        <div id="screensizechker">
+            <div class="card d-block d-sm-none">
+                <p>Screen &lt; 576px (xs)</p>
+            </div>
+
+            <div class="card d-none d-sm-block d-md-none">
+                <p>Screen &gt;= 576px and &lt; 768px (sm)</p>
+            </div>
+
+            <div class="card d-none d-md-block d-lg-none">
+                <p>Screen &gt;= 768px and &lt; 992px (md)</p>
+            </div>
+
+            <div class="card d-none d-lg-block d-xl-none">
+                <p>Screen &gt;= 992px and &lt; 1200px (lg)</p>
+            </div>
+
+            <div class="card d-none d-xl-block">
+                <p>Screen &gt; 1200px (xl)</p>
+            </div>
+        </div>
+    
+    <!--navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+          <a class="navbar-brand" href="#"><img src="../static/images/logo7.png" /></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Browse</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Random</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Create
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Create a comic</a>
+                  <a class="dropdown-item" href="#">Create a series</a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link disabled" href="#">My Profile</a>
+              </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+          </div>
+        </nav>
+    <br>
+ 
+    
+    
+    
+    
+    <div class="container">
+        <div class="row">
+            <h3>Series 1</h3>
+            <button type="button" class="btn btn-danger btn-sm ml-3 mb-3">Subscribe</button>
+        </div>
+        <div class="row">
+            <a href="#" class="username">By username123</a>
+        </div>
+        <div class="row">
+            <a href="#">
+                <h6 class="mt-3">&lt Back to Series Page</h6>
+            </a>            
+        </div>
+        <div id="comicView" class="text-center mt-5 mb-5">
+            <div class="row">
+                <div class="col-3">
+                    <a href="#">
+                        <span class="float-left">Prev Chapter</span>                  
+                    </a>
+                </div>
+                <div class="col-6">
+                    <h5>Chapter 1: The Beginning</h5>
+                </div>
+                <div class="col-3">
+                    <a href="#">
+                        <span class="float-right">Next Chapter</span>
+                    </a>
+                </div>
+            </div>
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
+              <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+              </ol>
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img class="d-block w-100" src="../static/images/comicTemp.jpg" alt="First slide">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="../static/images/comicTemp.jpg" alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="../static/images/comicTemp.jpg" alt="Third slide">
+                </div>
+              </div>
+              <a class="carousel-control-prev btn-dark" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next btn-dark" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+            <ul class="pagination justify-content-center mt-3">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#">&lt;</a>
+                </li>
+                <li class="page-item active">
+                  <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">4</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">5</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">&gt;</a>
+                </li>
+            </ul>
+        </div>
+        <!--rate and share-->
+        <div class="row mb-4">
+            <span>Rate: 
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+            </span>
+            <button type="button" class="btn btn-primary btn-sm ml-3">Share this comic</button>
+        </div>
+        <!--Comments-->    
+        <div class="row mb-3">
+            <h5>Comments</h5> 
+        </div>
+        <div class="row">
+              <span class="col-2">SpaceDoog:</span>
+              <span class="col-10">very nice comic.</span>
+              <span class="col-2">Tman:</span>
+              <span class="col-10">Thank you, username123, very cool!</span>
+        </div>
+        <div class="row mt-3">
+            <div class="form-group col-12">
+                <label for="newComicDescription">Write a comment</label>
+                <textarea class="form-control" id="newComicDescription" rows="3"></textarea>
+            </div>
+        </div>
+        <br>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+</body>
+</html>
