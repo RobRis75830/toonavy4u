@@ -8,8 +8,8 @@
 
     <title>Welcome to Toonavy4U</title>
 
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="css/myStyle.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/myStyle.css">
    <link rel="stylesheet" type="text/css" href="css/zwibbler.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
 
@@ -104,6 +104,15 @@
                     </div>
                 </div>
             </div>
+            <label for="drawCover">Draw Cover Image</label>
+            <zwibbler showToolbar="true"
+                      z-controller="MyFunction">
+
+
+
+                <div z-canvas class="col-12 bg-light" style="height: 500px;" id="drawCover"> </div>
+            </zwibbler>
+            <br>
             <div class="form-group">
                 <label for="newComicDescription">Description</label>
                 <textarea class="form-control" id="newComicDescription" rows="3"></textarea>
