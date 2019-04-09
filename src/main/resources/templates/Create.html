@@ -1,210 +1,304 @@
 <!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html>
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE-edge">
-<meta name="viewport" content="width = device-width, initial-scale = 1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width = device-width, initial-scale = 1">
 
-<title>Welcome to Toonavy4U</title>
+    <title>Welcome to Toonavy4U</title>
 
-<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="css/myStyle.css">
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>    
-        
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/myStyle.css">
+   <link rel="stylesheet" type="text/css" href="css/zwibbler.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
 
-<!--Zwibbler-->
-<script src="https://zwibbler.com/zwibbler-demo.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <!--Zwibbler-->
+    <script src="https://zwibbler.com/zwibbler-demo.js"></script>
 
 </head>
 <body>
-    <!--Screen size checker-->
-        <div id="screensizechker">
-            <div class="card d-block d-sm-none">
-                <p>Screen &lt; 576px (xs)</p>
-            </div>
+<!--Screen size checker-->
+<div id="screensizechker">
+    <div class="card d-block d-sm-none">
+        <p>Screen &lt; 576px (xs)</p>
+    </div>
 
-            <div class="card d-none d-sm-block d-md-none">
-                <p>Screen &gt;= 576px and &lt; 768px (sm)</p>
-            </div>
+    <div class="card d-none d-sm-block d-md-none">
+        <p>Screen &gt;= 576px and &lt; 768px (sm)</p>
+    </div>
 
-            <div class="card d-none d-md-block d-lg-none">
-                <p>Screen &gt;= 768px and &lt; 992px (md)</p>
-            </div>
+    <div class="card d-none d-md-block d-lg-none">
+        <p>Screen &gt;= 768px and &lt; 992px (md)</p>
+    </div>
 
-            <div class="card d-none d-lg-block d-xl-none">
-                <p>Screen &gt;= 992px and &lt; 1200px (lg)</p>
-            </div>
+    <div class="card d-none d-lg-block d-xl-none">
+        <p>Screen &gt;= 992px and &lt; 1200px (lg)</p>
+    </div>
 
-            <div class="card d-none d-xl-block">
-                <p>Screen &gt; 1200px (xl)</p>
-            </div>
-        </div>
-    <!--navbar-->
-        <nav class="navbar navbar-expand-lg navbar-dark">
-          <a class="navbar-brand" href="#"><img src="images/logo7.png" /></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+    <div class="card d-none d-xl-block">
+        <p>Screen &gt; 1200px (xl)</p>
+    </div>
+</div>
+<!--navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="#"><img src="images/logo7.png" /></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="#">Browse</a>
-              </li>
-              <li class="nav-item">
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="#">Random</a>
-              </li>
-              <li class="nav-item dropdown">
+            </li>
+            <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Create
+                    Create
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Create a comic</a>
-                  <a class="dropdown-item" href="#">Create a series</a>
+                    <a class="dropdown-item" href="#">Create a comic</a>
+                    <a class="dropdown-item" href="#">Create a series</a>
                 </div>
-              </li>
-              <li class="nav-item">
+            </li>
+            <li class="nav-item">
                 <a class="nav-link disabled" href="#">My Profile</a>
-              </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-            </form>
-          </div>
-        </nav>
-    <br>
-    
-    <div class="container">
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+<br>
+
+<div class="container">
     <!--Create comic section; hide when creating series-->
-        <h4>Create a New Comic</h4>
-        <div class="border border-light">
-            <div class="m-3">
-                <div class="row">
-                    <div class="col-md-6 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                          <label for="addAs">Add as a chapter to...</label>
-                          <select class="form-control" id="addAs">
+    <h4>Create a New Comic</h4>
+    <div class="border border-light">
+        <div class="m-3">
+            <div class="row">
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="addAs">Add as a chapter to...</label>
+                        <select class="form-control" id="addAs">
                             <option>Series 1</option>
                             <option>Series 2</option>
                             <option>Series 3</option>
                             <option>Series 4</option>
                             <option>Series 5</option>
-                          </select>
-                        </div>
+                        </select>
                     </div>
-                    <div class="col-md-6 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                          <label for="chapterSelect">Chapter</label>
-                          <select class="form-control" id="chapterSelect">
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="chapterSelect">Chapter</label>
+                        <select class="form-control" id="chapterSelect">
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
                             <option>4</option>
                             <option>5</option>
-                          </select>
-                        </div>
+                        </select>
                     </div>
                 </div>
-                <div class="form-group">
-                  <label for="newComicDescription">Description</label>
-                  <textarea class="form-control" id="newComicDescription" rows="3"></textarea>
-                </div>
-                <br>
-                <div class = "text-center">
-                  <ul class="pagination justify-content-center">
+            </div>
+            <div class="form-group">
+                <label for="newComicDescription">Description</label>
+                <textarea class="form-control" id="newComicDescription" rows="3"></textarea>
+            </div>
+            <br>
+            <div class = "text-center">
+                <ul class="pagination justify-content-center">
                     <li class="page-item disabled">
-                      <a class="page-link" href="#">&lt;</a>
+                        <a class="page-link" href="#">&lt;</a>
                     </li>
                     <li class="page-item active">
-                      <a class="page-link" href="#">1</a>
+                        <a class="page-link" href="#">1</a>
                     </li>
                     <li class="page-item">
-                      <a class="page-link" href="#">2</a>
+                        <a class="page-link" href="#">2</a>
                     </li>
                     <li class="page-item">
-                      <a class="page-link" href="#">3</a>
+                        <a class="page-link" href="#">3</a>
                     </li>
                     <li class="page-item">
-                      <a class="page-link" href="#">4</a>
+                        <a class="page-link" href="#">4</a>
                     </li>
                     <li class="page-item">
-                      <a class="page-link" href="#">5</a>
+                        <a class="page-link" href="#">5</a>
                     </li>
                     <li class="page-item">
-                      <a class="page-link" href="#">&gt;</a>
+                        <a class="page-link" href="#">&gt;</a>
                     </li>
-                  </ul>
+                </ul>
+            </div>
+            <zwibbler showToolbar="true"
+                      z-controller="MyFunction">
+
+
+
+                <div z-canvas class="col-12 bg-light" style="height: 500px;"> </div>
+
+                <div class="pages">
+                    <button title="Insert page" z-click="insertPage()"> Insert Page </button>
+                    <button title="Delete page" z-click="deletePage()"> Delete Page </button>
+                    <div z-for="mypage in getPageCount()">
+                        <div z-page="mypage"
+                             z-height="70"
+                             class="page"
+                             z-class="{selected: mypage==getCurrentPage()}"
+                             z-click="setCurrentPage(mypage)"></div>
+                    </div>
                 </div>
-                <zwibbler z-canvas class="col-12 bg-light" style="height: 500px;"></zwibbler>
-                <br>                     
+                <br>
 
                 <div class="form-group">
-                  <label for="newComicInputFile">Upload Image</label>
-                  <input type="file" class="form-control-file" id="newComicInputFile" aria-describedby="fileHelp">
-                  <small id="fileHelp" class="form-text text-muted">.png, .jpg, .jpeg files are supported.</small>
+                    <label for="newComicInputFile">Upload Image</label>
+                    <input type="file" class="form-control-file" id="newComicInputFile" aria-describedby="fileHelp">
+                    <small id="fileHelp" class="form-text text-muted">.png, .jpg, .jpeg files are supported.</small>
+                    <button z-click="uploadImage()"> Insert Image </button>
                 </div>
                 <div class="">
-                    <button type = "button" class="btn btn-link ">Create</button>
+                    <button type = "button" z-click="createComic()" class="btn btn-link ">Create</button>
                 </div>
-            </div>
-        </div>
-        <br><br><br>
-        <!--Create series section; hide when creating comic-->
-        <h4>Create a New Series</h4>
-        <div class="border border-light">
-            <div class="m-3">
-                <div class="row">
-                    <div class="col-md-6 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                          <label class="col-form-label" for="inputSeriesName">Series Name</label>
-                          <input type="text" class="form-control" placeholder="Series Name" id="inputSeriesName">
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-12 col-xs-12">
-                        <div class="form-group">
-                          <label for="newComicInputFile">Upload Cover Image</label>
-                          <input type="file" class="form-control-file" id="newComicInputFile" aria-describedby="fileHelp">
-                          <small id="fileHelp" class="form-text text-muted">.png, .jpg, .jpeg files are supported.</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                  <label for="newComicDescription">Description</label>
-                  <textarea class="form-control" id="newComicDescription" rows="3"></textarea>
-                </div>
-                <div class="row">
-                    <div class="form-group col-3">
-                      <label for="genreSelect">Genres</label>
-                        <div class="input-group" id="genreSelect">
-                            <select class="form-control">
-                                <option>Action</option>
-                                <option>Comedy</option>
-                                <option>Drama</option>
-                                <option>Political</option>
-                                <option>Romance</option>
-                            </select>
-                            <div class="input-group-append">
-                                <button type="button" class="btn btn-secondary">Add</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <button type = "button" class="btn btn-link ">Create</button>
-                </div>                   
 
-            </div>
+
+            </zwibbler>
+
+
         </div>
-        <br>
     </div>
-    
-    
+    <br><br><br>
+    <!--Create series section; hide when creating comic-->
+    <h4>Create a New Series</h4>
+    <div class="border border-light">
+        <div class="m-3">
+            <div class="row">
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label class="col-form-label" for="inputSeriesName">Series Name</label>
+                        <input type="text" class="form-control" placeholder="Series Name" id="inputSeriesName">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="newComicInputFile">Upload Cover Image</label>
+                        <input type="file" class="form-control-file" id="newComicInputFile" aria-describedby="fileHelp">
+                        <small id="fileHelp" class="form-text text-muted">.png, .jpg, .jpeg files are supported.</small>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="newComicDescription">Description</label>
+                <textarea class="form-control" id="newComicDescription" rows="3"></textarea>
+            </div>
+            <div class="row">
+                <div class="form-group col-3">
+                    <label for="genreSelect">Genres</label>
+                    <div class="input-group" id="genreSelect">
+                        <select class="form-control">
+                            <option>Action</option>
+                            <option>Comedy</option>
+                            <option>Drama</option>
+                            <option>Political</option>
+                            <option>Romance</option>
+                        </select>
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-secondary">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <button type = "button" class="btn btn-link ">Create</button>
+            </div>
+
+        </div>
+    </div>
+    <br>
+</div>
+
+
 </body>
 </html>
+<script>
+    var savedPng= [];
+    function MyFunction(ctx) {
+        // ctx is actually a Zwibbler context, with functions
+        // like getPageCount() and save() and useBrushTool(). But
+        // you can extend it.
+
+        // Add an additional function to call here.
+        //var savedPng= [];
+        ctx.createComic = function() {
+
+            var numPages = ctx.getPageCount();
+            var chapterName=document.getElementById("newComicDescription").value;
+            var seriesName=document.getElementById("addAs").value;
+            var chapterName=document.getElementById("chapterSelect").value;
+
+            //save drawing image
+            for(var i = 0; i < numPages; i++) {
+                ctx.setCurrentPage(i);
+                savedPng.push( ctx.save("png"));
+            }
+            //save upload image
+
+            //upload to controller
+            var objectParams = {
+               seriesName:seriesName,
+                chapterName:chapterName,
+                description:description,
+               savedPng:savedPng,
+            };
+            $.ajax({
+                type: "POST",
+                url:basePath+"/ParamFormatController/getHardObjectParam.shtml",
+                data: JSON.stringify(objectParams),//重点
+                contentType:"application/json"     //指定类型
+            })
+
+
+            //   var saved = ctx.save("png");
+           // for(var i = 0; i < numPages; i++) {
+              //  document.writeln(savedPng[i]);
+           // }
+            //document.writeln(description);
+            //document.writeln(seriesName);
+           // document.writeln(chapterName);
+
+
+
+        };
+        ctx.uploadImage=function(){
+            var imageupload=document.getElementById("newComicInputFile").files[0];
+            var imageuploadurl= '';
+            var reader=new FileReader();
+            reader.readAsDataURL(imageupload);
+            reader.onload=function(){
+                imageuploadurl = this.result;
+                console.log(imageuploadurl);
+                ctx.beginTransaction();
+                var nodeId = ctx.createNode("ImageNode", {
+                    url:imageuploadurl});
+                ctx.translateNode(nodeId, 100, 100);
+                ctx.commitTransaction();
+
+            }
+        };
+    }
+
+
+</script>

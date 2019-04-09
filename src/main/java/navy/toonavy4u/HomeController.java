@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.ui.ModelMap;
 
 @Controller
 @EnableAutoConfiguration
@@ -40,5 +41,9 @@ public class HomeController {
         model.addAttribute("post", new Post());
         return "View";
     }
+
+
+
+
 
 }
