@@ -8,8 +8,8 @@
 
     <title>Welcome to Toonavy4U</title>
 
-    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="../static/css/myStyle.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/myStyle.css">
    <link rel="stylesheet" type="text/css" href="css/zwibbler.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
 
@@ -111,7 +111,7 @@
 
 
                 <div z-canvas class="col-12 bg-light" style="height: 500px;" id="drawCover"> </div>
-            </zwibbler>
+
             <br>
             <div class="form-group">
                 <label for="newComicDescription">Description</label>
@@ -138,8 +138,16 @@
                 <!--TODO:: genre tags-->
             </div>
             <div class="">
-                <button type = "button" class="btn btn-link ">Create</button>
+                <button type = "button" z-click="createComic()" class="btn btn-link ">Create</button>
             </div>
+            </zwibbler>
+            <input id="emailId" type="hidden" name="email"  th:value="${userEmail}">
+            <form id="createSeriesFormId" action="#" th:action="@{/createSeries}" th:object="${post}" method="post">
+                <input id="ownerId" type="hidden" name="owner"  th:field="*{series.owner}">
+                <input id="titleId" type="hidden" name="title"  th:field="*{series.title}">
+                <input id="descriptionId" type="hidden" name="description"  th:field="*{series.description}">
+                <input id="imageId" type="hidden" name="image"  th:field="*{imageURL}">
+            </form>
 
         </div>
     </div>
@@ -147,3 +155,50 @@
 
 </body>
 </html>
+<script>
+    var savedPng= [];
+    function MyFunction(ctx) {
+        // ctx is actually a Zwibbler context, with functions
+        // like getPageCount() and save() and useBrushTool(). But
+        // you can extend it.
+
+        // Add an additional function to call here.
+        //var savedPng= [];
+        ctx.createComic = function() {
+
+            var email=document.getElementById("emailId").value;
+            var seriesName=document.getElementById("inputSeriesName").value;
+            var chapterName=document.getElementById("newComicDescription").value;
+
+            //save drawing image
+            ctx.setCurrentPage(0);
+            savedPng.push(ctx.save("png"));
+            //save upload image
+
+            //upload to controller
+            document.getElementById("ownerId").value=email;
+            document.getElementById("titleId").value=seriesName;
+            document.getElementById("descriptionId").value=chapterName;
+            document.getElementById("imageId").value=savedPng;
+
+            document.getElementById("createSeriesFormId").submit();
+        };
+        ctx.uploadImage=function(){
+            var imageupload=document.getElementById("newComicInputFile").files[0];
+            var imageuploadurl= '';
+            var reader=new FileReader();
+            reader.readAsDataURL(imageupload);
+            reader.onload=function(){
+                imageuploadurl = this.result;
+                console.log(imageuploadurl);
+                ctx.beginTransaction();
+                var nodeId = ctx.createNode("ImageNode", {
+                    url:imageuploadurl});
+                ctx.translateNode(nodeId, 100, 100);
+                ctx.commitTransaction();
+            }
+        };
+    }
+
+
+</script>

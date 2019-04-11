@@ -99,11 +99,7 @@
                     <div class="form-group">
                         <label for="addAs">Add as a chapter to...</label>
                         <select class="form-control" id="addAs">
-                            <option>Series 1</option>
-                            <option>Series 2</option>
-                            <option>Series 3</option>
-                            <option>Series 4</option>
-                            <option>Series 5</option>
+                            <option th:each="s: ${seriesRepo}" th:value="${s.id}" th:text="${s.title}"></option>
                         </select>
                     </div>
                 </div>
@@ -141,6 +137,14 @@
 
 
             </zwibbler>
+            <input id="emailId" type="hidden" name="email"  th:value="${userEmail}">
+            <form id="createSeriesFormId" action="#" th:action="@{/createComic}" th:object="${post}" method="post">
+                <input id="ownerId" type="hidden" name="owner"  th:field="*{comic.owner}">
+                <input id="titleId" type="hidden" name="title"  th:field="*{comic.title}">
+                <input id="seriesId" type="hidden" name="series"  th:field="*{comic.series}">
+                <input id="imageId" type="hidden" name="image"  th:field="*{imageURL}">
+            </form>
+
 
 
         </div>
@@ -162,9 +166,9 @@
         ctx.createComic = function() {
 
             var numPages = ctx.getPageCount();
-            var chapterName=document.getElementById("newComicDescription").value;
+            var email=document.getElementById("emailId").value;
             var seriesName=document.getElementById("addAs").value;
-            var chapterName=document.getElementById("chapterSelect").value;
+            var chapterName=document.getElementById("inputTitle").value;
 
             //save drawing image
             for(var i = 0; i < numPages; i++) {
@@ -174,29 +178,12 @@
             //save upload image
 
             //upload to controller
-            var objectParams = {
-               seriesName:seriesName,
-                chapterName:chapterName,
-                description:description,
-               savedPng:savedPng,
-            };
-            $.ajax({
-                type: "POST",
-                url:basePath+"/ParamFormatController/getHardObjectParam.shtml",
-                data: JSON.stringify(objectParams),//重点
-                contentType:"application/json"     //指定类型
-            })
+            document.getElementById("ownerId").value=email;
+            document.getElementById("titleId").value=chapterName;
+            document.getElementById("seriesId").value=seriesName;
+            document.getElementById("imageId").value=savedPng;
 
-
-            //   var saved = ctx.save("png");
-           // for(var i = 0; i < numPages; i++) {
-              //  document.writeln(savedPng[i]);
-           // }
-            //document.writeln(description);
-            //document.writeln(seriesName);
-           // document.writeln(chapterName);
-
-
+            document.getElementById("createSeriesFormId").submit();
 
         };
         ctx.uploadImage=function(){

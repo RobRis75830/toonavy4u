@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@SessionAttributes("email")
 public class LoginController {
 
     @Autowired
@@ -28,8 +29,28 @@ public class LoginController {
     @Autowired
     private ReaderRepository readerRepository;
 
-    @GetMapping("/loginSuccess")
+    @RequestMapping(value = "/loginSuccess", method = RequestMethod.GET)
     public String getLoginInfo(Model model, OAuth2AuthenticationToken authentication) {
+        String email = getEmail(authentication, authorizedClientService);
+
+        if (!email.isEmpty()) {
+            List<Reader> readers = readerRepository.findByIdtoken(email);
+            Reader reader;
+
+            if (readers.isEmpty()) {                // if reader is not in database
+                reader = new Reader();
+                reader.setIdtoken(email);
+                reader.setPublished(0);
+
+                readerRepository.save(reader);
+            }
+        }
+
+        model.addAttribute("post", new Post());
+        return "index";
+    }
+
+    public static String getEmail(OAuth2AuthenticationToken authentication, OAuth2AuthorizedClientService authorizedClientService) {
         OAuth2AuthorizedClient client = authorizedClientService
                 .loadAuthorizedClient(authentication.getAuthorizedClientRegistrationId(), authentication.getName());
 
@@ -39,6 +60,7 @@ public class LoginController {
                 .getUserInfoEndpoint()
                 .getUri();
 
+        String email = "";
         if (!StringUtils.isEmpty(userInfoEndpointUri)) {
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
@@ -49,27 +71,11 @@ public class LoginController {
             ResponseEntity<Map> response = restTemplate
                     .exchange(userInfoEndpointUri, HttpMethod.GET, entity, Map.class);
             Map userAttributes = response.getBody();
-
             if (userAttributes != null && userAttributes.get("email") != null) {
-                String email = userAttributes.get("email").toString();
-                List<Reader> readers = readerRepository.findByIdtoken(email);
-                Reader reader;
-
-                if (readers.isEmpty()) {                // if reader is not in database
-                    reader = new Reader();
-                    reader.setIdtoken(email);
-                    reader.setPublished(0);
-
-                    readerRepository.save(reader);
-                } else {
-                    reader = readers.get(0);
-                }
-
-                model.addAttribute("reader", reader);
+                email = userAttributes.get("email").toString();
             }
         }
 
-        model.addAttribute("post", new Post());
-        return "index";
+        return email;
     }
 }
