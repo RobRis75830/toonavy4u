@@ -9,5 +9,5 @@ public interface PagesRepository extends CrudRepository<Pages, PageKey> {
 
     public List<Pages> findByIdComicAndIdPageNumber(int comic, int pageNumber);
 
-    public long countByIdComic(int comic);
+    public List<Pages> findByIdComic(int comic);
 }
