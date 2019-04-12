@@ -8,8 +8,8 @@
 
     <title>Welcome to Toonavy4U</title>
 
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="css/myStyle.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/myStyle.css">
    <link rel="stylesheet" type="text/css" href="css/zwibbler.css">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
 
@@ -121,10 +121,10 @@
                 <textarea class="form-control" id="newComicDescription" rows="3"></textarea>
             </div>
             <div class="row">
-                <div class="form-group col-3">
+                <div class="form-group col-md-4 col-6">
                     <label for="genreSelect">Genres</label>
-                    <div class="input-group" id="genreSelect">
-                        <select class="form-control">
+                    <div class="input-group" >
+                        <select class="form-control" id="genreSelect">
                             <option>Action</option>
                             <option>Comedy</option>
                             <option>Drama</option>
@@ -132,12 +132,40 @@
                             <option>Romance</option>
                         </select>
                         <div class="input-group-append">
-                            <button type="button" class="btn btn-secondary">Add</button>
+                            <button type="button" class="btn btn-secondary" id="genreAdd" onclick="addGenre()">Add</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" id="genreList">
+                <script>
+                    var genreIndex=0;
+                    var gSelect = document.getElementById("genreSelect");
+                    function removeGenre(){
+                        alert("1");
+                       /* var gItem = document.getElementById("gItem"+genreIndex);
+                        alert("2");
+                        gItem.parentNode.removeChild(gItem);
+                        alert("hge");
+                        genreIndex--;
+                        gSelect.add...*/
+                    }
+                    function addGenre(){
+                        var gItem = document.createElement("DIV");
+                        gItem.className="col-4 col-sm-3 col-lg-2";
+                        gItem.id="gItem"+genreIndex;
+                        var xBtn = document.createElement("BUTTON");
+                        xBtn.className="btn btn-link";
+                        xBtn.innerHTML="X";
+                        xBtn.setAttribute("onclick", removeGenre);
+                        gItem.innerHTML=gSelect.value;
+                        gSelect.remove(gSelect.selectedIndex);
+                        document.getElementById("genreList").appendChild(gItem);
+                        gItem.appendChild(xBtn);
+                        genreIndex++;
+                    }
+                    
+                </script>
                 <!--TODO:: genre tags-->
             </div>
             <div class="">
