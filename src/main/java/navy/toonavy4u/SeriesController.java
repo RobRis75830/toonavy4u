@@ -61,7 +61,7 @@ public class SeriesController {
 
             model.addAttribute("post", new Post());
 
-            return "CreateSeries";
+            return "Front";
         }
     }
 }

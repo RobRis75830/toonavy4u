@@ -29,25 +29,27 @@ public class LoginController {
     @Autowired
     private ReaderRepository readerRepository;
 
-    @RequestMapping(value = "/loginSuccess", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getLoginInfo(Model model, OAuth2AuthenticationToken authentication) {
-        String email = getEmail(authentication, authorizedClientService);
+        if (authentication != null) {
+            String email = getEmail(authentication, authorizedClientService);
 
-        if (!email.isEmpty()) {
-            List<Reader> readers = readerRepository.findByIdtoken(email);
-            Reader reader;
+            if (!email.isEmpty()) {
+                List<Reader> readers = readerRepository.findByIdtoken(email);
+                Reader reader;
 
-            if (readers.isEmpty()) {                // if reader is not in database
-                reader = new Reader();
-                reader.setIdtoken(email);
-                reader.setPublished(0);
+                if (readers.isEmpty()) {                // if reader is not in database
+                    reader = new Reader();
+                    reader.setIdtoken(email);
+                    reader.setPublished(0);
 
-                readerRepository.save(reader);
+                    readerRepository.save(reader);
+                }
             }
         }
 
         model.addAttribute("post", new Post());
-        return "index";
+        return "Front";
     }
 
     public static String getEmail(OAuth2AuthenticationToken authentication, OAuth2AuthorizedClientService authorizedClientService) {

@@ -58,12 +58,12 @@ public class ComicController {
             }
 
             model.addAttribute("post", new Post());
-            return "Create";
+            return "Front";
         } else {
 
             // file upload
 
-            return "Create";
+            return "Front";
         }
     }
 }
