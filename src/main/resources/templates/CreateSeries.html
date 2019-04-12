@@ -138,9 +138,12 @@
                 </div>
             </div>
             <div class="row" id="genreList">
+                <input type="hidden" id="hiddenList">
+                <!--input to submit to controller, content is genre tags divided by commas. e.g, "Action,Comedy,"-->
                 <script>
                     var genreIndex=0;
                     var gSelect = document.getElementById("genreSelect");
+                    var hList = document.getElementById("hiddenList");
                     function removeGenre(){
                         alert("1");
                        /* var gItem = document.getElementById("gItem"+genreIndex);
@@ -151,22 +154,25 @@
                         gSelect.add...*/
                     }
                     function addGenre(){
-                        var gItem = document.createElement("DIV");
-                        gItem.className="col-4 col-sm-3 col-lg-2";
-                        gItem.id="gItem"+genreIndex;
-                        var xBtn = document.createElement("BUTTON");
-                        xBtn.className="btn btn-link";
-                        xBtn.innerHTML="X";
-                        xBtn.setAttribute("onclick", removeGenre);
-                        gItem.innerHTML=gSelect.value;
-                        gSelect.remove(gSelect.selectedIndex);
-                        document.getElementById("genreList").appendChild(gItem);
-                        gItem.appendChild(xBtn);
-                        genreIndex++;
+                        if(gSelect.value!=0){
+                            var gItem = document.createElement("DIV");
+                            gItem.className="col-4 col-sm-3 col-lg-2";
+                            gItem.id="gItem"+genreIndex;
+                            var xBtn = document.createElement("BUTTON");
+                            xBtn.className="btn btn-link";
+                            xBtn.innerHTML="X";
+                            xBtn.setAttribute("onclick", removeGenre);
+                            gItem.innerHTML=gSelect.value;
+                            hList.value = hList.value + gSelect.value;
+                            gSelect.remove(gSelect.selectedIndex);
+                            document.getElementById("genreList").appendChild(gItem);
+                            gItem.appendChild(xBtn);
+                            genreIndex++;
+                        }
                     }
                     
                 </script>
-                <!--TODO:: genre tags-->
+                <!--TODO::  might just change to radio buttons.... add hidden input-->
             </div>
             <div class="">
                 <button type = "button" z-click="createComic()" class="btn btn-link ">Create</button>
