@@ -5,13 +5,13 @@ import entities.Pages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import repositories.ComicRepository;
 import repositories.PagesRepository;
 
 import javax.sql.rowset.serial.SerialBlob;
-import java.io.File;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -28,15 +28,14 @@ public class ComicController {
     private PagesRepository pagesRepository;
 
     @RequestMapping(value = "/createComic", method = RequestMethod.POST)
-    public String createComic(@ModelAttribute("post") Post post, Model model) {
+    public ModelAndView createComic(@ModelAttribute("post") Post post, ModelMap model) {
 
         String[] imageURL = post.getImageURL();
         Comic comic = post.getComic();
-        File file = post.getFile();
 
         if (comic.getOwner() == null || comic.getSeries() == 0) {
-            return "error";
-        } else if (file == null) {
+            return new ModelAndView("redirect:/error", model);
+        } else  {
             comic.setCreated(new Timestamp(System.currentTimeMillis()));
             comic = comicRepository.save(comic);
 
@@ -48,7 +47,7 @@ public class ComicController {
                 try {
                     image = new SerialBlob(bytes);
                 } catch (SQLException e) {
-                    return "error";
+                    return new ModelAndView("redirect:/error", model);
                 }
                 Pages page = new Pages();
                 page.setComic(comic.getId());
@@ -57,13 +56,8 @@ public class ComicController {
                 pagesRepository.save(page);
             }
 
-            model.addAttribute("post", new Post());
-            return "Front";
-        } else {
-
-            // file upload
-
-            return "Front";
+            model.addAttribute("comicId", comic.getId());
+            return new ModelAndView("redirect:/ViewComic", model);
         }
     }
 }

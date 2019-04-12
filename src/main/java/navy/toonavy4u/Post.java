@@ -20,7 +20,6 @@ public class Post {
     private Series series;
     private Comic comic;
     private List<String> categories;
-    private File file;
 
     public long getId() {
         return id;
@@ -82,7 +81,4 @@ public class Post {
 
     public void setCategories(List<String> categories) { this.categories = categories; }
 
-    public File getFile() { return file; }
-
-    public void setFile(File file) { this.file = file; }
 }

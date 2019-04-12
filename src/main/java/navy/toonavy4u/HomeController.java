@@ -23,19 +23,7 @@ public class HomeController {
 
     @Autowired
     private OAuth2AuthorizedClientService authorizedClientService;
-    /*
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public String newGet(Model model) {
-        model.addAttribute("post", new Post());
-        return "index";
-    }
 
-    @RequestMapping(value = "/Front.html", method = RequestMethod.GET)
-    public String getFront(Model model) {
-        model.addAttribute("post", new Post());
-        return "Front";
-    }
-    */
     @RequestMapping(value = "/Create.html", method = RequestMethod.GET)
     public String getCreate(Model model, OAuth2AuthenticationToken authentication) {
         String email = getEmail(authentication, authorizedClientService);
