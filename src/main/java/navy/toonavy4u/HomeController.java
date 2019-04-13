@@ -24,6 +24,12 @@ public class HomeController {
     @Autowired
     private OAuth2AuthorizedClientService authorizedClientService;
 
+    @RequestMapping(value = "/Toolbar.html", method = RequestMethod.GET)
+    public String getToolbar(Model model) {
+        model.addAttribute("post", new Post());
+        return "Toolbar";
+    }
+
     @RequestMapping(value = "/Create.html", method = RequestMethod.GET)
     public String getCreate(Model model, OAuth2AuthenticationToken authentication) {
         String email = getEmail(authentication, authorizedClientService);

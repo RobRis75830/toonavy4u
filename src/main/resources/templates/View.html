@@ -95,7 +95,7 @@
             </div>
             <div class="col-12" th:each="c: ${comments}">
                   <span class="col-4" th:text="${c.owner} + ' :'"></span>
-                  <span class="float-left" th:text="${c.body}"></span>
+                  <span class="col-8" th:text="${c.body}"></span>
             </div>
             <form id="commentForm" action="#" th:action="@{/makeComment}" th:object="${post}" method="post">
                 <input id="ownerId" type="hidden" name="owner"  th:field="*{comment.owner}">
