@@ -23,8 +23,8 @@ body{
 a{
     color:inherit;
 }
-.comicthumb:hover{
-    
+.comicthumb{
+    height:40px;
 }
 .username{
     color: #8080ff; 
@@ -32,7 +32,10 @@ a{
 .username:hover{
     color: #a0a0ff;
 }
-
+.jumbotron{
+    padding: 1rem 0.5rem;
+    border: solid 1px;
+}
 
 
 /*delete later*/

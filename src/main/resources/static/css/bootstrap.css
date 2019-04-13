@@ -10624,7 +10624,7 @@ a.text-dark:hover, a.text-dark:focus {
 .table-primary,
 .table-primary > th,
 .table-primary > td {
-  background-color: #8080ff;
+  background-color: #4040bb;
 }
 
 .table-secondary,
@@ -10680,7 +10680,7 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 .table-hover .table-secondary:hover, .table-hover .table-secondary:hover > th, .table-hover .table-secondary:hover > td {
-  background-color: #000070;
+  background-color: rgba(0,0,0,0.1;
 }
 
 .table-hover .table-light:hover, .table-hover .table-light:hover > th, .table-hover .table-light:hover > td {

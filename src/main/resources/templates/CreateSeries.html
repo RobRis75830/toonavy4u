@@ -1,6 +1,5 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE-edge">
@@ -19,79 +18,22 @@
 
     <!--Zwibbler-->
     <script src="https://zwibbler.com/zwibbler-demo.js"></script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
+
 <body>
-<!--Screen size checker-->
-<div id="screensizechker">
-    <div class="card d-block d-sm-none">
-        <p>Screen &lt; 576px (xs)</p>
-    </div>
-
-    <div class="card d-none d-sm-block d-md-none">
-        <p>Screen &gt;= 576px and &lt; 768px (sm)</p>
-    </div>
-
-    <div class="card d-none d-md-block d-lg-none">
-        <p>Screen &gt;= 768px and &lt; 992px (md)</p>
-    </div>
-
-    <div class="card d-none d-lg-block d-xl-none">
-        <p>Screen &gt;= 992px and &lt; 1200px (lg)</p>
-    </div>
-
-    <div class="card d-none d-xl-block">
-        <p>Screen &gt; 1200px (xl)</p>
-    </div>
-</div>
-<!--navbar-->
-<nav class="navbar navbar-expand-lg navbar-dark">
-    <a class="navbar-brand" href="#"><img src="images/logo7.png" /></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Browse</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Random</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Create
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="Create.html">Create a comic</a>
-                    <a class="dropdown-item" href="CreateSeries.html">Create a series</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="Profile.html" th:text="${#authorization.expression('isAuthenticated()')} ? 'My Profile' : 'Login'"></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:classappend="${#authorization.expression('isAuthenticated()')} ? enabled : disabled" href="/logout">Logout</a>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </div>
-</nav>
+    <div id="header"></div>    
+    <script>
+        $(function(){ $("#header").load("Toolbar.html") });
+    </script>
+ 
 <br>
 
 <div class="container">
     
 <!--Create series section-->
     <h4>Create a New Series</h4>
-    <div class="border border-light">
-        <div class="m-3">
+    <div class="jumbotron bg-secondary">
             <div class="row">
                 <div class="col-md-6 col-sm-12 col-xs-12">
                     <div class="form-group">
@@ -120,62 +62,58 @@
                 <label for="newComicDescription">Description</label>
                 <textarea class="form-control" id="newComicDescription" rows="3"></textarea>
             </div>
-            <div class="row">
-                <div class="form-group col-md-4 col-6">
-                    <label for="genreSelect">Genres</label>
-                    <div class="input-group" >
-                        <select class="form-control" id="genreSelect">
-                            <option>Action</option>
-                            <option>Comedy</option>
-                            <option>Drama</option>
-                            <option>Political</option>
-                            <option>Romance</option>
-                        </select>
-                        <div class="input-group-append">
-                            <button type="button" class="btn btn-secondary" id="genreAdd" onclick="addGenre()">Add</button>
+                <div class="form-group">
+                  <h6>Genres</h6>
+                    <div class="row ml-3">
+                      <div class="form-check col-4 col-lg-2">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" value="" id="">Action
+                        </label>                      
+                      </div>
+                      <div class="form-check col-4 col-lg-2">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" value="" id="">Comedy
+                        </label>                      
+                      </div>
+                      <div class="form-check col-4 col-lg-2">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" value="" id="">Drama
+                        </label>                      
+                      </div>
+                      <div class="form-check col-4 col-lg-2">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" value="" id="">Political
+                        </label>                      
+                      </div>
+                      <div class="form-check col-4 col-lg-2">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" value="" id="">Romance
+                        </label>                      
+                      </div>
+                      <!--TODO: finalize list of genres-->  
+                    </div>
+                </div>
+                <div class="form-group">
+                  <h6>Make Series Public?</h6>
+                    <div class="row ml-3">
+                        <div class="form-check col-12 col-md-4">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="makePublicRadios" id="" value="">
+                              Yes, make it public.
+                            </label>                        
+                        </div>
+                        <div class="form-check col-12 col-md-4">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="makePublicRadios" id="" value="" checked>
+                              No, keep it private.
+                            </label>                        
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row" id="genreList">
-                <input type="hidden" id="hiddenList">
-                <!--input to submit to controller, content is genre tags divided by commas. e.g, "Action,Comedy,"-->
-                <script>
-                    var genreIndex=0;
-                    var gSelect = document.getElementById("genreSelect");
-                    var hList = document.getElementById("hiddenList");
-                    function removeGenre(){
-                        alert("1");
-                       /* var gItem = document.getElementById("gItem"+genreIndex);
-                        alert("2");
-                        gItem.parentNode.removeChild(gItem);
-                        alert("hge");
-                        genreIndex--;
-                        gSelect.add...*/
-                    }
-                    function addGenre(){
-                        if(gSelect.value!=0){
-                            var gItem = document.createElement("DIV");
-                            gItem.className="col-4 col-sm-3 col-lg-2";
-                            gItem.id="gItem"+genreIndex;
-                            var xBtn = document.createElement("BUTTON");
-                            xBtn.className="btn btn-link";
-                            xBtn.innerHTML="X";
-                            xBtn.setAttribute("onclick", removeGenre);
-                            gItem.innerHTML=gSelect.value;
-                            hList.value = hList.value + gSelect.value;
-                            gSelect.remove(gSelect.selectedIndex);
-                            document.getElementById("genreList").appendChild(gItem);
-                            gItem.appendChild(xBtn);
-                            genreIndex++;
-                        }
-                    }
-                    
-                </script>
-                <!--TODO::  might just change to radio buttons.... add hidden input-->
-            </div>
+                
+                
             <div class="">
-                <button type = "button" z-click="createComic()" class="btn btn-link ">Create</button>
+                <button type = "button" z-click="createComic()" class="btn btn-primary ">Create</button>
             </div>
             </zwibbler>
             <input id="emailId" type="hidden" name="email"  th:value="${userEmail}">
@@ -185,8 +123,6 @@
                 <input id="descriptionId" type="hidden" name="description"  th:field="*{series.description}">
                 <input id="imageId" type="hidden" name="image"  th:field="*{imageURL}">
             </form>
-
-        </div>
     </div>
 </div>
 
