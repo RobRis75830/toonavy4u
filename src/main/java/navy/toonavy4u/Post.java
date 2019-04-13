@@ -20,7 +20,7 @@ public class Post {
     private Reader reader;
     private Series series;
     private Comic comic;
-    private List<String> categories;
+    private String[] categories;
     private Comments comment;
 
     public long getId() {
@@ -79,9 +79,9 @@ public class Post {
 
     public void setComic(Comic comic) { this.comic = comic; }
 
-    public List<String> getCategories() { return categories; }
+    public String[] getCategories() { return categories; }
 
-    public void setCategories(List<String> categories) { this.categories = categories; }
+    public void setCategories(String[] categories) { this.categories = categories; }
 
     public Comments getComment() { return comment; }
 

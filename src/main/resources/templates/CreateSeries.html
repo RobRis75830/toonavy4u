@@ -69,27 +69,27 @@
                     <div class="row ml-3">
                       <div class="form-check col-4 col-lg-2">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value="" id="">Action
+                          <input class="form-check-input" type="checkbox" value="Action" name="category">Action
                         </label>                      
                       </div>
                       <div class="form-check col-4 col-lg-2">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value="" id="">Comedy
+                          <input class="form-check-input" type="checkbox" value="Comedy" name="category">Comedy
                         </label>                      
                       </div>
                       <div class="form-check col-4 col-lg-2">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value="" id="">Drama
+                          <input class="form-check-input" type="checkbox" value="Drama" name="category">Drama
                         </label>                      
                       </div>
                       <div class="form-check col-4 col-lg-2">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value="" id="">Political
+                          <input class="form-check-input" type="checkbox" value="Political" name="category">Political
                         </label>                      
                       </div>
                       <div class="form-check col-4 col-lg-2">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value="" id="">Romance
+                          <input class="form-check-input" type="checkbox" value="Romance" name="category">Romance
                         </label>                      
                       </div>
                       <!--TODO: finalize list of genres-->  
@@ -100,13 +100,13 @@
                     <div class="row ml-3">
                         <div class="form-check col-12 col-md-4">
                             <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="makePublicRadios" id="" value="">
+                              <input type="radio" class="form-check-input" name="makePublicRadios" id="makePublic" value="">
                               Yes, make it public.
                             </label>                        
                         </div>
                         <div class="form-check col-12 col-md-4">
                             <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="makePublicRadios" id="" value="" checked>
+                              <input type="radio" class="form-check-input" name="makePublicRadios" id="makePrivate" value="" checked>
                               No, keep it private.
                             </label>                        
                         </div>
@@ -124,6 +124,8 @@
                 <input id="titleId" type="hidden" name="title"  th:field="*{series.title}">
                 <input id="descriptionId" type="hidden" name="description"  th:field="*{series.description}">
                 <input id="imageId" type="hidden" name="image"  th:field="*{imageURL}">
+                <input id="categoryId" type="hidden" name="categories"  th:field="*{categories}">
+                <input id="published" type="hidden" name="published"  th:field="*{series.published}">
             </form>
     </div>
 </div>
@@ -144,6 +146,20 @@
             var email=document.getElementById("emailId").value;
             var seriesName=document.getElementById("inputSeriesName").value;
             var chapterName=document.getElementById("newComicDescription").value;
+            var categoryElements=document.getElementsByName("category");
+            var categories = [];
+            var publish;
+            for (var i = 0; i < categoryElements.length; i++) {
+                if (categoryElements[i].checked) {
+                    categories.push(categoryElements[i].value);
+                }
+            }
+            if (document.getElementById("makePublic").checked) {
+                publish = 1;
+            } else if (document.getElementById("makePrivate").checked) {
+                publish = 0;
+            }
+
 
             //save drawing image
             ctx.setCurrentPage(0);
@@ -155,7 +171,10 @@
             document.getElementById("titleId").value=seriesName;
             document.getElementById("descriptionId").value=chapterName;
             document.getElementById("imageId").value=savedPng;
-
+            if (categories.length > 0) {
+                document.getElementById("categoryId").value = categories;
+            }
+            document.getElementById("published").value=publish;
             document.getElementById("createSeriesFormId").submit();
         };
         ctx.uploadImage=function(){

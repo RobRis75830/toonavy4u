@@ -33,7 +33,7 @@ public class SeriesController {
         String image = post.getImageURL()[1];
         Series series = post.getSeries();
 
-        List<String> categoryStrings = post.getCategories();
+        String[] categoryStrings = post.getCategories();
 
         if (series.getOwner() == null) {
             return "error";
@@ -50,7 +50,7 @@ public class SeriesController {
             series.setCreated(new Timestamp(System.currentTimeMillis()));
             series = seriesRepository.save(series);
 
-            if (categoryStrings != null && !categoryStrings.isEmpty()) {
+            if (categoryStrings != null && categoryStrings.length > 0) {
                 for (String c : categoryStrings) {
                     Categories category = new Categories();
                     category.setSeries(series.getId());
