@@ -41,17 +41,19 @@
                         <input type="text" class="form-control" placeholder="Series Name" id="inputSeriesName">
                     </div>
                 </div>
+            </div>
+            <zwibbler showToolbar="true"
+                      z-controller="MyFunction">
                 <div class="col-md-6 col-sm-12 col-xs-12">
                     <div class="form-group">
                         <label for="newComicInputFile">Upload Cover Image</label>
-                        <input type="file" class="form-control-file" id="newComicInputFile" aria-describedby="fileHelp">
+                        <input type="file" class="form-control-file" id="newComicInputFile"   aria-describedby="fileHelp">
+                        <button z-click="uploadImage()"> Insert Image </button>
                         <small id="fileHelp" class="form-text text-muted">.png, .jpg, .jpeg files are supported.</small>
                     </div>
                 </div>
-            </div>
-            <label for="drawCover">Draw Cover Image</label>
-            <zwibbler showToolbar="true"
-                      z-controller="MyFunction">
+
+        <label for="drawCover">Draw Cover Image</label>
 
 
 
