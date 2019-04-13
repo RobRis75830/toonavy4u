@@ -90,6 +90,7 @@ public class ViewController {
 
             }
 
+            model.addAttribute("seriesId", series.get(0).getId());
             model.addAttribute("series", series.get(0).getTitle());
             model.addAttribute("title", comics.get(0).getTitle());
             model.addAttribute("firstImage", imageURLs.get(0));
