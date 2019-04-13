@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import repositories.CategoriesRepository;
 import repositories.SeriesRepository;
 
@@ -28,7 +29,7 @@ public class SeriesController {
     private CategoriesRepository categoriesRepository;
 
     @RequestMapping(value = "/createSeries", method = RequestMethod.POST)
-    public String createNewSeries(@ModelAttribute("post") Post post, Model model, OAuth2AuthenticationToken authentication) {
+    public ModelAndView createNewSeries(@ModelAttribute("post") Post post, ModelMap model, OAuth2AuthenticationToken authentication) {
 
         String image = post.getImageURL()[1];
         Series series = post.getSeries();
@@ -36,14 +37,14 @@ public class SeriesController {
         String[] categoryStrings = post.getCategories();
 
         if (series.getOwner() == null) {
-            return "error";
+            return new ModelAndView("redirect:/error", model);
         } else {
             byte[] bytes = Base64.getDecoder().decode(image);
             Blob cover;
             try {
                 cover = new SerialBlob(bytes);
             } catch (SQLException e) {
-                return "error";
+                return new ModelAndView("redirect:/error", model);
             }
 
             series.setCover(cover);
@@ -59,9 +60,8 @@ public class SeriesController {
                 }
             }
 
-            model.addAttribute("post", new Post());
-
-            return "Front";
+            model.addAttribute("seriesId", series.getId());
+            return new ModelAndView("redirect:/ViewSeries", model);
         }
     }
 }

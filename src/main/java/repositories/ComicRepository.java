@@ -8,7 +8,7 @@ public interface ComicRepository extends CrudRepository<Comic, Integer> {
 
     public List<Comic> findById(int id);
 
-    public List<Comic> findBySeriesOrderByCreatedDesc(int series);
+    public List<Comic> findBySeriesOrderByCreatedAsc(int series);
 
     public List<Comic> findBySeriesAndPublishedOrderByCreatedDesc(int series, int published);
 
