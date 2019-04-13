@@ -1,6 +1,7 @@
 package navy.toonavy4u;
 
 import entities.Comic;
+import entities.Comments;
 import entities.Reader;
 import entities.Series;
 
@@ -20,6 +21,7 @@ public class Post {
     private Series series;
     private Comic comic;
     private List<String> categories;
+    private Comments comment;
 
     public long getId() {
         return id;
@@ -81,4 +83,7 @@ public class Post {
 
     public void setCategories(List<String> categories) { this.categories = categories; }
 
+    public Comments getComment() { return comment; }
+
+    public void setComment(Comments comment) { this.comment = comment; }
 }

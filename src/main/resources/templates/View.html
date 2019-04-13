@@ -123,9 +123,8 @@
             </div>
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
               <ol class="carousel-indicators">
-                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">1</li>
+                <li data-target="#carouselExampleIndicators" th:each="n,iterStat: ${imageURLs}" th:data-slide-to="${iterStat.index} + 1" th:text="${iterStat.index} + 2"></li>
               </ol>
               <div class="carousel-inner">
                 <div class="carousel-item active">
@@ -144,29 +143,6 @@
                 <span class="sr-only">Next</span>
               </a>
             </div>
-            <ul class="pagination justify-content-center mt-3">
-                <li class="page-item disabled">
-                  <a class="page-link" href="#">&lt;</a>
-                </li>
-                <li class="page-item active">
-                  <a class="page-link" href="#">1</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">3</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">4</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">5</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">&gt;</a>
-                </li>
-            </ul>
         </div>
         <!--rate and share-->
         <div class="row mb-4">
@@ -183,29 +159,45 @@
         <div class="row mb-3">
             <h5>Comments</h5> 
         </div>
-        <div class="row">
-              <span class="col-2">SpaceDoog:</span>
-              <span class="col-10">very nice comic.</span>
-              <span class="col-2">Tman:</span>
-              <span class="col-10">Thank you, username123, very cool!</span>
+        <div class="row" th:each="c: ${comments}">
+              <span class="col-4" th:text="${c.owner} + ' :'"></span>
+              <span class="float-left" th:text="${c.body}"></span>
         </div>
+        <form id="commentForm" action="#" th:action="@{/makeComment}" th:object="${post}" method="post">
+            <input id="ownerId" type="hidden" name="owner"  th:field="*{comment.owner}">
+            <input id="bodyId" type="hidden" name="body"  th:field="*{comment.body}">
+            <input id="comicId" type="hidden" name="comic"  th:field="*{comment.comic}">
+        </form>
         <div class="row mt-3">
             <div class="form-group col-12">
-                <label for="newComicDescription">Write a comment</label>
-                <textarea class="form-control" id="newComicDescription" rows="3"></textarea>
+                <label for="newCommentDescription">Write a comment</label>
+                <textarea class="form-control" id="newCommentDescription" rows="3"></textarea>
+                <input id="viewerId" type="hidden" name="viewer"  th:value="${viewer}">
+                <input id="comic" type="hidden" name="viewer"  th:value="${comicId}">
             </div>
+        </div>
+        <div class="">
+            <button type="button" onclick="makeComment()" class="btn btn-link"
+                    th:classappend="${#authorization.expression('isAuthenticated()')} ? enabled : disabled"
+                    th:text="${#authorization.expression('isAuthenticated()')} ? 'Submit' : 'You Must Be Logged In to Make Comments'"></button>
         </div>
         <br>
     </div>
-    
-    
-    
-    
-    
-    
-    
-    
-
-
 </body>
 </html>
+<script>
+    function makeComment() {
+        var owner=document.getElementById("viewerId").value;
+        var comic=document.getElementById("comic").value;
+        var body=document.getElementById("newCommentDescription").value;
+
+        if (body.trim().length > 0) {
+            document.getElementById("ownerId").value = owner;
+            document.getElementById("bodyId").value = body;
+            document.getElementById("comicId").value = comic;
+
+            document.getElementById("commentForm").submit();
+        }
+    }
+</script>
+

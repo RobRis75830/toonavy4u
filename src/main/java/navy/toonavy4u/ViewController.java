@@ -1,9 +1,6 @@
 package navy.toonavy4u;
 
-import entities.Comic;
-import entities.Pages;
-import entities.Series;
-import entities.Views;
+import entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
@@ -13,10 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import repositories.ComicRepository;
-import repositories.PagesRepository;
-import repositories.SeriesRepository;
-import repositories.ViewsRepository;
+import repositories.*;
 
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -45,12 +39,15 @@ public class ViewController {
     @Autowired
     private ViewsRepository viewsRepository;
 
+    @Autowired
+    private CommentsRepository commentsRepository;
+
     @RequestMapping(value = "/ViewComic", method = RequestMethod.GET)
     public String viewComic(@RequestParam("comicId") int comicId, Model model, OAuth2AuthenticationToken authentication) {
 
         List<Comic> comics = comicRepository.findById(comicId);
 
-        if (comics.isEmpty()) {
+        if (!(comics != null && !comics.isEmpty())) {
             return "DoesNotExist";
         }
 
@@ -71,6 +68,7 @@ public class ViewController {
 
             List<Pages> pages = pagesRepository.findByIdComic(comicId);
             ArrayList<String> imageURLs = new ArrayList<>();
+            List<Comments> comments = commentsRepository.findByComicOrderByCreatedAsc(comicId);
 
             for (Pages page : pages) {
 
@@ -101,6 +99,9 @@ public class ViewController {
                 model.addAttribute("imageURLs", new ArrayList<>());
             }
             model.addAttribute("owner", comics.get(0).getOwner());
+            model.addAttribute("comments", comments);
+            model.addAttribute("viewer", email);
+            model.addAttribute("comicId", comicId);
 
             if (!email.isEmpty()
                     && viewsRepository.findByIdViewerAndIdComic(email, comicId).isEmpty()
@@ -113,6 +114,8 @@ public class ViewController {
                 view.setComic(comicId);
                 viewsRepository.save(view);
             }
+
+            model.addAttribute("post", new Post());
 
             return "View";
         }

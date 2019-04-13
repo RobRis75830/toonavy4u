@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCo
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -18,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/css/**", "/fonts/**", "/images/**", "/js/**", "/View.html", "/ViewComic").permitAll()
+                .antMatchers("/", "/css/**", "/fonts/**", "/images/**", "/js/**", "/ViewComic").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
@@ -30,7 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .defaultSuccessUrl("/", true)
                 .and()
-                    .logout().logoutSuccessUrl("/").permitAll();
+                    .logout().logoutSuccessUrl("/").permitAll()
+                .and()
+                    .csrf().csrfTokenRepository(new HttpSessionCsrfTokenRepository());
     }
 
     @Bean
