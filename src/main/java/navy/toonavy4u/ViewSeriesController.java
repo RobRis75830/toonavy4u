@@ -81,11 +81,7 @@ public class ViewSeriesController {
             String imageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(bytes);
 
             if (!email.equals(series.get(0).getOwner())) {
-                for (Comic c : comics) {
-                    if (c.getPublished() == 0) {
-                        comics.remove(c);
-                    }
-                }
+                comics.removeIf(c -> c.getPublished() == 0);
             }
 
             for (Categories c : categoriesRepo) {
@@ -96,6 +92,7 @@ public class ViewSeriesController {
             model.addAttribute("comics", comics);
             model.addAttribute("imageURL", imageURL);
             model.addAttribute("categories", categories);
+            model.addAttribute("editable", email.equals(series.get(0).getOwner()));
 
         }
 

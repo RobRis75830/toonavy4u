@@ -61,10 +61,17 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="table-secondary" th:each="comic: ${comics}">
-                  <th scope="row" th:text="${comic.created}">1</th>
-                  <td><a th:text="${comic.title}" th:href="'ViewComic?comicId=' + ${comic.id}"></a></td>
+                <tr class="table-secondary" th:each="c: ${comics}">
+                  <th scope="row" th:text="${c.created}">1</th>
+                  <td><a th:text="${c.title}" th:href="'ViewComic?comicId=' + ${c.id}"></a></td>
                   <td>0.0</td>
+                  <td>
+                      <form action="#" th:action="@{/Create.html}" th:object="${post}" method="post">
+                          <input th:id="id + ${c.id}" type="hidden" name="comic" th:field="*{comic.id}">
+                          <input th:type="${editable} ? 'submit' : 'hidden'" value="Edit">
+                      </form>
+                      <script th:inline="javascript">/*<![CDATA[*/ /*[+ document.getElementById([['id' + ${c.id}]]).value=[[${c.id}]]; +]*/ /*]]>*/</script>
+                  </td>
                 </tr>
               </tbody>
             </table> 

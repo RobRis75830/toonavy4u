@@ -76,13 +76,20 @@
                     <button z-click="uploadImage()"> Insert Image </button>
                 </div>
                 <div class="">
-                    <button type = "button" z-click="createComic()" class="btn btn-primary ">Create</button>
+                    <button type = "button" z-click="createComic()" class="btn btn-primary " th:text="${editing} ? 'Save' : 'Create'"></button>
                 </div>
 
 
             </zwibbler>
             <input id="emailId" type="hidden" name="email"  th:value="${userEmail}">
+            <input id="editing" type="hidden" name="editing" th:value="${editing}">
+            <input id="comicId" type="hidden" name="comicId" th:value="${editComic?.id}">
+            <input id="comicTitle" type="hidden" name="comicTitle" th:value="${editComic?.title}">
+            <input id="comicSeries" type="hidden" name="comicSeries" th:value="${editComic?.series}">
+            <input th:each="b,iterStat:${blobArray}" th:id="'blobArray'+${iterStat.index}" type="hidden" name="blobArray" th:value="${b}">
+            <!--TODO Need to add "publish" button -->
             <form id="createSeriesFormId" action="#" th:action="@{/createComic}" th:object="${post}" method="post">
+                <input id="id" type="hidden" name="id" th:field="*{comic.id}">
                 <input id="ownerId" type="hidden" name="owner"  th:field="*{comic.owner}">
                 <input id="titleId" type="hidden" name="title"  th:field="*{comic.title}">
                 <input id="seriesId" type="hidden" name="series"  th:field="*{comic.series}">
@@ -96,13 +103,14 @@
 </html>
 <script>
     var savedPng= [];
+    var zwibblerContext;
     function MyFunction(ctx) {
         // ctx is actually a Zwibbler context, with functions
         // like getPageCount() and save() and useBrushTool(). But
         // you can extend it.
 
         // Add an additional function to call here.
-        //var savedPng= [];
+        zwibblerContext=ctx;
         ctx.createComic = function() {
 
             var numPages = ctx.getPageCount();
@@ -118,6 +126,7 @@
             //save upload image
 
             //upload to controller
+            document.getElementById("id").value=0;
             document.getElementById("ownerId").value=email;
             document.getElementById("titleId").value=chapterName;
             document.getElementById("seriesId").value=seriesName;
@@ -142,7 +151,38 @@
 
             }
         };
+        ctx.loadComic=function() {
+            var editing=document.getElementById("editing").value;
+            if (editing) {
+                var comicId = document.getElementById("comicId").value;
+                var comicTitle = document.getElementById("comicTitle").value;
+                var comicSeries = document.getElementById("comicSeries").value;
+                var blobArray = document.getElementsByName("blobArray");
+
+                document.getElementById("id").value = comicId;
+                document.getElementById("inputTitle").value = comicTitle;
+                document.getElementById("addAs").value = comicSeries;
+                for (var j = 1; j < blobArray.length; j++) {
+                    ctx.insertPage(0);
+                }
+                for (var i = 0; i < blobArray.length; i++) {
+                    ctx.setCurrentPage(i);
+                    var imageuploadurls = blobArray[i].value;
+                    console.log(imageuploadurls);
+                    ctx.beginTransaction();
+                    var nodeId = ctx.createNode("ImageNode", {
+                        url: imageuploadurls
+                    });
+                    ctx.translateNode(nodeId, 100, 100);
+                    ctx.commitTransaction();
+                }
+                ctx.setCurrentPage(0);
+            }
+        }
     }
 
+    window.onload = function () {
+        zwibblerContext.loadComic();
+    }
 
 </script>

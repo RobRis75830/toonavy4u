@@ -37,6 +37,7 @@ public class HomeController {
             List<Series> series = seriesRepository.findByOwner(email);
             model.addAttribute("seriesRepo", series);
             model.addAttribute("userEmail", email);
+            model.addAttribute("editing", false);
         }
         model.addAttribute("post", new Post());
         return "Create";
