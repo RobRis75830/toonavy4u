@@ -48,6 +48,23 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group">
+                <h6>Make Comic Public?</h6>
+                <div class="row ml-3">
+                    <div class="form-check col-12 col-md-4">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="makePublicRadios" id="makePublic" value="">
+                            Yes, make it public.
+                        </label>
+                    </div>
+                    <div class="form-check col-12 col-md-4">
+                        <label class="form-check-label">
+                            <input type="radio" class="form-check-input" name="makePublicRadios" id="makePrivate" value="" checked>
+                            No, keep it private.
+                        </label>
+                    </div>
+                </div>
+            </div>
             <br>
             <zwibbler showToolbar="true"
                       z-controller="MyFunction">
@@ -86,6 +103,7 @@
             <input id="comicId" type="hidden" name="comicId" th:value="${editComic?.id}">
             <input id="comicTitle" type="hidden" name="comicTitle" th:value="${editComic?.title}">
             <input id="comicSeries" type="hidden" name="comicSeries" th:value="${editComic?.series}">
+            <input id="comicPublished" type="hidden" name="comicPublished" th:value="${editComic?.published}">
             <input th:each="b,iterStat:${blobArray}" th:id="'blobArray'+${iterStat.index}" type="hidden" name="blobArray" th:value="${b}">
             <!--TODO Need to add "publish" button -->
             <form id="createSeriesFormId" action="#" th:action="@{/createComic}" th:object="${post}" method="post">
@@ -93,6 +111,7 @@
                 <input id="ownerId" type="hidden" name="owner"  th:field="*{comic.owner}">
                 <input id="titleId" type="hidden" name="title"  th:field="*{comic.title}">
                 <input id="seriesId" type="hidden" name="series"  th:field="*{comic.series}">
+                <input id="published" type="hidden" name="published" th:field="*{comic.published}">
                 <input id="imageId" type="hidden" name="image"  th:field="*{imageURL}">
             </form>
     </div>
@@ -117,6 +136,12 @@
             var email=document.getElementById("emailId").value;
             var seriesName=document.getElementById("addAs").value;
             var chapterName=document.getElementById("inputTitle").value;
+            var publish;
+            if (document.getElementById("makePublic").checked) {
+                publish = 1;
+            } else if (document.getElementById("makePrivate").checked) {
+                publish = 0;
+            }
 
             //save drawing image
             for(var i = 0; i < numPages; i++) {
@@ -126,12 +151,15 @@
             //save upload image
 
             //upload to controller
-            document.getElementById("id").value=0;
+            var editing=document.getElementById("editing").value;
+            if (editing === "false") {
+                document.getElementById("id").value = 0;
+            }
             document.getElementById("ownerId").value=email;
             document.getElementById("titleId").value=chapterName;
             document.getElementById("seriesId").value=seriesName;
             document.getElementById("imageId").value=savedPng;
-
+            document.getElementById("published").value=publish;
             document.getElementById("createSeriesFormId").submit();
 
         };
@@ -153,15 +181,21 @@
         };
         ctx.loadComic=function() {
             var editing=document.getElementById("editing").value;
-            if (editing) {
+            if (editing === "true") {
                 var comicId = document.getElementById("comicId").value;
                 var comicTitle = document.getElementById("comicTitle").value;
                 var comicSeries = document.getElementById("comicSeries").value;
+                var comicPublished = document.getElementById("comicPublished").value;
                 var blobArray = document.getElementsByName("blobArray");
 
                 document.getElementById("id").value = comicId;
                 document.getElementById("inputTitle").value = comicTitle;
                 document.getElementById("addAs").value = comicSeries;
+                if (comicPublished == 0) {
+                    document.getElementById("makePrivate").checked = true;
+                } else if (comicPublished == 1) {
+                    document.getElementById("makePublic").checked = true;
+                }
                 for (var j = 1; j < blobArray.length; j++) {
                     ctx.insertPage(0);
                 }
