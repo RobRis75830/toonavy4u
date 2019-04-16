@@ -12,4 +12,6 @@ public interface CategoriesRepository extends CrudRepository<Categories, Categor
     public List<Categories> findByIdCategoryIsIn(List<String> categories);
 
     public List<Categories> findByIdCategoryNotIn(List<String> categories);
+
+    public List<Categories> findByIdSeriesIsInAndIdCategory(List<Integer> series, String category);
 }

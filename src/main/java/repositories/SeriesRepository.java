@@ -15,4 +15,12 @@ public interface SeriesRepository extends CrudRepository<Series, Integer> {
     public List<Series> findByTitleIsLikeAndPublished(String title, int published); // parameter 'title' should be formatted like "%title%"
 
     public List<Series> findByTitleIsLikeAndPublishedOrderByCreatedDesc(String title, int published); // parameter 'title' should be formatted like "%title%"
+
+    public List<Series> findByTitleIsLikeAndOwnerIsLikeAndPublished(String title, String owner, int published); // parameters 'title' and 'owner' should be formatted like "%title%"
+
+    public List<Series> findByOwnerIsLikeAndPublished(String owner, int published); // parameter 'owner' should be formatted like "%owner%"
+
+    public List<Series> findByPublished(int published);
+
+    public List<Series> findByIdIsIn(List<Integer> series);
 }
