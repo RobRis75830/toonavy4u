@@ -30,41 +30,46 @@
 
 <div class="container">
     <!--Create comic section; hide when creating series-->
-    <h4>Create a New Comic</h4>
+    <h4>&gt;Create a New Comic</h4>
     <div class="jumbotron bg-secondary">
             <div class="row">
                 <div class="col-12">
                     <div class="form-group">
-                        <label class="col-form-label" for="inputTitle">Title</label>
+                        <label class="col-form-label" for="inputTitle">&gt;Title</label>
                         <input type="text" class="form-control" placeholder="Title" id="inputTitle">
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-12 col-12">
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-12">
                     <div class="form-group">
-                        <label for="addAs">Add as a chapter to...</label>
+                        <label for="addAs">&gt;Add as a chapter to...</label>
                         <select class="form-control" id="addAs">
                             <option th:each="s: ${seriesRepo}" th:value="${s.id}" th:text="${s.title}"></option>
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <h6>Make Comic Public?</h6>
-                <div class="row ml-3">
-                    <div class="form-check col-12 col-md-4">
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="makePublicRadios" id="makePublic" value="">
-                            Yes, make it public.
-                        </label>
-                    </div>
-                    <div class="form-check col-12 col-md-4">
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="makePublicRadios" id="makePrivate" value="" checked>
-                            No, keep it private.
-                        </label>
+                <div class="col-12 col-md-8">
+                    <div class="form-group">
+                        <label for="makePublicRadios">&gt;Make Comic Public?</label>
+                        <div class="row ml-2">
+                            <div class="form-check col-md-6">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="makePublicRadios" id="makePublic" value="">
+                                    Yes, make it public.
+                                </label>
+                            </div>
+                            <div class="form-check col-md-6">
+                                <label class="form-check-label">
+                                    <input type="radio" class="form-check-input" name="makePublicRadios" id="makePrivate" value="" checked>
+                                    No, keep it private.
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
             <br>
             <zwibbler showToolbar="true"
                       z-controller="MyFunction">
@@ -87,7 +92,7 @@
                 <br>
 
                 <div class="form-group">
-                    <label for="newComicInputFile">Upload Image</label>
+                    <label for="newComicInputFile">&gt;Upload Image</label>
                     <input type="file" class="form-control-file" id="newComicInputFile" aria-describedby="fileHelp">
                     <small id="fileHelp" class="form-text text-muted">.png, .jpg, .jpeg files are supported.</small>
                     <button z-click="uploadImage()"> Insert Image </button>
