@@ -1,0 +1,124 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE-edge">
+<meta name="viewport" content="width = device-width, initial-scale = 1">
+
+<title>Welcome to Toonavy4U</title>
+
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="css/myStyle.css">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>    
+        
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="js/bootstrap.min.js"></script>
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div id="header"></div>    
+    <script>
+        $(function(){ $("#header").load("Toolbar.html") });
+    </script>
+    <br>
+    <div class="container">
+            <h3>Browse</h3>
+            <h3 hidden>Search Results for ""</h3>
+            <!--Search options-->
+        <div class ="jumbotron bg-secondary">
+            <div class="row">
+                <div class="col-12">
+                    <form class="form-inline my-lg-0">
+                      <input class="form-control col-sm-10 col-12" type="search" placeholder="Search" aria-label="Search">
+                      <button class="btn btn-primary my-sm-0 col-sm-2 col-12" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <h5 class="col-12"><a href="#searchOptions" data-toggle="collapse">More options</a></h5>
+            </div>
+            <div class="row collapse" id="searchOptions">
+                <div class="col-4">Sort by:<p>highest rated...</p></div>
+                <div class="col-4">Search by:<p>title</p><p>author</p></div>
+                <div class="col-4">Genres</div>
+            </div>
+        </div>
+                 
+        <h4>List name (e.g. Highest rated..)</h4>
+            <div class="jumbotron bg-secondary col-12 mb-5">
+                <div class="row">
+                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
+                        <a href="#">
+                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg">
+                            <h5>Title</h5>
+                        </a>
+                        <a href="#">
+                            <p class="username">by username123</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
+                        <a href="#">
+                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg">
+                            <h5>Title</h5>
+                        </a>
+                        <a href="#">
+                            <p class="username">by username123</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
+                        <a href="#">
+                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg">
+                            <h5>Title</h5>
+                        </a>
+                        <a href="#">
+                            <p class="username">by username123</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
+                        <a href="#">
+                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg">
+                            <h5>Title</h5>
+                        </a>
+                        <a href="#">
+                            <p class="username">by username123</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
+                        <a href="#">
+                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg">
+                            <h5>Title</h5>
+                        </a>
+                        <a href="#">
+                            <p class="username">by username123</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
+                        <a href="#">
+                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg">
+                            <h5>Title</h5>
+                        </a>
+                        <a href="#">
+                            <p class="username">by username123</p>
+                        </a>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        
+            
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+</body>
+</html>
