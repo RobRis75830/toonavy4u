@@ -30,19 +30,71 @@
         <div class ="jumbotron bg-secondary">
             <div class="row">
                 <div class="col-12">
-                    <form class="form-inline my-lg-0">
-                      <input class="form-control col-sm-10 col-12" type="search" placeholder="Search" aria-label="Search">
-                      <button class="btn btn-primary my-sm-0 col-sm-2 col-12" type="submit">Search</button>
-                    </form>
+                    <label for="searchTitle">Search by title</label>
+                    <input class="form-control col-12" type="search" placeholder="Title" aria-label="Search" name="searchTitle">
                 </div>
             </div>
-            <div class="row mt-2">
-                <h5 class="col-12"><a href="#searchOptions" data-toggle="collapse">More options</a></h5>
+            <div class="collapse show" id="searchOptions">
+                <div class="row my-2">
+                    <div class="col-12">
+                        <label for="searchAuthor">Author</label>
+                        <input class="form-control col-12" type="search" placeholder="Author" aria-label="Search" name="searchTitle">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="sortByRadios">Sort by...</label>
+                    <div class="row ml-2">
+                        <div class="form-check col-12 col-md-4">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="sortByRadios" id="" value="" checked>Most Viewed</label>
+                        </div>
+                        <div class="form-check col-12 col-md-4">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="sortByRadios" id="" value="">
+                            Top Rated</label>                        
+                        </div>
+                        <div class="form-check col-12 col-md-4">
+                            <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="sortByRadios" id="" value="">
+                            Most Recent</label>                        
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label for="category">Genres</label>
+                    <div class="row ml-3">
+                      <div class="form-check col-4 col-lg-2">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" value="Action" name="category">Action
+                        </label>                      
+                      </div>
+                      <div class="form-check col-4 col-lg-2">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" value="Comedy" name="category">Comedy
+                        </label>                      
+                      </div>
+                      <div class="form-check col-4 col-lg-2">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" value="Drama" name="category">Drama
+                        </label>                      
+                      </div>
+                      <div class="form-check col-4 col-lg-2">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" value="Political" name="category">Political
+                        </label>                      
+                      </div>
+                      <div class="form-check col-4 col-lg-2">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" value="Romance" name="category">Romance
+                        </label>                      
+                      </div>
+                      <!--TODO: finalize list of genres-->  
+                    </div>
+                </div>
             </div>
-            <div class="row collapse" id="searchOptions">
-                <div class="col-4">Sort by:<p>highest rated...</p></div>
-                <div class="col-4">Search by:<p>title</p><p>author</p></div>
-                <div class="col-4">Genres</div>
+            <button class="btn btn-primary my-sm-0 col-sm-2 col-12 float-right" type="submit">Search!</button>
+            <div class="row mt-2">
+                <h5 class="col-12"><a href="#searchOptions" data-toggle="collapse">Advanced Search</a></h5>
             </div>
         </div>
                  
