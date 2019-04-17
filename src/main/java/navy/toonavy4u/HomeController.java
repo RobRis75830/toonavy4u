@@ -64,9 +64,4 @@ public class HomeController {
         model.addAttribute("post", new Post());
         return "CreateSeries";
     }
-
-    @RequestMapping(value = "/Browse", method = RequestMethod.GET)
-    public String getBrowse(Model model) {
-        return "Browse";
-    }
 }

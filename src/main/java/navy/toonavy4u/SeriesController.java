@@ -36,7 +36,7 @@ public class SeriesController {
 
         String[] categoryStrings = post.getCategories();
 
-        if (series.getOwner() == null) {
+        if (series.getOwner() == null || !(series.getTitle() != null && !series.getTitle().trim().isEmpty())) {
             return new ModelAndView("redirect:/error", model);
         } else {
             byte[] bytes = Base64.getDecoder().decode(image);

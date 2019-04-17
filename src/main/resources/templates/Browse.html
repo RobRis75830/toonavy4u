@@ -31,38 +31,38 @@
             <div class="row">
                 <div class="col-12">
                     <label for="searchTitle">&gt;Search by title</label>
-                    <input class="form-control col-12" type="search" placeholder="Title" aria-label="Search" name="searchTitle">
+                    <input id="searchTitle" class="form-control col-12" type="search" placeholder="Title" aria-label="Search" name="searchTitle">
                 </div>
             </div>
             <div class="collapse show" id="searchOptions">
                 <div class="row my-2">
                     <div class="col-12">
                         <label for="searchAuthor">&gt;Author</label>
-                        <input class="form-control col-12" type="search" placeholder="Author" aria-label="Search" name="searchTitle">
+                        <input id="searchAuthor" class="form-control col-12" type="search" placeholder="Author" aria-label="Search" name="searchAuthor">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="sortByRadios">&gt;Sort by...</label>
-                    <div class="row ml-2">
+                    <div id="sortByRadios" class="row ml-2">
                         <div class="form-check col-12 col-md-4">
                             <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="sortByRadios" id="" value="" checked>Most Viewed</label>
+                              <input type="radio" class="form-check-input" name="sortByRadios" id="views" value="" checked>Most Viewed</label>
                         </div>
                         <div class="form-check col-12 col-md-4">
                             <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="sortByRadios" id="" value="">
+                              <input type="radio" class="form-check-input" name="sortByRadios" id="rated" value="">
                             Top Rated</label>                        
                         </div>
                         <div class="form-check col-12 col-md-4">
                             <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="sortByRadios" id="" value="">
+                              <input type="radio" class="form-check-input" name="sortByRadios" id="date" value="">
                             Most Recent</label>                        
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                   <label for="category">&gt;Genres</label>
-                    <div class="row ml-3">
+                    <div id="category" class="row ml-3">
                       <div class="form-check col-4 col-lg-2">
                         <label class="form-check-label">
                           <input class="form-check-input" type="checkbox" value="Action" name="category">Action
@@ -92,7 +92,27 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-primary my-sm-0 col-sm-2 col-12 float-right" type="submit">Search!</button>
+            <button class="btn btn-primary my-sm-0 col-sm-2 col-12 float-right" onclick="submitForm()">Search</button>
+            <form id="form" action="#" th:action="@{/Browse}" method="get">
+                <input id="formTitle" type="hidden" name="title">
+                <input id="formAuthor" type="hidden" name="author">
+                <input id="formCategories" type="hidden" name="categories">
+            </form>
+            <script>
+                function submitForm() {
+                    var categories = [];
+                    var elements = document.getElementsByName("category");
+                    for (var i = 0; i < elements.length; i++ ) {
+                        if (elements[i].checked) {
+                            categories.push(elements[i].value);
+                        }
+                    }
+                    document.getElementById("formTitle").value=document.getElementById("searchTitle").value;
+                    document.getElementById("formAuthor").value=document.getElementById("searchAuthor").value;
+                    document.getElementById("formCategories").value=categories;
+                    document.getElementById("form").submit();
+                }
+            </script>
             <div class="row mt-2">
                 <h5 class="col-12"><a href="#searchOptions" data-toggle="collapse">Advanced Search</a></h5>
             </div>
@@ -101,62 +121,21 @@
         <h4>List name (e.g. Highest rated..)</h4>
             <div class="jumbotron bg-secondary col-12 mb-5">
                 <div class="row">
-                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                        <a href="#">
-                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg">
-                            <h5>Title</h5>
+                    <div th:each="series,iterStat:${searchResult}" class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
+                        <a th:href="'ViewSeries?seriesId='+${series.id}">
+                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg" th:src="${imageURLs[iterStat.index]}">
+                            <h5 th:text="${series.title}">Title</h5>
                         </a>
                         <a href="#">
-                            <p class="username">by username123</p>
-                        </a>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                        <a href="#">
-                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg">
-                            <h5>Title</h5>
-                        </a>
-                        <a href="#">
-                            <p class="username">by username123</p>
+                            <p class="username" th:text="${#strings.substringBefore(series.owner,'@')}">by username123</p>
                         </a>
                     </div>
-                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                        <a href="#">
-                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg">
-                            <h5>Title</h5>
-                        </a>
-                        <a href="#">
-                            <p class="username">by username123</p>
+                    <div th:style="${found} ? 'display: none'" class="col-lg col-md col-sm col-xs">
+                        <a>
+                            <h5>Sorry, Nothing Matches Your Search Criteria</h5>
                         </a>
                     </div>
-                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                        <a href="#">
-                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg">
-                            <h5>Title</h5>
-                        </a>
-                        <a href="#">
-                            <p class="username">by username123</p>
-                        </a>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                        <a href="#">
-                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg">
-                            <h5>Title</h5>
-                        </a>
-                        <a href="#">
-                            <p class="username">by username123</p>
-                        </a>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                        <a href="#">
-                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg">
-                            <h5>Title</h5>
-                        </a>
-                        <a href="#">
-                            <p class="username">by username123</p>
-                        </a>
-                    </div>
-                    
-                    
+
                 </div>
             </div>
         

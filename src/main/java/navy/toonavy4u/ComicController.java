@@ -41,7 +41,7 @@ public class ComicController {
         String[] imageURL = post.getImageURL();
         Comic comic = post.getComic();
 
-        if (comic.getOwner() == null || comic.getSeries() == 0) {
+        if (comic.getOwner() == null || comic.getSeries() == 0 || !(comic.getTitle() != null && !comic.getTitle().trim().isEmpty())) {
             return new ModelAndView("redirect:/error", model);
         } else  {
             if (comic.getId() == 0) {
