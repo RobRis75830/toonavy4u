@@ -31,7 +31,7 @@
             <div class="col-md-8 col-12">
                 <h3 th:text="${series.title}">My Series 1</h3>
                 <a href="#">
-                    <p class="username" th:text="${series.owner}">by username333</p>
+                    <p class="username" th:text="${#strings.substringBefore(series.owner,'@')}">by username333</p>
                 </a>
                 <p th:text="'Genre:' + ${categories}">Genre:</p>
                 <p>Average Rating:</p>

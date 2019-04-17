@@ -29,7 +29,7 @@
             <button type="button" class="btn btn-danger btn-sm ml-3 mb-3">Subscribe</button>
         </div>
         <div class="row">
-            <a href="#" class="username" th:text="'By ' + ${owner}">By username123</a>
+            <a href="#" class="username" th:text="'By ' + ${#strings.substringBefore(owner,'@')}">By username123</a>
         </div>
         <div class="row">
             <a th:href="'ViewSeries?seriesId=' + ${seriesId}">
@@ -94,7 +94,7 @@
                 <h5>Comments</h5> 
             </div>
             <div class="col-12" th:each="c: ${comments}">
-                  <span class="col-4" th:text="${c.owner} + ' :'"></span>
+                  <span class="col-4" th:text="${#strings.substringBefore(c.owner,'@')} + ' :'"></span>
                   <span class="col-8" th:text="${c.body}"></span>
             </div>
             <form id="commentForm" action="#" th:action="@{/makeComment}" th:object="${post}" method="post">
