@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import repositories.CategoriesRepository;
 import repositories.ComicRepository;
 import repositories.SeriesRepository;
+import repositories.SubscriptionRepository;
 
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -38,6 +39,9 @@ public class ViewSeriesController {
 
     @Autowired
     private CategoriesRepository categoriesRepository;
+
+    @Autowired
+    private SubscriptionRepository subscriptionRepository;
 
     @RequestMapping(value = "/ViewSeries", method = RequestMethod.GET)
     public String viewSeries(@RequestParam("seriesId") int seriesId, Model model, OAuth2AuthenticationToken authentication) {
@@ -86,6 +90,17 @@ public class ViewSeriesController {
 
             for (Categories c : categoriesRepo) {
                 categories += (" " + c.getCategory());
+            }
+
+            // subscription info
+            if (email.isEmpty()) {
+                model.addAttribute("subscribe", 0);         // user not logged in
+            } else if (email.equals(series.get(0).getOwner())) {
+                model.addAttribute("subscribe", 1);         // user is the owner
+            } else if (!subscriptionRepository.findByIdSubscriberAndIdSeries(email, series.get(0).getId()).isEmpty()) {
+                model.addAttribute("subscribe", 2);         // user is already subscribed
+            } else {
+                model.addAttribute("subscribe", 3);         // user is not subscribed
             }
 
             model.addAttribute("series", series.get(0));
