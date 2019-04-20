@@ -31,7 +31,7 @@
             <div class="col-md-12">
                <div class="pull-left mr-3"><img src="images/profilePic.png"/></div>
                <div class="pull-left">
-                    <h4 class = "username">Username123</h4>
+                    <h4 class = "username" th:text="${userName}"></h4>
                    <p>Followers: 33<button type = "button" class="btn btn-primary ml-3">Follow</button></p>
                    <p>Joined: 03/01/2019</p>
                 </div>
@@ -101,68 +101,45 @@
             <div class="col-12 mb-5">
                 <h3><a href="#createSeriesContent" data-toggle="collapse">Created Series</a></h3>
                 <div class="comiclist collapse show" id="createSeriesContent">
+
                     <div class="row mt-3" id="mySeries1Row">
+
+                        <div th:each="series,iterStat:${creatSeries}" class="col-md-9 col-sm-6 col-6">
+
                         <div class="col-md-3 col-sm-6 col-6">
-                            <a href="#">
-                                <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg">
+                            <a th:href="'ViewSeries?seriesId='+${series.id}">
+                                <img class="img-fluid img-thumbnail" th:src="${imageURL[iterStat.index]}">
                             </a>
                         </div>
-                        <div class="col-md-9 col-sm-6 col-6">
-                            <h5>My Series 1</h5>
-                            <a href="#">
-                            <p class="username">by username123</p>
+
+                            <a  th:href="'ViewSeries?seriesId='+${series.id}">
+                            <h5 th:text="${series.title}"></h5>
                             </a>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                            <a href="#">
+                            <p class="username" th:text="${#strings.substringBefore(series.owner,'@')}">by username123</p>
+                            </a>
+                            <p th:text="${series.description}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
                             <button type="button" class="btn btn-warning">Edit</button>
                             <button type="button" class="btn btn-danger">Delete</button>
+                            <div class="col-12 ml-3 mt-2">
+                                <a href="#mySeries1Content" data-toggle="collapse">
+                                    Chapters
+                                </a>
+                            </div>
+
+                        <div class="row ml-1 mt-1 collapse" id="mySeries1Content">
+                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6"th:each="comics:${comic[iterStat.index]}">
+                                <a th:href="'ViewComic?comicId=' + ${comics.id}">
+                                    <img class="img-fluid img-thumbnail" th:src="${(chapterCover[iterStat.index])[comicsStat.index]}"src="images/thumbnail.jpg">
+                                    <h5 th:text="${comics.title}" > Chapter 1</h5>
+                                    <button type="button" class="btn btn-warning btn-sm">Edit</button>
+                                    <button type="button" class="btn btn-danger btn-sm">Delete</button>
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-12 ml-3 mt-2">
-                            <a href="#mySeries1Content" data-toggle="collapse">
-                            Chapters
-                            </a>
                         </div>
-                    </div>
-                    <div class="row ml-1 mt-1 collapse" id="mySeries1Content">
-                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                            <a href="#">
-                                <img class="img-fluid img-thumbnail" src="images/thumbnail.jpg">
-                                <h5>Chapter 1</h5>
-                                <button type="button" class="btn btn-warning btn-sm">Edit</button>
-                                <button type="button" class="btn btn-danger btn-sm">Delete</button>
-                            </a>
-                        </div>
-                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                            <a href="#">
-                                <img class="img-fluid img-thumbnail" src="images/thumbnail.jpg">
-                                <h5>Chapter 2</h5>
-                                <button type="button" class="btn btn-warning btn-sm">Edit</button>
-                                <button type="button" class="btn btn-danger btn-sm">Delete</button>
-                            </a>
-                        </div>
-                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                            <a href="#">
-                                <img class="img-fluid img-thumbnail" src="images/thumbnail.jpg">
-                                <h5>Chapter 3</h5>
-                                <button type="button" class="btn btn-warning btn-sm">Edit</button>
-                                <button type="button" class="btn btn-danger btn-sm">Delete</button>
-                            </a>
-                        </div>
-                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                            <a href="#">
-                                <img class="img-fluid img-thumbnail" src="images/thumbnail.jpg">
-                                <h5>Chapter 4</h5>
-                                <button type="button" class="btn btn-warning btn-sm">Edit</button>
-                                <button type="button" class="btn btn-danger btn-sm">Delete</button>
-                            </a>
-                        </div>
-                        <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                            <a href="#">
-                                <img class="img-fluid img-thumbnail" src="images/thumbnail.jpg">
-                                <h5>Chapter 5</h5>
-                                <button type="button" class="btn btn-warning btn-sm">Edit</button>
-                                <button type="button" class="btn btn-danger btn-sm">Delete</button>
-                            </a>
-                        </div>
+
+
                     </div>
                 </div>
             </div>
