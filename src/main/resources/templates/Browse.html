@@ -126,7 +126,7 @@
                             <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg" th:src="${imageURLs[iterStat.index]}">
                             <h5 th:text="${series.title}">Title</h5>
                         </a>
-                        <a href="#">
+                        <a th:href="'Profile?profileEmail=' + ${series.owner}"href="#">
                             <p class="username" th:text="${#strings.substringBefore(series.owner,'@')}">by username123</p>
                         </a>
                     </div>

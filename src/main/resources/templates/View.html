@@ -29,7 +29,7 @@
 
         </div>
         <div class="row">
-            <a href="#" class="username" th:text="'By ' + ${#strings.substringBefore(owner,'@')}">By username123</a>
+            <a href="#"th:href="'Profile?profileEmail=' + ${owner}" class="username" th:text="'By ' + ${#strings.substringBefore(owner,'@')}">By username123</a>
         </div>
         <div class="row">
             <a th:href="'ViewSeries?seriesId=' + ${seriesId}">
@@ -94,7 +94,9 @@
                 <h5>Comments</h5> 
             </div>
             <div class="col-12" th:each="c: ${comments}">
+                <a href="#"th:href="'Profile?profileEmail=' + ${c.owner}">
                   <span class="col-4" th:text="${#strings.substringBefore(c.owner,'@')} + ' :'"></span>
+                </a>
                   <span class="col-8" th:text="${c.body}"></span>
             </div>
             <form id="commentForm" action="#" th:action="@{/makeComment}" th:object="${post}" method="post">

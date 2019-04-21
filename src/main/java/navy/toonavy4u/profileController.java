@@ -43,7 +43,7 @@ public class profileController {
     private OAuth2AuthorizedClientService authorizedClientService;
 
     @RequestMapping(value = "/myProfile", method = {RequestMethod.PUT,RequestMethod.GET})
-    public String search(Model model, OAuth2AuthenticationToken authentication) {
+    public String myprofile(Model model, OAuth2AuthenticationToken authentication) {
         String email = "";
 
         if (authentication != null) {
@@ -115,7 +115,96 @@ for (int i=0;i<creatSeries.size();i++){
         model.addAttribute("comic", allcomic);
         model.addAttribute("chapterCover", chapterCover);
 
+        model.addAttribute("editable",true);
+
         return "Profile";
     }
+
+
+    @RequestMapping(value = "/Profile", method = {RequestMethod.PUT,RequestMethod.GET})
+    public String profile(@RequestParam("profileEmail") String profileEmail,Model model, OAuth2AuthenticationToken authentication) {
+        String email = "";
+
+        if (authentication != null) {
+            email = getEmail(authentication, authorizedClientService);
+        }
+        String userName="";
+        int before=0;
+        for (int i=0;i<profileEmail.length();i++){
+            if (profileEmail.charAt(i)== '@') {
+                i=profileEmail.length();
+            }else{
+                before+=1;
+            } }
+        userName=profileEmail.substring(0,before);
+        List<Series> creatSeries=new ArrayList<Series>();
+        if (email.equals(profileEmail)){
+            creatSeries= seriesRepository.findByOwner(email);
+
+        }else {creatSeries= seriesRepository.findByOwnerIsLikeAndPublished(profileEmail,1);}
+        Blob image;
+        byte[] bytes;
+        List<String> cover = new ArrayList<String>();
+        List<List> allcomic = new ArrayList<List>();
+        List<List> chapterCover = new ArrayList<List>();
+        for (int i=0;i<creatSeries.size();i++){
+            image = creatSeries.get(i).getCover();
+            try {
+                int blobLength = (int) image.length();
+                bytes = image.getBytes(1, blobLength);
+                image.free();
+
+            } catch (SQLException ex) {
+                return "error";
+            }
+            String imageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(bytes);
+            cover.add(imageURL);
+            //finsh cover image
+            List<Comic> comic=new ArrayList<Comic>();
+            if (email.equals(profileEmail)){
+                comic= comicRepository.findBySeriesOrderByCreatedAsc(creatSeries.get(i).getId());
+            }
+          else {comic= comicRepository.findBySeriesAndPublishedOrderByCreatedDesc(creatSeries.get(i).getId(),1);}
+            allcomic.add(comic);
+            //finish add comic
+            List<String> coverChapter = new ArrayList<String>();
+            for (int k=0;k<comic.size();k++){
+                List<Pages> pages = pagesRepository.findByIdComicAndIdPageNumber(comic.get(k).getId(), 1);
+                if (!pages.isEmpty()) {
+                    Blob chimage = pages.get(0).getImage();
+                    byte[] chbytes;
+                    try {
+                        int blobLength1 = (int) chimage.length();
+                        chbytes = chimage.getBytes(1, blobLength1);
+                        chimage.free();
+
+                    } catch (SQLException ex) {
+                        return "error";
+                    }
+                    String chiimageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(chbytes);
+                    coverChapter.add(chiimageURL);
+                } else {
+                    coverChapter.add("");
+                }
+
+            }
+            chapterCover.add(coverChapter);
+
+
+
+        }
+
+
+
+        model.addAttribute("userName", userName);
+        model.addAttribute("creatSeries", creatSeries);
+        model.addAttribute("imageURL", cover);
+        model.addAttribute("comic", allcomic);
+        model.addAttribute("chapterCover", chapterCover);
+        model.addAttribute("editable",email.equals(profileEmail));
+
+        return "Profile";
+    }
+
 
 }

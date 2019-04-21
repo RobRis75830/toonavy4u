@@ -30,7 +30,7 @@
             </div>
             <div class="col-md-8 col-12">
                 <h3 th:text="${series.title}">My Series 1</h3>
-                <a href="#">
+                <a href="#"th:href="'Profile?profileEmail=' + ${series.owner}">
                     <p class="username" th:text="${#strings.substringBefore(series.owner,'@')}">by username333</p>
                 </a>
                 <p th:text="'Genre:' + ${categories}">Genre:</p>
