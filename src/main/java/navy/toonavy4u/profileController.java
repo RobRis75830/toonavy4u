@@ -83,18 +83,22 @@ for (int i=0;i<creatSeries.size();i++){
     List<String> coverChapter = new ArrayList<String>();
     for (int k=0;k<comic.size();k++){
         List<Pages> pages = pagesRepository.findByIdComicAndIdPageNumber(comic.get(k).getId(), 1);
-        Blob chimage=pages.get(0).getImage();
-        byte[] chbytes;
-        try {
-            int blobLength1 = (int) chimage.length();
-            chbytes = chimage.getBytes(1, blobLength1);
-            chimage.free();
+        if (!pages.isEmpty()) {
+            Blob chimage = pages.get(0).getImage();
+            byte[] chbytes;
+            try {
+                int blobLength1 = (int) chimage.length();
+                chbytes = chimage.getBytes(1, blobLength1);
+                chimage.free();
 
-        } catch (SQLException ex) {
-            return "error";
+            } catch (SQLException ex) {
+                return "error";
+            }
+            String chiimageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(chbytes);
+            coverChapter.add(chiimageURL);
+        } else {
+            coverChapter.add("");
         }
-        String chiimageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(chbytes);
-        coverChapter.add(chiimageURL);
 
     }
     chapterCover.add(coverChapter);

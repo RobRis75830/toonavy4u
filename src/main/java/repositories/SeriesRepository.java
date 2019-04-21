@@ -23,4 +23,6 @@ public interface SeriesRepository extends CrudRepository<Series, Integer> {
     public List<Series> findByPublished(int published);
 
     public List<Series> findByIdIsIn(List<Integer> series);
+
+    public List<Series> findByIdIsInAndPublished(List<Integer> series, int published);
 }

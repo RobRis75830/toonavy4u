@@ -13,4 +13,6 @@ public interface ComicRepository extends CrudRepository<Comic, Integer> {
     public List<Comic> findBySeriesAndPublishedOrderByCreatedDesc(int series, int published);
 
     public List<Comic> findByPublishedOrderByCreatedDesc(int published);
+
+    public List<Comic> findByOwnerNotAndPublished(String owner, int published);
 }
