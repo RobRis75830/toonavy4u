@@ -1,25 +1,24 @@
 package navy.toonavy4u;
 import com.sun.org.apache.xpath.internal.operations.Mod;
-import entities.Categories;
-import entities.Comic;
-import entities.Pages;
-import entities.Series;
+import entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import repositories.CategoriesRepository;
-import repositories.ComicRepository;
-import repositories.PagesRepository;
-import repositories.SeriesRepository;
+
+import org.springframework.web.servlet.ModelAndView;
+import repositories.*;
 
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -40,6 +39,8 @@ public class profileController {
     @Autowired
     private PagesRepository pagesRepository;
     @Autowired
+    private FollowsRepository FollowsRepository;
+    @Autowired
     private OAuth2AuthorizedClientService authorizedClientService;
 
     @RequestMapping(value = "/myProfile", method = {RequestMethod.PUT,RequestMethod.GET})
@@ -49,15 +50,9 @@ public class profileController {
         if (authentication != null) {
             email = getEmail(authentication, authorizedClientService);
         }
-        String userName="";
-        int before=0;
-        for (int i=0;i<email.length();i++){
-            if (email.charAt(i)== '@') {
-                i=email.length();
-            }else{
-                before+=1;
-            } }
-        userName=email.substring(0,before);
+        String userName=email;
+
+
         List<Series> creatSeries= seriesRepository.findByOwner(email);
         Blob image;
         byte[] bytes;
@@ -81,6 +76,7 @@ for (int i=0;i<creatSeries.size();i++){
     allcomic.add(comic);
     //finish add comic
     List<String> coverChapter = new ArrayList<String>();
+
     for (int k=0;k<comic.size();k++){
         List<Pages> pages = pagesRepository.findByIdComicAndIdPageNumber(comic.get(k).getId(), 1);
         if (!pages.isEmpty()) {
@@ -105,8 +101,11 @@ for (int i=0;i<creatSeries.size();i++){
 
 
 
-}
 
+}
+        List<Follows>  follows=FollowsRepository.findByIdFollowed(email);
+
+        int followNumber=follows.size();
 
 
         model.addAttribute("userName", userName);
@@ -114,7 +113,7 @@ for (int i=0;i<creatSeries.size();i++){
         model.addAttribute("imageURL", cover);
         model.addAttribute("comic", allcomic);
         model.addAttribute("chapterCover", chapterCover);
-
+        model.addAttribute("followNumber", followNumber);
         model.addAttribute("editable",true);
 
         return "Profile";
@@ -125,18 +124,25 @@ for (int i=0;i<creatSeries.size();i++){
     public String profile(@RequestParam("profileEmail") String profileEmail,Model model, OAuth2AuthenticationToken authentication) {
         String email = "";
 
+
         if (authentication != null) {
             email = getEmail(authentication, authorizedClientService);
         }
-        String userName="";
-        int before=0;
-        for (int i=0;i<profileEmail.length();i++){
-            if (profileEmail.charAt(i)== '@') {
-                i=profileEmail.length();
-            }else{
-                before+=1;
-            } }
-        userName=profileEmail.substring(0,before);
+
+        List<Follows> follows=FollowsRepository.findByIdFollowerAndIdFollowed(email,profileEmail);
+
+        boolean follow=false;
+        if (follows.isEmpty()){
+            follow=false;
+        }else{
+            follow=true;
+        }
+        follows=FollowsRepository.findByIdFollowed(profileEmail);
+
+        int followNumber=follows.size();
+
+
+        String userName=profileEmail;
         List<Series> creatSeries=new ArrayList<Series>();
         if (email.equals(profileEmail)){
             creatSeries= seriesRepository.findByOwner(email);
@@ -202,8 +208,42 @@ for (int i=0;i<creatSeries.size();i++){
         model.addAttribute("comic", allcomic);
         model.addAttribute("chapterCover", chapterCover);
         model.addAttribute("editable",email.equals(profileEmail));
+        model.addAttribute("follow",follow);
+        model.addAttribute("followNumber",followNumber);
 
         return "Profile";
+    }
+
+
+    @RequestMapping(value = "/follows", method = {RequestMethod.PUT,RequestMethod.GET})
+    public ModelAndView follows(@RequestParam("profileEmail") String profileEmail, ModelMap model, OAuth2AuthenticationToken authentication) {
+        String email = "";
+
+
+        if (authentication != null) {
+            email = getEmail(authentication, authorizedClientService);
+        }
+
+        Follows follow =  new Follows();
+        follow.setFollower(email);
+        follow.setFollowed(profileEmail);
+
+        List<Follows> follows=FollowsRepository.findByIdFollowerAndIdFollowed(email,follow.getFollowed());
+        boolean isfollow=false;
+        if (follows.isEmpty()){
+            isfollow=false;
+        }else{
+            isfollow=true;
+        }
+
+        if (isfollow){
+            FollowsRepository.delete(follow);
+
+        }else{
+            FollowsRepository.save(follow);
+        }
+        model.addAttribute("profileEmail", profileEmail);
+        return new ModelAndView("redirect:/Profile", model);
     }
 
 
