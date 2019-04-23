@@ -40,58 +40,39 @@
             <!--Subscribed Series-->
         <h3><a href="#subSeriesContent" data-toggle="collapse" th:style="${editable} ? 'display:normal' : 'display:none'">Subscribed Series</a></h3>
         <div class="comiclist collapse show" id="subSeriesContent" th:style="${editable} ? 'display:normal' : 'display:none'">
-            <div class="row mt-3" id="series1Row">
+            <div th:each="subseries,iterStat:${subedseries}" class="col-md-9 col-sm-6 col-6">
+
                 <div class="col-md-3 col-sm-6 col-6">
-                    <a href="#">
-                        <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg" >
+                    <a th:href="'ViewSeries?seriesId='+${subseries.id}">
+                        <img class="img-fluid img-thumbnail" th:src="${subcover[iterStat.index]}">
                     </a>
                 </div>
-                <div class="col-md-9 col-sm-6 col-6">
-                    <h5>Series 1</h5>
-                    <a href="#">
-                    <p class="username">by username333</p>
-                    </a>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                    <button type="button" class="btn btn-danger">Unsubscribe</button>
-                </div>
+
+                <a  th:href="'ViewSeries?seriesId='+${subseries.id}">
+                    <h5 th:text="'Series: '+${subseries.title}"></h5>
+                </a>
+                <a href="#"th:href="'Profile?profileEmail=' + ${subseries.owner}">
+                    <p class="username" th:text="'owner: '+${#strings.substringBefore(subseries.owner,'@')}">by username123</p>
+                </a>
+                <p th:text="'description: '+ ${subseries.description}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                <button type="button" class="btn btn-danger">Unsubscribe</button>
                 <div class="col-12 ml-3 mt-2">
-                <a href="#series1Content" data-toggle="collapse">
-                    Chapters
+                    <a href="#mySeries1Content" data-toggle="collapse">
+                        Chapters
                     </a>
+                </div>
+
+                <div class="row ml-1 mt-1 collapse" id="mySeries1Content">
+                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6"th:each="suballcomic:${suballcomic[iterStat.index]}">
+                        <a th:href="'ViewComic?comicId=' + ${suballcomic.id}">
+                            <img class="img-fluid img-thumbnail" th:src="${(subchapterCover[iterStat.index])[suballcomicStat.index]}"src="images/thumbnail.jpg">
+                            <h5 th:text="${suballcomic.title}" > Chapter 1</h5>
+                        </a>
+
+                    </div>
                 </div>
             </div>
-            <div class="row ml-1 mt-1 collapse" id="series1Content">
-                <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                    <a href="#">
-                        <img class="img-fluid img-thumbnail" src="images/thumbnail.jpg">
-                        <h5>Chapter 1</h5>
-                    </a>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                    <a href="#">
-                        <img class="img-fluid img-thumbnail" src="images/thumbnail.jpg">
-                        <h5>Chapter 2</h5>
-                    </a>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                    <a href="#">
-                        <img class="img-fluid img-thumbnail" src="images/thumbnail.jpg">
-                        <h5>Chapter 3</h5>
-                    </a>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                    <a href="#">
-                        <img class="img-fluid img-thumbnail" src="images/thumbnail.jpg">
-                        <h5>Chapter 4</h5>
-                    </a>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                    <a href="#">
-                        <img class="img-fluid img-thumbnail" src="images/thumbnail.jpg">
-                        <h5>Chapter 5</h5>
-                    </a>
-                </div>
-            </div>
+
         </div>
                 
     <br>

@@ -41,6 +41,8 @@ public class profileController {
     @Autowired
     private FollowsRepository FollowsRepository;
     @Autowired
+    private SubscriptionRepository subscriptionRepository;
+    @Autowired
     private OAuth2AuthorizedClientService authorizedClientService;
 
     @RequestMapping(value = "/myProfile", method = {RequestMethod.PUT,RequestMethod.GET})
@@ -108,11 +110,69 @@ for (int i=0;i<creatSeries.size();i++){
         int followNumber=follows.size();
 
 
+
+        //SUBSCRBELIST
+         List<Subscription> subSeries=subscriptionRepository.findByIdSubscriber( email);
+        List<String> subcover = new ArrayList<String>();
+        List<List> suballcomic = new ArrayList<List>();
+        List<List> subchapterCover = new ArrayList<List>();
+        List<Series> subedseries= new ArrayList<Series>();
+        for (int i=0;i<subSeries.size();i++){
+            subedseries.add(seriesRepository.findById(subSeries.get(i).getSeries()).get(0));
+            image = subedseries.get(i).getCover();
+            try {
+                int blobLength = (int) image.length();
+                bytes = image.getBytes(1, blobLength);
+                image.free();
+
+            } catch (SQLException ex) {
+                return "error";
+            }
+            String imageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(bytes);
+            subcover.add(imageURL);
+            //finsh subcover image
+            List<Comic> comic= comicRepository.findBySeriesAndPublishedOrderByCreatedDesc(subedseries.get(i).getId(),1);
+            suballcomic.add(comic);
+            //finish add comic
+            List<String> coverChapter = new ArrayList<String>();
+
+            for (int k=0;k<comic.size();k++){
+                List<Pages> pages = pagesRepository.findByIdComicAndIdPageNumber(comic.get(k).getId(), 1);
+                if (!pages.isEmpty()) {
+                    Blob chimage = pages.get(0).getImage();
+                    byte[] chbytes;
+                    try {
+                        int blobLength1 = (int) chimage.length();
+                        chbytes = chimage.getBytes(1, blobLength1);
+                        chimage.free();
+
+                    } catch (SQLException ex) {
+                        return "error";
+                    }
+                    String chiimageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(chbytes);
+                    coverChapter.add(chiimageURL);
+                } else {
+                    coverChapter.add("");
+                }
+
+            }
+            subchapterCover.add(coverChapter);}
+
+
+
+
+
+
+
         model.addAttribute("userName", userName);
         model.addAttribute("creatSeries", creatSeries);
         model.addAttribute("imageURL", cover);
-        model.addAttribute("comic", allcomic);
+        model.addAttribute("subedseries", subedseries);
+        model.addAttribute("suballcomic", suballcomic);
         model.addAttribute("chapterCover", chapterCover);
+        model.addAttribute("subchapterCover", subchapterCover);
+        model.addAttribute("subcover", subcover);
+        model.addAttribute("comic", allcomic);
         model.addAttribute("followNumber", followNumber);
         model.addAttribute("editable",true);
 
@@ -200,6 +260,55 @@ for (int i=0;i<creatSeries.size();i++){
 
         }
 
+        //SUBSCRBELIST
+        List<Subscription> subSeries=subscriptionRepository.findByIdSubscriber(profileEmail);
+        List<String> subcover = new ArrayList<String>();
+        List<List> suballcomic = new ArrayList<List>();
+        List<List> subchapterCover = new ArrayList<List>();
+        List<Series> subedseries= new ArrayList<Series>();
+        for (int i=0;i<subSeries.size();i++){
+            subedseries.add(seriesRepository.findByIdAndPublished(subSeries.get(i).getSeries(), 1).get(0));
+            image = subedseries.get(i).getCover();
+            try {
+                int blobLength = (int) image.length();
+                bytes = image.getBytes(1, blobLength);
+                image.free();
+
+            } catch (SQLException ex) {
+                return "error";
+            }
+            String imageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(bytes);
+            subcover.add(imageURL);
+            //finsh subcover image
+            List<Comic> comic= comicRepository.findBySeriesAndPublishedOrderByCreatedDesc(subedseries.get(i).getId(),1);
+            suballcomic.add(comic);
+            //finish add comic
+            List<String> coverChapter = new ArrayList<String>();
+
+            for (int k=0;k<comic.size();k++){
+                List<Pages> pages = pagesRepository.findByIdComicAndIdPageNumber(comic.get(k).getId(), 1);
+                if (!pages.isEmpty()) {
+                    Blob chimage = pages.get(0).getImage();
+                    byte[] chbytes;
+                    try {
+                        int blobLength1 = (int) chimage.length();
+                        chbytes = chimage.getBytes(1, blobLength1);
+                        chimage.free();
+
+                    } catch (SQLException ex) {
+                        return "error";
+                    }
+                    String chiimageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(chbytes);
+                    coverChapter.add(chiimageURL);
+                } else {
+                    coverChapter.add("");
+                }
+
+            }
+            subchapterCover.add(coverChapter);}
+
+
+
 
 
         model.addAttribute("userName", userName);
@@ -210,6 +319,10 @@ for (int i=0;i<creatSeries.size();i++){
         model.addAttribute("editable",email.equals(profileEmail));
         model.addAttribute("follow",follow);
         model.addAttribute("followNumber",followNumber);
+        model.addAttribute("subedseries", subedseries);
+        model.addAttribute("suballcomic", suballcomic);
+        model.addAttribute("subchapterCover", subchapterCover);
+        model.addAttribute("subcover", subcover);
 
         return "Profile";
     }
@@ -235,12 +348,26 @@ for (int i=0;i<creatSeries.size();i++){
         }else{
             isfollow=true;
         }
+        List<Series> seriessub=seriesRepository.findByOwnerIsLikeAndPublished(profileEmail, 1);
+        Subscription sub=new Subscription();
 
         if (isfollow){
             FollowsRepository.delete(follow);
+            for (int i=0;i<seriessub.size();i++){
+                sub.setSeries(seriessub.get(i).getId());
+                sub.setSubscriber(email);
+                subscriptionRepository.delete(sub);
+            }
+
 
         }else{
             FollowsRepository.save(follow);
+            for (int i=0;i<seriessub.size();i++){
+                sub.setSeries(seriessub.get(i).getId());
+                sub.setSubscriber(email);
+                subscriptionRepository.save(sub);
+            }
+
         }
         model.addAttribute("profileEmail", profileEmail);
         return new ModelAndView("redirect:/Profile", model);
