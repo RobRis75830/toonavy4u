@@ -374,4 +374,24 @@ for (int i=0;i<creatSeries.size();i++){
     }
 
 
+
+
+    @RequestMapping(value = "/sub", method = {RequestMethod.PUT,RequestMethod.GET})
+    public ModelAndView sub(@RequestParam("series") int series, ModelMap model, OAuth2AuthenticationToken authentication) {
+        String email = "";
+
+
+        if (authentication != null) {
+            email = getEmail(authentication, authorizedClientService);
+        }
+        Subscription sub=new Subscription();
+        sub.setSeries(series);
+        sub.setSubscriber(email);
+        subscriptionRepository.delete(sub);
+
+        model.addAttribute("profileEmail", email);
+        return new ModelAndView("redirect:/Profile", model);
+    }
+
+
 }

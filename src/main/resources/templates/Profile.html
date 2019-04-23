@@ -32,7 +32,7 @@
                <div class="pull-left mr-3"><img src="images/profilePic.png"/></div>
                <div class="pull-left">
                     <h4 class = "username" th:text="${#strings.substringBefore(userName,'@')}"></h4>
-                   <p th:text="'Followers: '+${followNumber}">Followers: 33</p> <a  class="btn btn-primary ml-3"th:text="${follow}?'Unfollow':'Follow'"  th:href="'follows?profileEmail=' + ${userName}" th:style="${editable||!#authorization.expression('isAuthenticated()')}?'display:none':'display:normal'"></a>
+                   <p th:text="'Followers: '+${followNumber}">Followers: 33</p> <a  class="btn btn-primary ml-3" th:text="${follow}?'Unfollow':'Follow'"  th:href="'follows?profileEmail=' + ${userName}" th:style="${editable||!#authorization.expression('isAuthenticated()')}?'display:none':'display:normal'"></a>
                 </div>
             </div>
         </div>
@@ -55,7 +55,7 @@
                     <p class="username" th:text="'owner: '+${#strings.substringBefore(subseries.owner,'@')}">by username123</p>
                 </a>
                 <p th:text="'description: '+ ${subseries.description}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                <button type="button" class="btn btn-danger">Unsubscribe</button>
+                <a  class="btn btn-danger" th:href="'sub?series=' + ${subseries.id}">Unsubscribe</a>
                 <div class="col-12 ml-3 mt-2">
                     <a href="#mySeries1Content" data-toggle="collapse">
                         Chapters
