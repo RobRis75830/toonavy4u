@@ -39,7 +39,12 @@ a{
 /*h6{
     color:#8080ff
 }*/
-
+.carousel-control-prev, .carousel-control-next{
+    opacity: 0.05;
+}
+.carousel-control-prev:hover, .carousel-control-next:hover{
+    opacity:0.5;
+}
 
 /*delete later*/
 #screensizechker{
