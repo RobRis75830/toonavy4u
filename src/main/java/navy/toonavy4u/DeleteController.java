@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import repositories.ComicRepository;
 import repositories.CommentsRepository;
@@ -56,5 +57,23 @@ public class DeleteController {
 
         model.addAttribute("seriesId", seriesId);
         return new ModelAndView("redirect:/ViewSeries", model);
+    }
+    @RequestMapping(value = "/DeleteComic.html", method = {RequestMethod.PUT,RequestMethod.GET})
+    public ModelAndView deleteComic1(@RequestParam("comicId") int comicId, ModelMap model) {
+
+        List<Views> views = viewsRepository.findByIdComic(comicId);
+        List<Comments> comments = commentsRepository.findByComicOrderByCreatedAsc(comicId);
+        List<Pages> pages = pagesRepository.findByIdComic(comicId);
+        Comic comic = comicRepository.findById(comicId).get(0);
+
+        String profileEmail = comic.getOwner();
+
+        viewsRepository.deleteAll(views);
+        commentsRepository.deleteAll(comments);
+        pagesRepository.deleteAll(pages);
+        comicRepository.delete(comic);
+
+        model.addAttribute("profileEmail", profileEmail);
+        return new ModelAndView("redirect:/Profile", model);
     }
 }

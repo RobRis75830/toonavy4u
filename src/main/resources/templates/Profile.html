@@ -113,8 +113,8 @@
                                     <img class="img-fluid img-thumbnail" th:src="${(chapterCover[iterStat.index])[comicsStat.index]}"src="images/thumbnail.jpg">
                                     <h5 th:text="${comics.title}" > Chapter 1</h5>
                                 </a>
-                                <button type="button" class="btn btn-warning btn-sm" th:style="${editable} ? 'display:normal' : 'display:none'">Edit</button>
-                                <button type="button" class="btn btn-danger btn-sm" th:style="${editable} ? 'display:normal' : 'display:none'">Delete</button>
+                                <a class="btn btn-warning btn-sm"  th:style="${editable} ? 'display:normal' : 'display:none'" th:href="'editComic?comicId=' + ${comics.id}">Edit</a>
+                                <a class="btn btn-danger btn-sm" th:style="${editable} ? 'display:normal' : 'display:none'" th:href="'DeleteComic.html?comicId=' + ${comics.id}">Delete</a>
 
                             </div>
                         </div>

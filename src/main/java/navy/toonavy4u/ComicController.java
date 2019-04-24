@@ -103,4 +103,35 @@ public class ComicController {
         model.addAttribute("post", new Post());
         return "Create";
     }
+
+    @RequestMapping(value = "/editComic", method = {RequestMethod.PUT,RequestMethod.GET})
+    public String editCreate(@RequestParam("comicId") int comicId, Model model) {
+        Comic editComic = comicRepository.findById(comicId).get(0);
+        List<Series> series = seriesRepository.findByOwner(editComic.getOwner());
+        List<Pages> pages = pagesRepository.findByIdComic(editComic.getId());
+        ArrayList<String> blobArray = new ArrayList<>();
+        for (Pages page : pages) {
+            Blob image = page.getImage();
+            byte[] bytes;
+
+            try {
+                int blobLength = (int) image.length();
+                bytes = image.getBytes(1, blobLength);
+                image.free();
+            } catch (SQLException ex) {
+                return "error";
+            }
+
+            String imageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(bytes);
+            blobArray.add(imageURL);
+        }
+
+        model.addAttribute("editComic", editComic);
+        model.addAttribute("seriesRepo", series);
+        model.addAttribute("blobArray", blobArray);
+        model.addAttribute("userEmail", editComic.getOwner());
+        model.addAttribute("editing", true);
+        model.addAttribute("post", new Post());
+        return "Create";
+    }
 }
