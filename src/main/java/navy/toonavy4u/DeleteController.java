@@ -1,9 +1,7 @@
 package navy.toonavy4u;
 
-import entities.Comic;
-import entities.Comments;
-import entities.Pages;
-import entities.Views;
+import entities.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
@@ -13,10 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import repositories.ComicRepository;
-import repositories.CommentsRepository;
-import repositories.PagesRepository;
-import repositories.ViewsRepository;
+import repositories.*;
 
 import java.util.List;
 
@@ -35,6 +30,8 @@ public class DeleteController {
 
     @Autowired
     private CommentsRepository commentsRepository;
+    @Autowired
+    private SeriesRepository seriesRepository;
 
     // Remember to delete Likes and Ratings once they're implemented
 
@@ -72,6 +69,25 @@ public class DeleteController {
         commentsRepository.deleteAll(comments);
         pagesRepository.deleteAll(pages);
         comicRepository.delete(comic);
+
+        model.addAttribute("profileEmail", profileEmail);
+        return new ModelAndView("redirect:/Profile", model);
+    }
+    @RequestMapping(value = "/Deleteseries", method = {RequestMethod.PUT,RequestMethod.GET})
+    public ModelAndView deleteSeries(@RequestParam("seriesId") int seriesId, ModelMap model) {
+        Series series=seriesRepository.findById(seriesId).get(0);
+        List<Comic> comic = comicRepository.findBySeriesOrderByCreatedAsc(seriesId);
+        for (int i=0;i<comic.size();i++){
+        List<Views> views = viewsRepository.findByIdComic(comic.get(i).getId());
+        List<Comments> comments = commentsRepository.findByComicOrderByCreatedAsc(comic.get(i).getId());
+        List<Pages> pages = pagesRepository.findByIdComic(comic.get(i).getId());
+            viewsRepository.deleteAll(views);
+            commentsRepository.deleteAll(comments);
+            pagesRepository.deleteAll(pages);}
+        String profileEmail = series.getOwner();
+        comicRepository.deleteAll(comic);
+        seriesRepository.delete(series);
+
 
         model.addAttribute("profileEmail", profileEmail);
         return new ModelAndView("redirect:/Profile", model);

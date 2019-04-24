@@ -69,27 +69,27 @@
                     <div class="row ml-3">
                       <div class="form-check col-4 col-lg-2">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value="Action" name="category">Action
+                          <input class="form-check-input" type="checkbox" value="Action" name="category" id="Action">Action
                         </label>                      
                       </div>
                       <div class="form-check col-4 col-lg-2">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value="Comedy" name="category">Comedy
+                          <input class="form-check-input" type="checkbox" value="Comedy" name="category" id="Comedy">Comedy
                         </label>                      
                       </div>
                       <div class="form-check col-4 col-lg-2">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value="Drama" name="category">Drama
+                          <input class="form-check-input" type="checkbox" value="Drama" name="category" id="Drama">Drama
                         </label>                      
                       </div>
                       <div class="form-check col-4 col-lg-2">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value="Political" name="category">Political
+                          <input class="form-check-input" type="checkbox" value="Political" name="category" id="Political">Political
                         </label>                      
                       </div>
                       <div class="form-check col-4 col-lg-2">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" value="Romance" name="category">Romance
+                          <input class="form-check-input" type="checkbox" value="Romance" name="category" id="Romance">Romance
                         </label>                      
                       </div>
                       <!--TODO: finalize list of genres-->  
@@ -118,8 +118,19 @@
                 <button type = "button" z-click="createComic()" class="btn btn-primary ">Create</button>
             </div>
             </zwibbler>
-            <input id="emailId" type="hidden" name="email"  th:value="${userEmail}">
+        <input id="emailId" type="hidden" name="email"  th:value="${userEmail}">
+        <input id="editing" type="hidden" name="editing" th:value="${editing}">
+        <input id="seriesId" type="hidden" name="seriesId" th:value="${editseries?.id}">
+        <input id="seriesTitle" type="hidden" name="seriesTitle" th:value="${editseries?.title}">
+        <input id="seriesDescription" type="hidden" name="seriesDescription" th:value="${editseries?.description}">
+        <input id="seriesPublished" type="hidden" name="seriesPublished" th:value="${editseries?.published}">
+        <input id="cover" type="hidden" name="cover" th:value="${cover}">
+        <input th:each="categories,iterStat:${categories}" th:id="'categories'+${iterStat.index}"  name="categories" type="hidden" th:value="${categories}">
+
+
+
             <form id="createSeriesFormId" action="#" th:action="@{/createSeries}" th:object="${post}" method="post">
+                <input id="id" type="hidden" name="id" th:field="*{series.id}">
                 <input id="ownerId" type="hidden" name="owner"  th:field="*{series.owner}">
                 <input id="titleId" type="hidden" name="title"  th:field="*{series.title}">
                 <input id="descriptionId" type="hidden" name="description"  th:field="*{series.description}">
@@ -127,6 +138,7 @@
                 <input id="categoryId" type="hidden" name="categories"  th:field="*{categories}">
                 <input id="published" type="hidden" name="published"  th:field="*{series.published}">
             </form>
+
     </div>
 </div>
 
@@ -134,7 +146,9 @@
 </html>
 <script>
     var savedPng= [];
+    var zwibblerContext;
     function MyFunction(ctx) {
+        zwibblerContext=ctx;
         // ctx is actually a Zwibbler context, with functions
         // like getPageCount() and save() and useBrushTool(). But
         // you can extend it.
@@ -167,6 +181,10 @@
             //save upload image
 
             //upload to controller
+            var editing=document.getElementById("editing").value;
+            if (editing === "false") {
+                document.getElementById("id").value = 0;
+            }
             document.getElementById("ownerId").value=email;
             document.getElementById("titleId").value=seriesName;
             document.getElementById("descriptionId").value=chapterName;
@@ -192,6 +210,52 @@
                 ctx.commitTransaction();
             }
         };
+
+        ctx.loadSeries=function() {
+            var editing=document.getElementById("editing").value;
+            if (editing === "true") {
+                var seriesId = document.getElementById("seriesId").value;
+                var seriesTitle = document.getElementById("seriesTitle").value;
+                var seriesDescription = document.getElementById("seriesDescription").value;
+                var seriesPublished = document.getElementById("seriesPublished").value;
+                var cover = document.getElementById("cover").value;
+                var categories = document.getElementsByName("categories");
+                document.getElementById("id").value = seriesId;
+                document.getElementById("inputSeriesName").value = seriesTitle;
+                document.getElementById("newComicDescription").value = seriesDescription;
+
+                if (seriesPublished == 1) {
+                    document.getElementById("makePublic").checked = true;
+                } else if (seriesPublished == 0) {
+                    document.getElementById("makePrivate").checked = true;
+                }
+                    ctx.insertPage(0);
+                    ctx.setCurrentPage(0);
+                    var imageuploadurls = cover;
+                    console.log(imageuploadurls);
+                    ctx.beginTransaction();
+                    var nodeId = ctx.createNode("ImageNode", {
+                        url: imageuploadurls
+                    });
+                    ctx.translateNode(nodeId, 100, 100);
+                    ctx.commitTransaction();
+                ctx.setCurrentPage(0);
+
+                for (var i = 0; i < categories.length; i++) {
+                    document.getElementById(categories[i].value).checked = true;
+                }
+            }
+        };
+    }
+
+
+
+
+
+
+
+    window.onload = function () {
+        zwibblerContext.loadSeries();
     }
 
 

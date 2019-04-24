@@ -99,8 +99,8 @@
                             <p class="username" th:text="'owner: '+${#strings.substringBefore(series.owner,'@')}">by username123</p>
                             </a>
                             <p th:text="'description: '+ ${series.description}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                            <button type="button" class="btn btn-warning" th:style="${editable} ? 'display:normal' : 'display:none'">Edit</button>
-                            <button type="button" class="btn btn-danger" th:style="${editable} ? 'display:normal' : 'display:none'">Delete</button>
+                            <a class="btn btn-warning"  th:href="'editSeries?seriesId=' + ${series.id}" th:style="${editable} ? 'display:normal' : 'display:none'">Edit</a>
+                            <a  class="btn btn-danger"  th:href="'Deleteseries?seriesId=' + ${series.id}" th:style="${editable} ? 'display:normal' : 'display:none'">Delete</a>
                             <div class="col-12 ml-3 mt-2">
                                 <a href="#mySeries1Content" data-toggle="collapse">
                                     Chapters

@@ -1,11 +1,14 @@
 package navy.toonavy4u;
 
 import entities.Categories;
+import entities.Comic;
+import entities.Pages;
 import entities.Series;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -48,7 +51,11 @@ public class SeriesController {
             }
 
             series.setCover(cover);
-            series.setCreated(new Timestamp(System.currentTimeMillis()));
+            if (series.getId() == 0) {
+            series.setCreated(new Timestamp(System.currentTimeMillis()));}
+            else{
+                series.setCreated(seriesRepository.findById(series.getId()).get(0).getCreated());
+            }
             series = seriesRepository.save(series);
 
             if (categoryStrings != null && categoryStrings.length > 0) {
@@ -64,4 +71,38 @@ public class SeriesController {
             return new ModelAndView("redirect:/ViewSeries", model);
         }
     }
+
+    @RequestMapping(value = "/editSeries", method = {RequestMethod.PUT,RequestMethod.GET})
+    public String editCreate(@RequestParam("seriesId") int series, Model model) {
+        Series editseries = seriesRepository.findById(series).get(0);
+        List<Categories> categories=categoriesRepository.findByIdSeries(editseries.getId());
+        List<String> categori=new ArrayList<String>();
+        for (int i=0;i<categories.size();i++){
+            categori.add(categories.get(i).getCategory());
+        }
+
+        ArrayList<String> blobArray = new ArrayList<>();
+
+            Blob image = editseries.getCover();
+            byte[] bytes;
+            try {
+                int blobLength = (int) image.length();
+                bytes = image.getBytes(1, blobLength);
+                image.free();
+            } catch (SQLException ex) {
+                return "error";
+            }
+
+            String cover = "data:image/png;base64," + Base64.getEncoder().encodeToString(bytes);
+
+
+        model.addAttribute("editseries", editseries);
+        model.addAttribute("categories", categori);
+        model.addAttribute("cover", cover);
+        model.addAttribute("userEmail", editseries.getOwner());
+        model.addAttribute("editing", true);
+        model.addAttribute("post", new Post());
+        return "CreateSeries";
+    }
+
 }
