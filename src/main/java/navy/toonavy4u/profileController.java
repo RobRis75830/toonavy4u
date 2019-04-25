@@ -42,6 +42,9 @@ public class profileController {
     private FollowsRepository FollowsRepository;
     @Autowired
     private SubscriptionRepository subscriptionRepository;
+
+    @Autowired
+    private ViewsRepository ViewsRepository;
     @Autowired
     private OAuth2AuthorizedClientService authorizedClientService;
 
@@ -117,6 +120,7 @@ for (int i=0;i<creatSeries.size();i++){
         List<List> suballcomic = new ArrayList<List>();
         List<List> subchapterCover = new ArrayList<List>();
         List<Series> subedseries= new ArrayList<Series>();
+        List<Boolean> update= new ArrayList<Boolean>();
         for (int i=0;i<subSeries.size();i++){
             subedseries.add(seriesRepository.findById(subSeries.get(i).getSeries()).get(0));
             image = subedseries.get(i).getCover();
@@ -156,8 +160,10 @@ for (int i=0;i<creatSeries.size();i++){
                 }
 
             }
-            subchapterCover.add(coverChapter);}
-
+            subchapterCover.add(coverChapter);
+        //add check update
+            update.add(updateNew(email,subSeries.get(i).getSeries()));
+        }
 
 
 
@@ -175,6 +181,7 @@ for (int i=0;i<creatSeries.size();i++){
         model.addAttribute("comic", allcomic);
         model.addAttribute("followNumber", followNumber);
         model.addAttribute("editable",true);
+        model.addAttribute("update",update);
 
         return "Profile";
     }
@@ -258,6 +265,7 @@ for (int i=0;i<creatSeries.size();i++){
 
 
 
+
         }
 
         //SUBSCRBELIST
@@ -266,6 +274,7 @@ for (int i=0;i<creatSeries.size();i++){
         List<List> suballcomic = new ArrayList<List>();
         List<List> subchapterCover = new ArrayList<List>();
         List<Series> subedseries= new ArrayList<Series>();
+        List<Boolean> update= new ArrayList<Boolean>();
         for (int i=0;i<subSeries.size();i++){
             subedseries.add(seriesRepository.findByIdAndPublished(subSeries.get(i).getSeries(), 1).get(0));
             image = subedseries.get(i).getCover();
@@ -305,7 +314,11 @@ for (int i=0;i<creatSeries.size();i++){
                 }
 
             }
-            subchapterCover.add(coverChapter);}
+            subchapterCover.add(coverChapter);
+            //add check update
+            update.add(updateNew(email,subSeries.get(i).getSeries()));
+
+        }
 
 
 
@@ -323,6 +336,7 @@ for (int i=0;i<creatSeries.size();i++){
         model.addAttribute("suballcomic", suballcomic);
         model.addAttribute("subchapterCover", subchapterCover);
         model.addAttribute("subcover", subcover);
+        model.addAttribute("update",update);
 
         return "Profile";
     }
@@ -366,6 +380,14 @@ for (int i=0;i<creatSeries.size();i++){
                 sub.setSeries(seriessub.get(i).getId());
                 sub.setSubscriber(email);
                 subscriptionRepository.save(sub);
+                List<Comic> comic= comicRepository.findBySeriesAndPublishedOrderByCreatedDesc(seriessub.get(i).getId(),1);
+                for (int k=0;k<comic.size();k++){
+                    if (ViewsRepository.findByIdViewerAndIdComic(email,comic.get(k).getId()).isEmpty()){
+                        Views view=new Views();
+                        view.setComic(comic.get(k).getId());
+                        view.setViewer(email);
+                        ViewsRepository.save(view);
+                    } }
             }
 
         }
@@ -391,6 +413,18 @@ for (int i=0;i<creatSeries.size();i++){
 
         model.addAttribute("profileEmail", email);
         return new ModelAndView("redirect:/Profile", model);
+
+
+    }
+
+
+    public boolean updateNew(String user, int series){
+        List<Comic> comic= comicRepository.findBySeriesAndPublishedOrderByCreatedDesc(series,1);
+        for (int i=0;i<comic.size();i++){
+            if (ViewsRepository.findByIdViewerAndIdComic(user,comic.get(i).getId()).isEmpty()){
+                return true;
+            } }
+        return false;
     }
 
 

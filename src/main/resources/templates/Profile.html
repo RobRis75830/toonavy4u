@@ -49,7 +49,7 @@
                 </div>
 
                 <a  th:href="'ViewSeries?seriesId='+${subseries.id}">
-                    <h5 th:text="'Series: '+${subseries.title}"></h5>
+                    <h5 th:text="${update[iterStat.index]} ?'Series: '+${subseries.title} +' newChapter ':'Series: '+${subseries.title} " th:style="${update[iterStat.index]} ? 'color:red' : 'color:white'"></h5>
                 </a>
                 <a href="#"th:href="'Profile?profileEmail=' + ${subseries.owner}">
                     <p class="username" th:text="'owner: '+${#strings.substringBefore(subseries.owner,'@')}">by username123</p>
