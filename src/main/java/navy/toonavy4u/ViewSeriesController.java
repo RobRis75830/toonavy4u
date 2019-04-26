@@ -2,6 +2,7 @@ package navy.toonavy4u;
 
 import entities.Categories;
 import entities.Comic;
+import entities.Rating;
 import entities.Series;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -12,13 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import repositories.CategoriesRepository;
-import repositories.ComicRepository;
-import repositories.SeriesRepository;
-import repositories.SubscriptionRepository;
+import repositories.*;
 
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -42,6 +41,9 @@ public class ViewSeriesController {
 
     @Autowired
     private SubscriptionRepository subscriptionRepository;
+
+    @Autowired
+    private RatingRepository ratingRepository;
 
     @RequestMapping(value = "/ViewSeries", method = RequestMethod.GET)
     public String viewSeries(@RequestParam("seriesId") int seriesId, Model model, OAuth2AuthenticationToken authentication) {
@@ -92,6 +94,15 @@ public class ViewSeriesController {
                 categories += (" " + c.getCategory());
             }
 
+            // ratings
+            ArrayList<Double> comicRatings = new ArrayList<>();
+            for (Comic comic : comics) {
+                List<Rating> ratings = ratingRepository.findByIdComic(comic.getId());
+                double rating = ratings.stream().mapToDouble(Rating::getRating).average().orElse(0.0);
+                comicRatings.add(rating);
+            }
+            double seriesRating = comicRatings.stream().mapToDouble(value -> value).average().orElse(0.0);
+
             // subscription info
             if (email.isEmpty()) {
                 model.addAttribute("subscribe", 0);         // user not logged in
@@ -108,6 +119,8 @@ public class ViewSeriesController {
             model.addAttribute("imageURL", imageURL);
             model.addAttribute("categories", categories);
             model.addAttribute("editable", email.equals(series.get(0).getOwner()));
+            model.addAttribute("comicRatings", comicRatings);
+            model.addAttribute("seriesRating", seriesRating);
 
         }
 
