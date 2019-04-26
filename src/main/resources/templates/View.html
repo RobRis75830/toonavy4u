@@ -81,15 +81,10 @@
         </div>
         <!--rate and share-->
         <div class="row jumbotron bg-secondary">
-            <div class="col-12 col-sm-6">
-                <span>Rate: 
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="far fa-star"></i>
-                    <i class="far fa-star"></i>
-                </span>
-            </div>
+            <div id="rating" class="col-12 col-sm-6"></div>
+            <script th:inline="javascript">/*<![CDATA[*/ /*[+
+                $(function(){ if ([[${!#strings.isEmpty(viewer)&&!#strings.equals(viewer,owner)}]]) { $("#rating").load([['star.html?comicId=' + ${comicId}]]) } });
+             +]*/ /*]]>*/</script>
             <div class="col-12 col-sm-6">
                 <!--Share button-->
                 <div id="shareButton" class="fb-share-button" data-href="" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share This Comic</a></div>

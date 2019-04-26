@@ -1,20 +1,13 @@
 package navy.toonavy4u;
 
-import entities.Comic;
-import entities.Comments;
-import entities.Reader;
-import entities.Series;
+import entities.*;
 
 import java.io.File;
 import java.util.Date;
 import java.util.List;
 
 public class Post {
-    private long id;
     private String username;
-    private String password;
-    private Date created_at;
-    private Date updated_at;
 
     private String[] imageURL;
     private Reader reader;
@@ -22,14 +15,7 @@ public class Post {
     private Comic comic;
     private String[] categories;
     private Comments comment;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
+    private Rating rating;
 
     public String getUsername() {
         return username;
@@ -37,30 +23,6 @@ public class Post {
 
     public void setUsername(String title) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Date getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(Date created_at) {
-        this.created_at = created_at;
-    }
-
-    public Date getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(Date updated_at) {
-        this.updated_at = updated_at;
     }
 
     public String[] getImageURL() { return imageURL; }
@@ -86,4 +48,8 @@ public class Post {
     public Comments getComment() { return comment; }
 
     public void setComment(Comments comment) { this.comment = comment; }
+
+    public Rating getRating() { return rating; }
+
+    public void setRating(Rating rating) { this.rating = rating; }
 }

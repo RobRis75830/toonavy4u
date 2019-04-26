@@ -64,4 +64,15 @@ public class HomeController {
         model.addAttribute("post", new Post());
         return "CreateSeries";
     }
+
+    @RequestMapping(value = "/star.html", method = RequestMethod.GET)
+    public String getStar(@RequestParam("comicId") int comicId, Model model, OAuth2AuthenticationToken authentication) {
+        String email = getEmail(authentication, authorizedClientService);
+        if (!email.isEmpty()) {
+            model.addAttribute("userEmail", email);
+        }
+        model.addAttribute("comicId", comicId);
+        model.addAttribute("post", new Post());
+        return "star";
+    }
 }

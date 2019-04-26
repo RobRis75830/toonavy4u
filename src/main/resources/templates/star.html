@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -9,7 +9,7 @@
 .star-input>.input,
 .star-input>.input>label:hover,
 .star-input>.input>input:focus+label,
-.star-input>.input>input:checked+label{display: inline-block;vertical-align:middle;background:url('resources/static/images/grade_img.png')no-repeat;}
+.star-input>.input>input:checked+label{display: inline-block;vertical-align:middle;background:url('images/grade_img.png')no-repeat;}
 .star-input{display:inline-block; white-space:nowrap;width:225px;height:40px;padding:25px;line-height:30px;}
 .star-input>.input{display:inline-block;width:150px;background-size:150px;height:28px;white-space:nowrap;overflow:hidden;position: relative;}
 .star-input>.input>input{position:absolute;width:1px;height:1px;opacity:0;}
@@ -32,20 +32,31 @@ star-input>.input.focus{outline:1px dotted #ddd;}
 <body>
 <span class="star-input">
 	<span class="input">
-    	<input type="radio" name="star-input" value="1" id="p1">
+    	<input type="radio" name="star-input" value="1" id="p1" onclick="submitRating()">
     	<label for="p1">1</label>
-    	<input type="radio" name="star-input" value="2" id="p2">
+    	<input type="radio" name="star-input" value="2" id="p2" onclick="submitRating()">
     	<label for="p2">2</label>
-    	<input type="radio" name="star-input" value="3" id="p3">
+    	<input type="radio" name="star-input" value="3" id="p3" onclick="submitRating()">
     	<label for="p3">3</label>
-    	<input type="radio" name="star-input" value="4" id="p4">
+    	<input type="radio" name="star-input" value="4" id="p4" onclick="submitRating()">
     	<label for="p4">4</label>
-    	<input type="radio" name="star-input" value="5" id="p5">
+    	<input type="radio" name="star-input" value="5" id="p5" onclick="submitRating()">
     	<label for="p5">5</label>
   	</span>
-  	<output for="star-input"><b>0</b> Rating</output>
+  	<output for="star-input"><b id="ratingNumber">0</b> Rating</output>
 </span>
-<script src="resources/static/js/jquery-1.11.3.min.js"></script>
-<script src="resources/static/js/star.js"></script>
+<form id="ratingForm" action="#" th:action="@{/Rate}" th:object="${post}" method="post">
+	<input type="hidden" name="rating.rater" th:value="${userEmail}">
+	<input type="hidden" name="rating.comic" th:value="${comicId}">
+	<input type="hidden" id="ratingValue" th:field="*{rating.rating}">
+</form>
+<script>
+	function submitRating () {
+		document.getElementById('ratingValue').value = document.getElementById('ratingNumber').innerText;
+		document.getElementById('ratingForm').submit();
+	}
+</script>
+<script src="js/jquery-1.11.3.min.js"></script>
+<script src="js/star.js"></script>
 </body>
 </html>
