@@ -30,10 +30,14 @@ public class DeleteController {
 
     @Autowired
     private CommentsRepository commentsRepository;
+
     @Autowired
     private SeriesRepository seriesRepository;
 
-    // Remember to delete Likes and Ratings once they're implemented
+    @Autowired
+    private RatingRepository ratingRepository;
+
+    // Remember to delete Likes once they're implemented
 
     @RequestMapping(value = "/DeleteComic", method = RequestMethod.POST)
     public ModelAndView deleteComic(@ModelAttribute("post") Post post, ModelMap model) {
@@ -43,6 +47,7 @@ public class DeleteController {
         List<Views> views = viewsRepository.findByIdComic(comicId);
         List<Comments> comments = commentsRepository.findByComicOrderByCreatedAsc(comicId);
         List<Pages> pages = pagesRepository.findByIdComic(comicId);
+        List<Rating> ratings = ratingRepository.findByIdComic(comicId);
         Comic comic = comicRepository.findById(comicId).get(0);
 
         int seriesId = comic.getSeries();
@@ -50,6 +55,7 @@ public class DeleteController {
         viewsRepository.deleteAll(views);
         commentsRepository.deleteAll(comments);
         pagesRepository.deleteAll(pages);
+        ratingRepository.deleteAll(ratings);
         comicRepository.delete(comic);
 
         model.addAttribute("seriesId", seriesId);
@@ -61,6 +67,7 @@ public class DeleteController {
         List<Views> views = viewsRepository.findByIdComic(comicId);
         List<Comments> comments = commentsRepository.findByComicOrderByCreatedAsc(comicId);
         List<Pages> pages = pagesRepository.findByIdComic(comicId);
+        List<Rating> ratings = ratingRepository.findByIdComic(comicId);
         Comic comic = comicRepository.findById(comicId).get(0);
 
         String profileEmail = comic.getOwner();
@@ -68,6 +75,7 @@ public class DeleteController {
         viewsRepository.deleteAll(views);
         commentsRepository.deleteAll(comments);
         pagesRepository.deleteAll(pages);
+        ratingRepository.deleteAll(ratings);
         comicRepository.delete(comic);
 
         model.addAttribute("profileEmail", profileEmail);
@@ -78,12 +86,14 @@ public class DeleteController {
         Series series=seriesRepository.findById(seriesId).get(0);
         List<Comic> comic = comicRepository.findBySeriesOrderByCreatedAsc(seriesId);
         for (int i=0;i<comic.size();i++){
-        List<Views> views = viewsRepository.findByIdComic(comic.get(i).getId());
-        List<Comments> comments = commentsRepository.findByComicOrderByCreatedAsc(comic.get(i).getId());
-        List<Pages> pages = pagesRepository.findByIdComic(comic.get(i).getId());
+            List<Views> views = viewsRepository.findByIdComic(comic.get(i).getId());
+            List<Comments> comments = commentsRepository.findByComicOrderByCreatedAsc(comic.get(i).getId());
+            List<Pages> pages = pagesRepository.findByIdComic(comic.get(i).getId());
+            List<Rating> ratings = ratingRepository.findByIdComic(comic.get(i).getId());
             viewsRepository.deleteAll(views);
             commentsRepository.deleteAll(comments);
-            pagesRepository.deleteAll(pages);}
+            pagesRepository.deleteAll(pages);
+            ratingRepository.deleteAll(ratings);}
         String profileEmail = series.getOwner();
         comicRepository.deleteAll(comic);
         seriesRepository.delete(series);
