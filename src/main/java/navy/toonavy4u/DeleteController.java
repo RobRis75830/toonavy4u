@@ -35,6 +35,9 @@ public class DeleteController {
     private SeriesRepository seriesRepository;
 
     @Autowired
+    private SubscriptionRepository subscriptionRepository;
+
+    @Autowired
     private RatingRepository ratingRepository;
 
     // Remember to delete Likes once they're implemented
@@ -85,6 +88,7 @@ public class DeleteController {
     public ModelAndView deleteSeries(@RequestParam("seriesId") int seriesId, ModelMap model) {
         Series series=seriesRepository.findById(seriesId).get(0);
         List<Comic> comic = comicRepository.findBySeriesOrderByCreatedAsc(seriesId);
+        List<Subscription> subscriptions = subscriptionRepository.findByIdSeries(seriesId);
         for (int i=0;i<comic.size();i++){
             List<Views> views = viewsRepository.findByIdComic(comic.get(i).getId());
             List<Comments> comments = commentsRepository.findByComicOrderByCreatedAsc(comic.get(i).getId());
@@ -96,8 +100,8 @@ public class DeleteController {
             ratingRepository.deleteAll(ratings);}
         String profileEmail = series.getOwner();
         comicRepository.deleteAll(comic);
+        subscriptionRepository.deleteAll(subscriptions);
         seriesRepository.delete(series);
-
 
         model.addAttribute("profileEmail", profileEmail);
         return new ModelAndView("redirect:/Profile", model);
