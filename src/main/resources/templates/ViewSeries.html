@@ -34,7 +34,7 @@
                     <p class="username" th:text="${#strings.substringBefore(series.owner,'@')}">by username333</p>
                 </a>
                 <p th:text="'Genre:' + ${categories}">Genre:</p>
-                <p th:text="'Average Rating: ' + ${seriesRating}">Average Rating:</p>
+                <p th:text="'Average Rating: ' + ${seriesRating} + ' / 5'">Average Rating:</p>
                 <form id="subscription" action="#" th:action="@{/manageSubscription}" th:object="${post}" method="post">
                     <input type="hidden" name="series.id" th:value="${series.id}">
                 </form>
@@ -71,7 +71,7 @@
                 <tr class="table-secondary" th:each="c,iterStat: ${comics}">
                   <th scope="row" th:text="${c.created}">1</th>
                   <td><a th:text="${c.title}" th:href="'ViewComic?comicId=' + ${c.id}"></a></td>
-                  <td th:text="${comicRatings[iterStat.index]}">0.0</td>
+                  <td th:text="${comicRatings[iterStat.index]} + ' / 5'">0.0</td>
                   <td>
                       <form action="#" th:action="@{/Create.html}" th:object="${post}" method="post">
                           <input th:id="id + ${c.id}" type="hidden" name="comic" th:field="*{comic.id}">

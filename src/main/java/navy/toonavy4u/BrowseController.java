@@ -1,7 +1,8 @@
 package navy.toonavy4u;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import entities.Categories;
+import entities.Comic;
+import entities.Rating;
 import entities.Series;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -10,14 +11,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import repositories.CategoriesRepository;
-import repositories.SeriesRepository;
+import repositories.*;
 
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.sql.Timestamp;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -30,10 +29,20 @@ public class BrowseController {
     @Autowired
     private CategoriesRepository categoriesRepository;
 
+    @Autowired
+    private ComicRepository comicRepository;
+
+    @Autowired
+    private ViewsRepository viewsRepository;
+
+    @Autowired
+    private RatingRepository ratingRepository;
+
     @RequestMapping(value = "/Browse", method = RequestMethod.GET)
     public String search(@RequestParam(value = "title", required = false) String title,
                          @RequestParam(value = "author", required = false) String owner,
                          @RequestParam(value = "categories", required = false) String[] categories,
+                         @RequestParam(value = "sortBy", required = false) String sortBy,
                          Model model) {
 
         List<Series> series;
@@ -66,6 +75,48 @@ public class BrowseController {
             } else {
                 series = new ArrayList<>();
             }
+        }
+
+        // sorting
+        if (sortBy != null && !series.isEmpty()) {
+            List<Comic> comics;
+            if (sortBy.equals("views")) {
+                for (Series s : series) {
+                    comics = comicRepository.findBySeriesOrderByCreatedAsc(s.getId());
+                    List<Integer> comicIds = comics.stream().map(Comic::getId).collect(Collectors.toList());
+                    long views = viewsRepository.countByIdComicIsIn(comicIds);
+                    s.setViews(views);
+                }
+                series.sort(Comparator.comparingLong(Series::getViews));
+
+            } else if (sortBy.equals("ratings")) {
+                for (Series s : series) {
+                    comics = comicRepository.findBySeriesOrderByCreatedAsc(s.getId());
+                    ArrayList<Double> comicRatings = new ArrayList<>();
+                    for (Comic c : comics) {
+                        List<Rating> ratings = ratingRepository.findByIdComic(c.getId());
+                        double rating = Math.round(ratings.stream().mapToDouble(Rating::getRating).average().orElse(0.0) * 100) / 100.0;
+                        if (rating != 0.0) {
+                            comicRatings.add(rating);
+                        }
+                    }
+                    double seriesRating = Math.round(comicRatings.stream().mapToDouble(value -> value).average().orElse(0.0) * 100) / 100.0;
+                    s.setRating(seriesRating);
+                }
+                series.sort(Comparator.comparingDouble(Series::getRating));
+
+            } else if (sortBy.equals("updated")) {
+                for (Series s : series) {
+                    comics = comicRepository.findBySeriesAndPublishedOrderByCreatedDesc(s.getId(), 1);
+                    if (!comics.isEmpty()) {
+                        s.setUpdated(comics.get(0).getCreated());
+                    } else {
+                        s.setUpdated(new Timestamp(0));
+                    }
+                }
+                series.sort(Comparator.comparing(Series::getUpdated));
+            }
+            Collections.reverse(series);
         }
 
         ArrayList<String> imageURLs = new ArrayList<>();

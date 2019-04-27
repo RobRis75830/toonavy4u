@@ -12,4 +12,6 @@ public interface ViewsRepository extends CrudRepository<Views, ViewKey> {
     public long countByIdComic(int comic);
 
     public List<Views> findByIdComic(int comic);
+
+    public long countByIdComicIsIn(List<Integer> comics);
 }

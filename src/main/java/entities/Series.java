@@ -25,6 +25,15 @@ public class Series implements Serializable {
 
     private int published;          // boolean value for whether the series page is publicly viewable, 1 = true, 0 = false
 
+    @Transient
+    private long views;
+
+    @Transient
+    private double rating;
+
+    @Transient
+    private Timestamp updated;
+
     public int getId() { return id; }
 
     public void setId(int id) { this.id = id; }
@@ -52,4 +61,16 @@ public class Series implements Serializable {
     public int getPublished() { return published; }
 
     public void setPublished(int published) { this.published = published; }
+
+    public long getViews() { return views; }
+
+    public void setViews(long views) { this.views = views; }
+
+    public double getRating() { return rating; }
+
+    public void setRating(double rating) { this.rating = rating; }
+
+    public Timestamp getUpdated() { return updated; }
+
+    public void setUpdated(Timestamp updated) { this.updated = updated; }
 }

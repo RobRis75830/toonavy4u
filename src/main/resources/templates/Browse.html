@@ -46,16 +46,16 @@
                     <div id="sortByRadios" class="row ml-2">
                         <div class="form-check col-12 col-md-4">
                             <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="sortByRadios" id="views" value="" checked>Most Viewed</label>
+                              <input type="radio" class="form-check-input" name="sortByRadios" id="views" value="views" checked>Most Viewed</label>
                         </div>
                         <div class="form-check col-12 col-md-4">
                             <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="sortByRadios" id="rated" value="">
+                              <input type="radio" class="form-check-input" name="sortByRadios" id="rated" value="ratings">
                             Top Rated</label>                        
                         </div>
                         <div class="form-check col-12 col-md-4">
                             <label class="form-check-label">
-                              <input type="radio" class="form-check-input" name="sortByRadios" id="date" value="">
+                              <input type="radio" class="form-check-input" name="sortByRadios" id="date" value="updated">
                             Most Recent</label>                        
                         </div>
                     </div>
@@ -97,19 +97,29 @@
                 <input id="formTitle" type="hidden" name="title">
                 <input id="formAuthor" type="hidden" name="author">
                 <input id="formCategories" type="hidden" name="categories">
+                <input id="formSort" type="hidden" name="sortBy">
             </form>
             <script>
                 function submitForm() {
                     var categories = [];
+                    var sort = "views";
                     var elements = document.getElementsByName("category");
                     for (var i = 0; i < elements.length; i++ ) {
                         if (elements[i].checked) {
                             categories.push(elements[i].value);
                         }
                     }
+                    elements = document.getElementsByName("sortByRadios");
+                    for (var j = 0, length = elements.length; j < length; j++) {
+                        if (elements[j].checked) {
+                            sort = elements[j].value;
+                            break;
+                        }
+                    }
                     document.getElementById("formTitle").value=document.getElementById("searchTitle").value;
                     document.getElementById("formAuthor").value=document.getElementById("searchAuthor").value;
                     document.getElementById("formCategories").value=categories;
+                    document.getElementById("formSort").value=sort;
                     document.getElementById("form").submit();
                 }
             </script>

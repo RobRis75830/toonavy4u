@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static navy.toonavy4u.LoginController.getEmail;
 
@@ -98,10 +99,12 @@ public class ViewSeriesController {
             ArrayList<Double> comicRatings = new ArrayList<>();
             for (Comic comic : comics) {
                 List<Rating> ratings = ratingRepository.findByIdComic(comic.getId());
-                double rating = ratings.stream().mapToDouble(Rating::getRating).average().orElse(0.0);
+                double rating = Math.round(ratings.stream().mapToDouble(Rating::getRating).average().orElse(0.0) * 100) / 100.0;
                 comicRatings.add(rating);
             }
-            double seriesRating = comicRatings.stream().mapToDouble(value -> value).average().orElse(0.0);
+            ArrayList<Double> comicRatingsClone = new ArrayList<>(comicRatings);
+            comicRatingsClone.removeIf(c -> c == 0.0);
+            double seriesRating = Math.round(comicRatingsClone.stream().mapToDouble(value -> value).average().orElse(0.0) * 100) / 100.0;
 
             // subscription info
             if (email.isEmpty()) {
