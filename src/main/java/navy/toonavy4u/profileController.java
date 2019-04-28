@@ -32,8 +32,7 @@ public class profileController {
     @Autowired
     private SeriesRepository seriesRepository;
 
-    @Autowired
-    private CategoriesRepository categoriesRepository;
+
     @Autowired
     private ComicRepository comicRepository;
     @Autowired

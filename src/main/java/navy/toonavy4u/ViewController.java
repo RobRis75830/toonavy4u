@@ -41,6 +41,8 @@ public class ViewController {
 
     @Autowired
     private CommentsRepository commentsRepository;
+    @Autowired
+    private LikesRepository LikesRepository;
 
     @RequestMapping(value = "/ViewComic", method = RequestMethod.GET)
     public String viewComic(@RequestParam("comicId") int comicId, Model model, OAuth2AuthenticationToken authentication) {
@@ -69,6 +71,8 @@ public class ViewController {
             List<Pages> pages = pagesRepository.findByIdComic(comicId);
             ArrayList<String> imageURLs = new ArrayList<>();
             List<Comments> comments = commentsRepository.findByComicOrderByCreatedAsc(comicId);
+            List<Boolean> likesOrnot= new ArrayList<>();
+            List<Long> likesNum= new ArrayList<>();
 
             for (Pages page : pages) {
 
@@ -90,6 +94,21 @@ public class ViewController {
 
             }
 
+            //Likes
+            for(int i=0;i<comments.size();i++){
+                List<Likes> likes=  LikesRepository.findByIdLikerAndIdRemark(email,comments.get(i).getId());
+
+                likesNum.add(LikesRepository.countByIdRemark(comments.get(i).getId()));
+                if (likes.isEmpty()){
+                    likesOrnot.add(true);
+                }else{
+                    likesOrnot.add(false);
+                }
+            }
+
+
+
+
             model.addAttribute("seriesId", series.get(0).getId());
             model.addAttribute("series", series.get(0).getTitle());
             model.addAttribute("title", comics.get(0).getTitle());
@@ -101,6 +120,8 @@ public class ViewController {
             }
             model.addAttribute("owner", comics.get(0).getOwner());
             model.addAttribute("comments", comments);
+            model.addAttribute("likesNum", likesNum);
+            model.addAttribute("likesOrnot", likesOrnot);
             model.addAttribute("viewer", email);
             model.addAttribute("comicId", comicId);
 

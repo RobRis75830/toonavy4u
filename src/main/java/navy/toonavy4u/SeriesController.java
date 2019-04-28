@@ -1,9 +1,6 @@
 package navy.toonavy4u;
 
-import entities.Categories;
-import entities.Comic;
-import entities.Pages;
-import entities.Series;
+import entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -13,7 +10,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import repositories.CategoriesRepository;
+import repositories.FollowsRepository;
 import repositories.SeriesRepository;
+import repositories.SubscriptionRepository;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.sql.Blob;
@@ -30,6 +29,10 @@ public class SeriesController {
 
     @Autowired
     private CategoriesRepository categoriesRepository;
+    @Autowired
+    private repositories.FollowsRepository FollowsRepository;
+    @Autowired
+    private SubscriptionRepository subscriptionRepository;
 
     @RequestMapping(value = "/createSeries", method = RequestMethod.POST)
     public ModelAndView createNewSeries(@ModelAttribute("post") Post post, ModelMap model, OAuth2AuthenticationToken authentication) {
@@ -66,6 +69,22 @@ public class SeriesController {
                     categoriesRepository.save(category);
                 }
             }
+            List<Follows>followsList=FollowsRepository.findByIdFollowed(series.getOwner());
+            for (int i=0;i<followsList.size();i++){
+                List <Subscription> sub=subscriptionRepository.findByIdSubscriberAndIdSeries(followsList.get(i).getFollower(),series.getId());
+                if (sub.isEmpty()){
+                    if (series.getPublished()==1){
+                    Subscription newSub=new Subscription();
+                    newSub.setSubscriber(followsList.get(i).getFollower());
+                    newSub.setSeries(series.getId());
+                        subscriptionRepository.save(newSub);}
+                }else{
+                    if (series.getPublished()==0){
+                        subscriptionRepository.delete(sub.get(0)); }
+                }
+
+            }
+
 
             model.addAttribute("seriesId", series.getId());
             return new ModelAndView("redirect:/ViewSeries", model);

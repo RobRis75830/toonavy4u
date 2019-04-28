@@ -102,6 +102,7 @@
                   <span class="col-4" th:text="${#strings.substringBefore(c.owner,'@')} + ' :'"></span>
                 </a>
                   <span class="col-8" th:text="${c.body}"></span>
+                  <a  class="btn btn-primary ml-3" th:text="${likesOrnot[cStat.index]}?'Like '+${likesNum[cStat.index]}:'Unlike '+${likesNum[cStat.index]}" th:href="'Liked?commends=' + ${c.id}"  th:classappend="${#authorization.expression('isAuthenticated()')} ? enabled : disabled"></a>
             </div>
             <form id="commentForm" action="#" th:action="@{/makeComment}" th:object="${post}" method="post">
                 <input id="ownerId" type="hidden" name="owner"  th:field="*{comment.owner}">
@@ -140,5 +141,9 @@
             document.getElementById("commentForm").submit();
         }
     }
+    function alartLogin() {
+        alart.alart("LogIn first please");
+    }
+
 </script>
 
