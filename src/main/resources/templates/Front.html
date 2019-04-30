@@ -29,60 +29,16 @@
             <div class="jumbotron bg-secondary col-12 mb-5">
                 <h3><a href="#popContent" data-toggle="collapse">Popular Comics</a></h3>
                 <div class="row comiclist collapse show" id="popContent">
-                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                        <a href="#">
-                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg">
-                            <h5>Title</h5>
+                    <div th:each="s,iterStat:${popular}" class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
+                        <a href="#" th:href="'ViewSeries?seriesId='+${s.id}">
+                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg" th:src="${imageURLs[iterStat.index]}">
+                            <h5 th:text="${s.title}">Title</h5>
                         </a>
-                        <a href="#">
-                            <p class="username">by username123</p>
-                        </a>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                        <a href="#">
-                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg">
-                            <h5>Title</h5>
-                        </a>
-                        <a href="#">
-                            <p class="username">by username123</p>
+                        <a href="#" th:href="'Profile?profileEmail='+${s.owner}">
+                            <p class="username" th:text="${#strings.substringBefore(s.owner,'@')}">by username123</p>
                         </a>
                     </div>
-                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                        <a href="#">
-                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg">
-                            <h5>Title</h5>
-                        </a>
-                        <a href="#">
-                            <p class="username">by username123</p>
-                        </a>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                        <a href="#">
-                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg">
-                            <h5>Title</h5>
-                        </a>
-                        <a href="#">
-                            <p class="username">by username123</p>
-                        </a>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                        <a href="#">
-                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg">
-                            <h5>Title</h5>
-                        </a>
-                        <a href="#">
-                            <p class="username">by username123</p>
-                        </a>
-                    </div>
-                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
-                        <a href="#">
-                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg">
-                            <h5>Title</h5>
-                        </a>
-                        <a href="#">
-                            <p class="username">by username123</p>
-                        </a>
-                    </div>
+
                     
                     
                 </div>
