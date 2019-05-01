@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE-edge">
 <meta name="viewport" content="width = device-width, initial-scale = 1">
 
-<title th:text="${title + ' - ' + series +} + ' - TooNavy4U'">Welcome to Toonavy4U</title>
+<title>Fill in the Blanks - Toonavy4U</title>
 
 <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="css/myStyle.css">
@@ -18,10 +18,7 @@
 </head>
 
 <body>
-    <!--Facebook stuff-->
-    <div id="fb-root"></div>
-        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
-    
+
     <div id="header"></div>    
     <script>
         $(function(){ $("#header").load("Toolbar.html") });
@@ -29,71 +26,58 @@
     <br>
     <div class="container">
         <div class="row">
-            <h3 th:text="${series}">Series 1</h3>
+            <h3>Fill in the Blanks</h3>
 
         </div>
         <div class="row">
-            <a href="#"th:href="'Profile?profileEmail=' + ${owner}" class="username" th:text="'By ' + ${#strings.substringBefore(owner,'@')}">By username123</a>
+            <h5 th:text="">Week 1</h5>
         </div>
-        <div class="row">
-            <a th:href="'ViewSeries?seriesId=' + ${seriesId}">
-                <h6 class="mt-3">&lt Back to Series Page</h6>
-            </a>            
-        </div>
-        <div id="comicView" class="jumbotron bg-secondary text-center mt-5 mb-5">
+        <div class="jumbotron bg-secondary text-center mt-5 mb-5">
             <div class="row">
-                <div class="col-3">
-                    <a href="#">
-                        <span class="float-left">Prev Page</span>
-                    </a>
+                <div class="col-12">
+                    <h6>What should they say? <br>Write your suggestions in the comment section below!</h6>
                 </div>
-                <div class="col-6">
-                    <h5 th:text="${title}">Chapter 1: The Beginning</h5>
-                </div>
-                <div class="col-3">
-                    <a href="#">
-                        <span class="float-right">Next Page</span>
-                    </a>
+                <div class="col-12">
+                    <img class="img-fluid" src="../static/images/fillinthumb.jpg">
                 </div>
             </div>
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
-              <ol class="carousel-indicators">
-                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active">1</li>
-                <li data-target="#carouselExampleIndicators" th:each="n,iterStat: ${imageURLs}" th:data-slide-to="${iterStat.index} + 1" th:text="${iterStat.index} + 2"></li>
-              </ol>
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <img class="d-block w-100" src="images/comicTemp.jpg" th:src="${firstImage}">
-                </div>
-                <div class="carousel-item" th:each="i: ${imageURLs}">
-                  <img class="d-block w-100" src="images/comicTemp.jpg" th:src="${i}">
-                </div>
-              </div>
-              <a class="carousel-control-prev btn-dark" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-              </a>
-              <a class="carousel-control-next btn-dark" href="#carouselExampleIndicators" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-              </a>
-            </div>
+            
         </div>
         <!--rate and share-->
         <div class="row jumbotron bg-secondary">
-            <div id="rating" class="col-12 col-sm-6"></div>
-            <script th:inline="javascript">/*<![CDATA[*/ /*[+
-                $(function(){ if ([[${!#strings.isEmpty(viewer)&&!#strings.equals(viewer,owner)}]]) { $("#rating").load([['star.html?comicId=' + ${comicId}]]) } });
-             +]*/ /*]]>*/</script>
-            <div class="col-12 col-sm-6">
-                <!--Share button-->
-                <div id="shareButton" class="fb-share-button" data-href="" data-layout="button_count" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share This Comic</a></div>
-                <script>
-                   var url= window.location.href;
-                   document.getElementById("shareButton").setAttribute("data-href", url);
-                </script>
-            </div>
+            
             <!--Comments-->    
+            <div id="top3comments">
+                <div class="col-12">
+                    <h5>TOP 3</h5>
+                </div>
+                <div class="col-12">
+                    <span class="col-1" style="color:gold">
+                    <i class="fas fa-crown"></i>1
+                    </span>
+                    <span class="col-4">username:</span>
+                    <span class="col-7">comment</span>
+                    
+                </div>
+                <div class="col-12 my-2">
+                    <span class="col-1" style="color:silver">
+                    <i class="fas fa-crown"></i>2
+                    </span>
+                    <span class="col-4"></span>
+                    <span class="col-7"></span>
+                    
+                
+                </div>
+                <div class="col-12">
+                    <span class="col-1" style="color:#cd7f32">
+                    <i class="fas fa-crown"></i>3
+                    </span>
+                    <span class="col-4"></span>
+                    <span class="col-7"></span>
+                    
+                
+                </div>
+            </div>
             <div class="col-12 mt-3">
                 <h5>Comments</h5> 
             </div>
