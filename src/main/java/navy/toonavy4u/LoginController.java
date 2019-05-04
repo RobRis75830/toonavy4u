@@ -1,9 +1,6 @@
 package navy.toonavy4u;
 
-import entities.Comic;
-import entities.Rating;
-import entities.Reader;
-import entities.Series;
+import entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -46,6 +43,15 @@ public class LoginController {
     @Autowired
     private RatingRepository ratingRepository;
 
+    @Autowired
+    private LikesRepository likesRepository;
+
+    @Autowired
+    private CommentsRepository commentsRepository;
+
+    @Autowired
+    private PagesRepository pagesRepository;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getLoginInfo(Model model, OAuth2AuthenticationToken authentication) {
         if (authentication != null) {
@@ -65,6 +71,7 @@ public class LoginController {
             }
         }
 
+        // most popular
         List<Series> series = seriesRepository.findByPublished(1);
         for (Series s : series) {
             List<Comic> comics = comicRepository.findBySeriesOrderByCreatedAsc(s.getId());
@@ -104,8 +111,34 @@ public class LoginController {
             imageURLs.add(imageURL);
         }
 
+        // Fill in the Blanks
+        long millis = System.currentTimeMillis() / 604800000;
+        long index = millis % 26;
+        Comic fillInTheBlank = comicRepository.findBySeriesOrderByCreatedAsc(1202).get((int) index);
+        List<Comments> comments = commentsRepository.findByComicOrderByCreatedAsc(fillInTheBlank.getId());
+        for (Comments comment : comments) {
+            comment.setLikes(likesRepository.countByIdRemark(comment.getId()));
+        }
+        comments.sort(Comparator.comparingLong(Comments::getLikes));
+        if (comments.size() > 3) {
+            comments = comments.subList(comments.size() - 3, comments.size());
+        }
+        Collections.reverse(comments);
+        Blob image = pagesRepository.findByIdComicAndIdPageNumber(fillInTheBlank.getId(), 1).get(0).getImage();
+        byte[] bytes;
+        try {
+            int blobLength = (int) image.length();
+            bytes = image.getBytes(1, blobLength);
+            image.free();
+        } catch (SQLException ex) {
+            return "error";
+        }
+        String fillInTheBlankImage = "data:image/png;base64," + Base64.getEncoder().encodeToString(bytes);
+
         model.addAttribute("popular", series);
         model.addAttribute("imageURLs", imageURLs);
+        model.addAttribute("fillInTheBlankImage", fillInTheBlankImage);
+        model.addAttribute("comments", comments);
         model.addAttribute("post", new Post());
         return "Front";
     }

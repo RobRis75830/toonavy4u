@@ -14,9 +14,7 @@ import repositories.*;
 
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
 
 import static navy.toonavy4u.LoginController.getEmail;
 
@@ -141,5 +139,62 @@ public class ViewController {
 
             return "View";
         }
+    }
+
+    @RequestMapping(value = "/ViewFillInTheBlank", method = RequestMethod.GET)
+    public String viewFillInTheBlank(Model model, OAuth2AuthenticationToken authentication) {
+
+        long millis = System.currentTimeMillis() / 604800000;
+        long index = millis % 26;
+        Comic fillInTheBlank = comicRepository.findBySeriesOrderByCreatedAsc(1202).get((int) index);
+
+        String email = "";
+        if (authentication != null) {
+            email = getEmail(authentication, authorizedClientService);
+        }
+
+        Pages page = pagesRepository.findByIdComicAndIdPageNumber(fillInTheBlank.getId(), 1).get(0);
+        List<Comments> comments = commentsRepository.findByComicOrderByCreatedAsc(fillInTheBlank.getId());
+        for (Comments comment : comments) {
+            comment.setLikes(LikesRepository.countByIdRemark(comment.getId()));
+        }
+        comments.sort(Comparator.comparingLong(Comments::getLikes));
+        Collections.reverse(comments);
+
+        List<Boolean> likesOrnot= new ArrayList<>();
+        List<Long> likesNum= new ArrayList<>();
+
+        Blob image = page.getImage();
+        byte[] bytes;
+        try {
+            int blobLength = (int) image.length();
+            bytes = image.getBytes(1, blobLength);
+            image.free();
+        } catch (SQLException ex) {
+            return "error";
+        }
+        String imageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(bytes);
+
+        //Likes
+        for(int i=0;i<comments.size();i++){
+            List<Likes> likes=  LikesRepository.findByIdLikerAndIdRemark(email,comments.get(i).getId());
+            likesNum.add(LikesRepository.countByIdRemark(comments.get(i).getId()));
+            if (likes.isEmpty()){
+                likesOrnot.add(true);
+            }else{
+                likesOrnot.add(false);
+            }
+        }
+
+        model.addAttribute("title", fillInTheBlank.getTitle());
+        model.addAttribute("image", imageURL);
+        model.addAttribute("comments", comments);
+        model.addAttribute("likesNum", likesNum);
+        model.addAttribute("likesOrnot", likesOrnot);
+        model.addAttribute("viewer", email);
+        model.addAttribute("comicId", fillInTheBlank.getId());
+        model.addAttribute("post", new Post());
+
+        return "FillInTheBlanks";
     }
 }

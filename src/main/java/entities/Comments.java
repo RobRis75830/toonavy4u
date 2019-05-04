@@ -20,6 +20,9 @@ public class Comments implements Serializable {
 
     private Timestamp created;      // date created
 
+    @Transient
+    private long likes;
+
     public int getId() { return id; }
 
     public void setId(int id) { this.id = id; }
@@ -39,4 +42,8 @@ public class Comments implements Serializable {
     public Timestamp getCreated() { return created; }
 
     public void setCreated(Timestamp created) { this.created = created; }
+
+    public long getLikes() { return likes; }
+
+    public void setLikes(long likes) { this.likes = likes; }
 }

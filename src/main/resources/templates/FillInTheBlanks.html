@@ -30,7 +30,7 @@
 
         </div>
         <div class="row">
-            <h5 th:text="">Week 1</h5>
+            <h5 th:text="${title}">Week 1</h5>
         </div>
         <div class="jumbotron bg-secondary text-center mt-5 mb-5">
             <div class="row">
@@ -38,7 +38,7 @@
                     <h6>What should they say? <br>Write your suggestions in the comment section below!</h6>
                 </div>
                 <div class="col-12">
-                    <img class="img-fluid" src="../static/images/fillinthumb.jpg">
+                    <img class="img-fluid" th:src="${image}" src="../static/images/fillinthumb.jpg">
                 </div>
             </div>
             
@@ -55,16 +55,16 @@
                     <span class="col-1" style="color:gold">
                     <i class="fas fa-crown"></i>1
                     </span>
-                    <span class="col-4">username:</span>
-                    <span class="col-7">comment</span>
+                    <span class="col-4" th:text="${#lists.size(comments) > 0} ? ${#strings.substringBefore(comments[0].owner,'@')}"></span>
+                    <span class="col-7" th:text="${#lists.size(comments) > 0} ? ${comments[0].body}"></span>
                     
                 </div>
                 <div class="col-12 my-2">
                     <span class="col-1" style="color:silver">
                     <i class="fas fa-crown"></i>2
                     </span>
-                    <span class="col-4"></span>
-                    <span class="col-7"></span>
+                    <span class="col-4" th:text="${#lists.size(comments) > 1} ? ${#strings.substringBefore(comments[1].owner,'@')}"></span>
+                    <span class="col-7" th:text="${#lists.size(comments) > 1} ? ${comments[1].body}"></span>
                     
                 
                 </div>
@@ -72,8 +72,8 @@
                     <span class="col-1" style="color:#cd7f32">
                     <i class="fas fa-crown"></i>3
                     </span>
-                    <span class="col-4"></span>
-                    <span class="col-7"></span>
+                    <span class="col-4" th:text="${#lists.size(comments) > 2} ? ${#strings.substringBefore(comments[2].owner,'@')}"></span>
+                    <span class="col-7" th:text="${#lists.size(comments) > 2} ? ${comments[2].body}"></span>
                     
                 
                 </div>
@@ -86,9 +86,9 @@
                   <span class="col-4" th:text="${#strings.substringBefore(c.owner,'@')} + ' :'"></span>
                 </a>
                   <span class="col-8" th:text="${c.body}"></span>
-                  <a  class="btn btn-primary ml-3" th:text="${likesOrnot[cStat.index]}?'Like '+${likesNum[cStat.index]}:'Unlike '+${likesNum[cStat.index]}" th:href="'Liked?commends=' + ${c.id}"  th:classappend="${#authorization.expression('isAuthenticated()')} ? enabled : disabled"></a>
+                  <a  class="btn btn-primary ml-3" th:text="${likesOrnot[cStat.index]}?'Like '+${likesNum[cStat.index]}:'Unlike '+${likesNum[cStat.index]}" th:href="'Voted?commends=' + ${c.id}"  th:classappend="${#authorization.expression('isAuthenticated()')} ? enabled : disabled"></a>
             </div>
-            <form id="commentForm" action="#" th:action="@{/makeComment}" th:object="${post}" method="post">
+            <form id="commentForm" action="#" th:action="@{/makeSuggestion}" th:object="${post}" method="post">
                 <input id="ownerId" type="hidden" name="owner"  th:field="*{comment.owner}">
                 <input id="bodyId" type="hidden" name="body"  th:field="*{comment.body}">
                 <input id="comicId" type="hidden" name="comic"  th:field="*{comment.comic}">

@@ -57,4 +57,27 @@ public class LikedController {
 
     }
 
+    @RequestMapping(value = "/Voted", method = {RequestMethod.PUT,RequestMethod.GET})
+    public ModelAndView voted(@RequestParam("commends") int commends, ModelMap model, OAuth2AuthenticationToken authentication) {
+        String email = "";
+
+        if (authentication != null) {
+            email = getEmail(authentication, authorizedClientService);
+        }
+        Likes Like=new Likes();
+        Like.setLiker(email);
+        Like.setRemark(commends);
+        List<Likes> Likes=LikesRepository.findByIdLikerAndIdRemark(email,commends);
+        if (Likes.isEmpty()){
+            LikesRepository.save(Like);
+        }else{
+            LikesRepository.delete(Like);
+        }
+        int comidId=commentsRepository.findById(commends).get(0).getComic();
+
+        return new ModelAndView("redirect:/ViewFillInTheBlank", model);
+
+
+    }
+
 }

@@ -31,4 +31,15 @@ public class CommentController {
         model.addAttribute("comicId", comment.getComic());
         return new ModelAndView("redirect:/ViewComic", model);
     }
+
+    @RequestMapping(value = "/makeSuggestion", method = RequestMethod.POST)
+    public ModelAndView makeSuggestion(@ModelAttribute("post") Post post, ModelMap model) {
+
+        Comments comment = post.getComment();
+        comment.setCreated(new Timestamp(System.currentTimeMillis()));
+
+        commentsRepository.save(comment);
+
+        return new ModelAndView("redirect:/ViewFillInTheBlank", model);
+    }
 }

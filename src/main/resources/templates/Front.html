@@ -49,7 +49,7 @@
                 <h3>This Week's Fill in the Blanks!</h3>
                 <br>
                 <div class="text-center">
-                    <img class="img-fluid" src="images/fillinthumb.jpg" />
+                    <a href="/ViewFillInTheBlank"><img class="img-fluid" th:src="${fillInTheBlankImage}" src="images/fillinthumb.jpg" /></a>
                 </div>
                 <br>
                 <h4>Top Comments</h4>
@@ -58,16 +58,16 @@
                     <span class="col-1" style="color:gold">
                     <i class="fas fa-crown"></i>1
                     </span>
-                    <span class="col-4">username:</span>
-                    <span class="col-7">comment</span>
+                    <span class="col-4" th:text="${#lists.size(comments) > 0} ? ${#strings.substringBefore(comments[0].owner,'@')}"></span>
+                    <span class="col-7" th:text="${#lists.size(comments) > 0} ? ${comments[0].body}"></span>
                     
                 </div>
                 <div class="col-12 my-2">
                     <span class="col-1" style="color:silver">
                     <i class="fas fa-crown"></i>2
                     </span>
-                    <span class="col-4"></span>
-                    <span class="col-7"></span>
+                    <span class="col-4" th:text="${#lists.size(comments) > 1} ? ${#strings.substringBefore(comments[1].owner,'@')}"></span>
+                    <span class="col-7" th:text="${#lists.size(comments) > 1} ? ${comments[1].body}"></span>
                     
                 
                 </div>
@@ -75,8 +75,8 @@
                     <span class="col-1" style="color:#cd7f32">
                     <i class="fas fa-crown"></i>3
                     </span>
-                    <span class="col-4"></span>
-                    <span class="col-7"></span>
+                    <span class="col-4" th:text="${#lists.size(comments) > 2} ? ${#strings.substringBefore(comments[2].owner,'@')}"></span>
+                    <span class="col-7" th:text="${#lists.size(comments) > 2} ? ${comments[2].body}"></span>
                     
                 
                 </div>
