@@ -8,6 +8,7 @@ import java.util.List;
 public interface LikesRepository extends CrudRepository<Likes, LikeKey> {
 
     public List<Likes> findByIdLikerAndIdRemark(String liker, int remark);
+    public List<Likes> findByIdRemark(int remark);
 
     public long countByIdRemark(int remark);
 }

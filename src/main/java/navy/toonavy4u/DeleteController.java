@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import repositories.*;
 
+import javax.xml.stream.events.Comment;
 import java.util.List;
 
 @Controller
@@ -39,6 +40,8 @@ public class DeleteController {
 
     @Autowired
     private RatingRepository ratingRepository;
+    @Autowired
+    private LikesRepository LikesRepository;
 
     // Remember to delete Likes once they're implemented
 
@@ -53,9 +56,14 @@ public class DeleteController {
         List<Rating> ratings = ratingRepository.findByIdComic(comicId);
         Comic comic = comicRepository.findById(comicId).get(0);
 
+
         int seriesId = comic.getSeries();
 
         viewsRepository.deleteAll(views);
+        for (int k=0;k<comments.size();k++){
+            List<Likes> like=LikesRepository.findByIdRemark(comments.get(k).getId());
+            LikesRepository.deleteAll(like);
+        }
         commentsRepository.deleteAll(comments);
         pagesRepository.deleteAll(pages);
         ratingRepository.deleteAll(ratings);
@@ -97,6 +105,10 @@ public class DeleteController {
             List<Pages> pages = pagesRepository.findByIdComic(comic.get(i).getId());
             List<Rating> ratings = ratingRepository.findByIdComic(comic.get(i).getId());
             viewsRepository.deleteAll(views);
+            for (int k=0;k<comments.size();k++){
+                List<Likes> like=LikesRepository.findByIdRemark(comments.get(k).getId());
+                LikesRepository.deleteAll(like);
+            }
             commentsRepository.deleteAll(comments);
             pagesRepository.deleteAll(pages);
             ratingRepository.deleteAll(ratings);}
@@ -107,5 +119,18 @@ public class DeleteController {
 
         model.addAttribute("profileEmail", profileEmail);
         return new ModelAndView("redirect:/Profile", model);
+    }
+    @RequestMapping(value = "/DeleteComments", method = {RequestMethod.PUT,RequestMethod.GET,RequestMethod.POST})
+    public ModelAndView deleteComments(@ModelAttribute("post") Post post, ModelMap model) {
+        int commentsId = post.getComment().getId();
+        Comments comment=commentsRepository.findById(commentsId).get(0);
+        List<Likes> like=LikesRepository.findByIdRemark(comment.getId());
+            commentsRepository.delete(comment);
+            LikesRepository.deleteAll(like);
+            int comicId=comment.getComic();
+
+
+        model.addAttribute("comicId", comicId);
+        return new ModelAndView("redirect:/ViewComic", model);
     }
 }

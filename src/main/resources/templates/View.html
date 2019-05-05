@@ -103,6 +103,12 @@
                 </a>
                   <span class="col-8" th:text="${c.body}"></span>
                   <a  class="btn btn-primary ml-3" th:text="${likesOrnot[cStat.index]}?'Like '+${likesNum[cStat.index]}:'Unlike '+${likesNum[cStat.index]}" th:href="'Liked?commends=' + ${c.id}"  th:classappend="${#authorization.expression('isAuthenticated()')} ? enabled : disabled"></a>
+                <form action="#" th:action="@{/DeleteComments}" th:object="${post}" method="post"
+                      onsubmit="return confirm('Are you sure you want to permanently delete this comments?')">
+                    <input th:id="delete + ${c.id}" type="hidden" name="comments" th:field="*{comment.id}">
+                    <input class="btn btn-danger ml-3" th:type="${viewer==c.owner} ? 'submit' : 'hidden'" value="Delete">
+                </form>
+                <script th:inline="javascript">/*<![CDATA[*/ /*[+ document.getElementById([['delete' + ${c.id}]]).value=[[${c.id}]]; +]*/ /*]]>*/</script>
             </div>
             <form id="commentForm" action="#" th:action="@{/makeComment}" th:object="${post}" method="post">
                 <input id="ownerId" type="hidden" name="owner"  th:field="*{comment.owner}">
