@@ -177,10 +177,11 @@ for (int i=0;i<creatSeries.size();i++){
         model.addAttribute("chapterCover", chapterCover);
         model.addAttribute("subchapterCover", subchapterCover);
         model.addAttribute("subcover", subcover);
-        model.addAttribute("comic", allcomic);
+        model.addAttribute("comics", allcomic);
         model.addAttribute("followNumber", followNumber);
         model.addAttribute("editable",true);
         model.addAttribute("update",update);
+        model.addAttribute("post", new Post());
 
         return "Profile";
     }
@@ -326,7 +327,7 @@ for (int i=0;i<creatSeries.size();i++){
         model.addAttribute("userName", userName);
         model.addAttribute("creatSeries", creatSeries);
         model.addAttribute("imageURL", cover);
-        model.addAttribute("comic", allcomic);
+        model.addAttribute("comics", allcomic);
         model.addAttribute("chapterCover", chapterCover);
         model.addAttribute("editable",email.equals(profileEmail));
         model.addAttribute("follow",follow);
@@ -336,6 +337,7 @@ for (int i=0;i<creatSeries.size();i++){
         model.addAttribute("subchapterCover", subchapterCover);
         model.addAttribute("subcover", subcover);
         model.addAttribute("update",update);
+        model.addAttribute("post", new Post());
 
         return "Profile";
     }

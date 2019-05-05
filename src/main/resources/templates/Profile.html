@@ -84,23 +84,36 @@
 
                     <div class="row mt-3" id="mySeries1Row">
 
-                        <div th:each="series,iterStat:${creatSeries}" class="col-md-9 col-sm-6 col-6">
+                        <div th:each="s,iterStat:${creatSeries}" class="col-md-9 col-sm-6 col-6">
 
                         <div class="col-md-3 col-sm-6 col-6">
-                            <a th:href="'ViewSeries?seriesId='+${series.id}">
+                            <a th:href="'ViewSeries?seriesId='+${s.id}">
                                 <img class="img-fluid img-thumbnail" th:src="${imageURL[iterStat.index]}">
                             </a>
                         </div>
 
-                            <a  th:href="'ViewSeries?seriesId='+${series.id}">
-                            <h5 th:text="'Series: '+${series.title}"></h5>
+                            <a  th:href="'ViewSeries?seriesId='+${s.id}">
+                            <h5 th:text="'Series: '+${s.title}"></h5>
                             </a>
-                            <a href="#"th:href="'Profile?profileEmail=' + ${series.owner}">
-                            <p class="username" th:text="'owner: '+${#strings.substringBefore(series.owner,'@')}">by username123</p>
+                            <a href="#"th:href="'Profile?profileEmail=' + ${s.owner}">
+                            <p class="username" th:text="'owner: '+${#strings.substringBefore(s.owner,'@')}">by username123</p>
                             </a>
-                            <p th:text="'description: '+ ${series.description}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                            <a class="btn btn-warning"  th:href="'editSeries?seriesId=' + ${series.id}" th:style="${editable} ? 'display:normal' : 'display:none'">Edit</a>
-                            <a  class="btn btn-danger"  th:href="'Deleteseries?seriesId=' + ${series.id}" th:style="${editable} ? 'display:normal' : 'display:none'">Delete</a>
+                            <p th:text="'description: '+ ${s.description}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                            <td>
+                                <form action="#" th:action="@{/editSeries}" th:object="${post}" method="post">
+                                    <input th:id="id + ${s.id}" type="hidden" name="series" th:field="*{series.id}">
+                                    <input class="btn btn-warning" th:type="${editable} ? 'submit' : 'hidden'" value="Edit">
+                                </form>
+                            </td>
+                                <script th:inline="javascript">/*<![CDATA[*/ /*[+ document.getElementById([['id' + ${s.id}]]).value=[[${s.id}]]; +]*/ /*]]>*/</script>
+                            <td>
+                            <form action="#" th:action="@{/Deleteseries}" th:object="${post}" method="post"
+                                      onsubmit="return confirm('Are you sure you want to permanently delete this series?')">
+                                    <input th:id="delete + ${s.id}" type="hidden" name="series" th:field="*{series.id}">
+                                    <input class="btn btn-danger" th:type="${editable} ? 'submit' : 'hidden'" value="Delete">
+                                </form>
+                            </td>
+                                <script th:inline="javascript">/*<![CDATA[*/ /*[+ document.getElementById([['delete' + ${s.id}]]).value=[[${s.id}]]; +]*/ /*]]>*/</script>
                             <div class="col-12 ml-3 mt-2">
                                 <a href="#mySeries1Content" data-toggle="collapse">
                                     Chapters
@@ -108,14 +121,26 @@
                             </div>
 
                         <div class="row ml-1 mt-1 collapse" id="mySeries1Content">
-                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6"th:each="comics:${comic[iterStat.index]}">
-                                <a th:href="'ViewComic?comicId=' + ${comics.id}">
-                                    <img class="img-fluid img-thumbnail" th:src="${(chapterCover[iterStat.index])[comicsStat.index]}"src="images/thumbnail.jpg">
-                                    <h5 th:text="${comics.title}" > Chapter 1</h5>
+                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6"th:each="c:${comics[iterStat.index]}">
+                                <a th:href="'ViewComic?comicId=' + ${c.id}">
+                                    <img class="img-fluid img-thumbnail" th:src="${(chapterCover[iterStat.index])[cStat.index]}"src="images/thumbnail.jpg">
+                                    <h5 th:text="${c.title}" > Chapter 1</h5>
                                 </a>
-                                <a class="btn btn-warning btn-sm"  th:style="${editable} ? 'display:normal' : 'display:none'" th:href="'editComic?comicId=' + ${comics.id}">Edit</a>
-                                <a class="btn btn-danger btn-sm" th:style="${editable} ? 'display:normal' : 'display:none'" th:href="'DeleteComic.html?comicId=' + ${comics.id}">Delete</a>
-
+                                <td>
+                                    <form action="#" th:action="@{/Create.html}" th:object="${post}" method="post">
+                                        <input th:id="id + ${c.id}" type="hidden" name="comic" th:field="*{comic.id}">
+                                        <input class="btn btn-warning" th:type="${editable} ? 'submit' : 'hidden'" value="Edit">
+                                    </form>
+                                    <script th:inline="javascript">/*<![CDATA[*/ /*[+ document.getElementById([['id' + ${c.id}]]).value=[[${c.id}]]; +]*/ /*]]>*/</script>
+                                </td>
+                                <td>
+                                    <form action="#" th:action="@{/DeleteComic.html}" th:object="${post}" method="post"
+                                          onsubmit="return confirm('Are you sure you want to permanently delete this comic?')">
+                                        <input th:id="delete + ${c.id}" type="hidden" name="comic" th:field="*{comic.id}">
+                                        <input class="btn btn-danger" th:type="${editable} ? 'submit' : 'hidden'" value="Delete">
+                                    </form>
+                                    <script th:inline="javascript">/*<![CDATA[*/ /*[+ document.getElementById([['delete' + ${c.id}]]).value=[[${c.id}]]; +]*/ /*]]>*/</script>
+                                </td>
                             </div>
                         </div>
                         </div>

@@ -91,8 +91,10 @@ public class SeriesController {
         }
     }
 
-    @RequestMapping(value = "/editSeries", method = {RequestMethod.PUT,RequestMethod.GET})
-    public String editCreate(@RequestParam("seriesId") int series, Model model) {
+    @RequestMapping(value = "/editSeries", method = {RequestMethod.PUT,RequestMethod.GET, RequestMethod.POST})
+    public String editCreate(@ModelAttribute("post") Post post, Model model) {
+        int series=post.getSeries().getId();
+
         Series editseries = seriesRepository.findById(series).get(0);
         List<Categories> categories=categoriesRepository.findByIdSeries(editseries.getId());
         List<String> categori=new ArrayList<String>();

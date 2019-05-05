@@ -64,8 +64,9 @@ public class DeleteController {
         model.addAttribute("seriesId", seriesId);
         return new ModelAndView("redirect:/ViewSeries", model);
     }
-    @RequestMapping(value = "/DeleteComic.html", method = {RequestMethod.PUT,RequestMethod.GET})
-    public ModelAndView deleteComic1(@RequestParam("comicId") int comicId, ModelMap model) {
+    @RequestMapping(value = "/DeleteComic.html", method = {RequestMethod.PUT,RequestMethod.GET,RequestMethod.POST})
+    public ModelAndView deleteComic1(@ModelAttribute("post") Post post, ModelMap model) {
+        int comicId = post.getComic().getId();
 
         List<Views> views = viewsRepository.findByIdComic(comicId);
         List<Comments> comments = commentsRepository.findByComicOrderByCreatedAsc(comicId);
@@ -84,8 +85,9 @@ public class DeleteController {
         model.addAttribute("profileEmail", profileEmail);
         return new ModelAndView("redirect:/Profile", model);
     }
-    @RequestMapping(value = "/Deleteseries", method = {RequestMethod.PUT,RequestMethod.GET})
-    public ModelAndView deleteSeries(@RequestParam("seriesId") int seriesId, ModelMap model) {
+    @RequestMapping(value = "/Deleteseries", method = {RequestMethod.PUT,RequestMethod.GET,RequestMethod.POST})
+    public ModelAndView deleteSeries(@ModelAttribute("post") Post post, ModelMap model) {
+        int seriesId = post.getSeries().getId();
         Series series=seriesRepository.findById(seriesId).get(0);
         List<Comic> comic = comicRepository.findBySeriesOrderByCreatedAsc(seriesId);
         List<Subscription> subscriptions = subscriptionRepository.findByIdSeries(seriesId);
