@@ -31,7 +31,9 @@
                 <div class="row comiclist collapse show" id="popContent">
                     <div th:each="s,iterStat:${popular}" class="col-lg-2 col-md-3 col-sm-6 col-xs-6">
                         <a href="#" th:href="'ViewSeries?seriesId='+${s.id}">
-                            <img class="img-fluid img-thumbnail" src="images/thumbnail2.jpg" th:src="${imageURLs[iterStat.index]}">
+                            <div class="comicthumbdiv">
+                                <img class="comicthumb" src="../static/images/thumbnail3.jpg" th:src="${imageURLs[iterStat.index]}">
+                            </div>
                             <h5 th:text="${s.title}">Title</h5>
                         </a>
                         <a href="#" th:href="'Profile?profileEmail='+${s.owner}">

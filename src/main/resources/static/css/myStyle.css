@@ -23,11 +23,26 @@ body{
 a{
     color:inherit;
 }
-.comicthumb{
-    height:40px;
+
+.comicthumbdiv{
 }
+.comicthumb{
+    padding: 0.25rem;
+    background-color: white;
+    border: 1px solid #8080ff;
+    border-radius: 0;
+    max-width: 100%;
+    height: 320px;
+}
+@media (min-width:576px){
+    .comicthumb{
+        height: 160px;
+    }
+}
+
 .username{
-    color: #8080ff; 
+    color: #8080ff;
+    text-overflow: ellipsis;
 }
 .username:hover{
     color: #a0a0ff;
