@@ -62,15 +62,8 @@
             <table class="table table-hover table-responsive">
               <thead>
                 <tr>
-                    <colgroup>
-                      <col class="col-2">
-                      <col class="col-3">
-                      <col class="col-3">
-                      <col class="col-2">
-                      <col class="col-2">
-                    </colgroup>
                     <th scope="col">#</th>
-                    <th scope="col">Title</th>
+                    <th scope="col" th:style="${editable} ? 'width:85%' : 'width:65%'">Title</th>
                     <th scope="col">Rating</th>
                     <th scope="col"></th>
                     <th scope="col"></th>

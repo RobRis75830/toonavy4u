@@ -69,7 +69,6 @@
                     </div>
                 </div>
             </div>
-        </div>
             <br>
             <zwibbler showToolbar="true"
                       z-controller="MyFunction">
@@ -97,13 +96,16 @@
                     <small id="fileHelp" class="form-text text-muted">.png, .jpg, .jpeg files are supported.</small>
                     <button z-click="uploadImage()"> Insert Image </button>
                 </div>
-                <div class="">
-                    <button type = "button" z-click="createComic()" class="btn btn-primary " th:text="${editing} ? 'Save' : 'Create'"></button>
-                    <a  href="/" class="btn btn-primary ">Cancel</a>
+                <div class="row">
+                    <div class="col-12">
+                        <button type = "button" z-click="" class="btn-lg btn-danger">Cancel</button>
+                        <button type = "button" z-click="createComic()" class="btn-lg btn-primary pull-right" th:text="${editing} ? 'Save' : 'Create'"></button>
+                    </div>
                 </div>
 
 
             </zwibbler>
+    </div>
             <input id="emailId" type="hidden" name="email"  th:value="${userEmail}">
             <input id="editing" type="hidden" name="editing" th:value="${editing}">
             <input id="comicId" type="hidden" name="comicId" th:value="${editComic?.id}">

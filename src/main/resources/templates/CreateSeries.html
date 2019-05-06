@@ -114,8 +114,11 @@
                 </div>
                 
                 
-            <div class="">
-                <button type = "button" z-click="createComic()" class="btn btn-primary ">Create</button>
+            <div class="row">
+                <div class="col-12">
+                    <button type = "button" z-click="" class="btn-lg btn-danger">Cancel</button>
+                    <button type = "button" z-click="createComic()" class="btn-lg btn-primary pull-right">Create</button>
+                </div>
             </div>
             </zwibbler>
         <input id="emailId" type="hidden" name="email"  th:value="${userEmail}">
@@ -138,7 +141,6 @@
                 <input id="categoryId" type="hidden" name="categories"  th:field="*{categories}">
                 <input id="published" type="hidden" name="published"  th:field="*{series.published}">
             </form>
-        <a  href="/" class="btn btn-primary ">Cancel</a>
 
     </div>
 </div>
