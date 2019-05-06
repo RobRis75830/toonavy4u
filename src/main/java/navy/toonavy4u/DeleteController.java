@@ -85,6 +85,10 @@ public class DeleteController {
         String profileEmail = comic.getOwner();
 
         viewsRepository.deleteAll(views);
+        for (int k=0;k<comments.size();k++){
+            List<Likes> like=LikesRepository.findByIdRemark(comments.get(k).getId());
+            LikesRepository.deleteAll(like);
+        }
         commentsRepository.deleteAll(comments);
         pagesRepository.deleteAll(pages);
         ratingRepository.deleteAll(ratings);
