@@ -131,7 +131,8 @@ public class BrowseController {
                 image.free();
 
             } catch (SQLException ex) {
-                return "error";
+                model.addAttribute("errorMessage", "");
+                return "Error";
             }
 
             String imageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(bytes);

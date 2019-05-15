@@ -105,7 +105,8 @@ public class LoginController {
                 bytes = image.getBytes(1, blobLength);
                 image.free();
             } catch (SQLException ex) {
-                return "error";
+                model.addAttribute("errorMessage", "");
+                return "Error";
             }
             String imageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(bytes);
             imageURLs.add(imageURL);
@@ -131,7 +132,8 @@ public class LoginController {
             bytes = image.getBytes(1, blobLength);
             image.free();
         } catch (SQLException ex) {
-            return "error";
+            model.addAttribute("errorMessage", "");
+            return "Error";
         }
         String fillInTheBlankImage = "data:image/png;base64," + Base64.getEncoder().encodeToString(bytes);
 

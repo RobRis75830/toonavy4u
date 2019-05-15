@@ -71,7 +71,8 @@ for (int i=0;i<creatSeries.size();i++){
             image.free();
 
         } catch (SQLException ex) {
-            return "error";
+            model.addAttribute("errorMessage", "");
+            return "Error";
         }
         String imageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(bytes);
         cover.add(imageURL);
@@ -92,7 +93,8 @@ for (int i=0;i<creatSeries.size();i++){
                 chimage.free();
 
             } catch (SQLException ex) {
-                return "error";
+                model.addAttribute("errorMessage", "");
+                return "Error";
             }
             String chiimageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(chbytes);
             coverChapter.add(chiimageURL);
@@ -129,7 +131,8 @@ for (int i=0;i<creatSeries.size();i++){
                 image.free();
 
             } catch (SQLException ex) {
-                return "error";
+                model.addAttribute("errorMessage", "");
+                return "Error";
             }
             String imageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(bytes);
             subcover.add(imageURL);
@@ -150,7 +153,8 @@ for (int i=0;i<creatSeries.size();i++){
                         chimage.free();
 
                     } catch (SQLException ex) {
-                        return "error";
+                        model.addAttribute("errorMessage", "");
+                        return "Error";
                     }
                     String chiimageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(chbytes);
                     coverChapter.add(chiimageURL);
@@ -228,7 +232,8 @@ for (int i=0;i<creatSeries.size();i++){
                 image.free();
 
             } catch (SQLException ex) {
-                return "error";
+                model.addAttribute("errorMessage", "");
+                return "Error";
             }
             String imageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(bytes);
             cover.add(imageURL);
@@ -252,7 +257,8 @@ for (int i=0;i<creatSeries.size();i++){
                         chimage.free();
 
                     } catch (SQLException ex) {
-                        return "error";
+                        model.addAttribute("errorMessage", "");
+                        return "Error";
                     }
                     String chiimageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(chbytes);
                     coverChapter.add(chiimageURL);
@@ -284,7 +290,8 @@ for (int i=0;i<creatSeries.size();i++){
                 image.free();
 
             } catch (SQLException ex) {
-                return "error";
+                model.addAttribute("errorMessage", "");
+                return "Error";
             }
             String imageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(bytes);
             subcover.add(imageURL);
@@ -305,7 +312,8 @@ for (int i=0;i<creatSeries.size();i++){
                         chimage.free();
 
                     } catch (SQLException ex) {
-                        return "error";
+                        model.addAttribute("errorMessage", "");
+                        return "Error";
                     }
                     String chiimageURL = "data:image/png;base64," + Base64.getEncoder().encodeToString(chbytes);
                     coverChapter.add(chiimageURL);
