@@ -21,141 +21,172 @@
         $(function(){ $("#header").load("Toolbar.html") });
     </script>
    <br>
- 
-    
-    
-    
-    
+
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-               <div class="pull-left mr-3"><img src="images/profilePic.png"/></div>
-               <div class="pull-left">
-                    <h4 class = "username" th:text="${#strings.substringBefore(userName,'@')}"></h4>
-                   <p th:text="'Followers: '+${followNumber}">Followers: 33</p> <a  class="btn btn-primary ml-3" th:text="${follow}?'Unfollow':'Follow'"  th:href="'follows?profileEmail=' + ${userName}" th:style="${editable||!#authorization.expression('isAuthenticated()')}?'display:none':'display:normal'"></a>
-                </div>
-            </div>
-        </div>
-        <br>
-            <!--Subscribed Series-->
-        <h3><a href="#subSeriesContent" data-toggle="collapse" th:style="${editable} ? 'display:normal' : 'display:none'">Subscribed Series</a></h3>
-        <div class="comiclist collapse show" id="subSeriesContent" th:style="${editable} ? 'display:normal' : 'display:none'">
-            <div th:each="subseries,iterStat:${subedseries}" class="col-md-9 col-sm-6 col-6">
-
-                <div class="col-md-3 col-sm-6 col-6">
-                    <a th:href="'ViewSeries?seriesId='+${subseries.id}">
-                        <img class="img-fluid img-thumbnail" th:src="${subcover[iterStat.index]}">
-                    </a>
-                </div>
-
-                <a  th:href="'ViewSeries?seriesId='+${subseries.id}">
-                    <h5 th:text="${update[iterStat.index]} ?'Series: '+${subseries.title} +' newChapter ':'Series: '+${subseries.title} " th:style="${update[iterStat.index]} ? 'color:red' : 'color:white'"></h5>
-                </a>
-                <a href="#"th:href="'Profile?profileEmail=' + ${subseries.owner}">
-                    <p class="username" th:text="'owner: '+${#strings.substringBefore(subseries.owner,'@')}">by username123</p>
-                </a>
-                <p th:text="'description: '+ ${subseries.description}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                <a  class="btn btn-danger" th:href="'sub?series=' + ${subseries.id}">Unsubscribe</a>
-                <div class="col-12 ml-3 mt-2">
-                    <a href="#mySeries1Content" data-toggle="collapse">
-                        Chapters
-                    </a>
-                </div>
-
-                <div class="row ml-1 mt-1 collapse" id="mySeries1Content">
-                    <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6"th:each="suballcomic:${suballcomic[iterStat.index]}">
-                        <a th:href="'ViewComic?comicId=' + ${suballcomic.id}">
-                            <img class="img-fluid img-thumbnail" th:src="${(subchapterCover[iterStat.index])[suballcomicStat.index]}"src="images/thumbnail.jpg">
-                            <h5 th:text="${suballcomic.title}" > Chapter 1</h5>
-                        </a>
-
+        <div class="jumbotron bg-secondary">
+            <div class="row">
+                <div class="col-md-12">
+                   <div class="pull-left">
+                        <h4 class = "username" th:text="${#strings.substringBefore(userName,'@')}"></h4>
+                       <p th:text="'Followers: '+${followNumber}">Followers: 33</p> <a  class="btn btn-primary ml-3" th:text="${follow}?'Unfollow':'Follow'"  th:href="'follows?profileEmail=' + ${userName}" th:style="${editable||!#authorization.expression('isAuthenticated()')}?'display:none':'display:normal'"></a>
                     </div>
                 </div>
             </div>
-
-        </div>
-                
-    <br>
-        <div class="row">
-            <!--Created-->
-            <div class="col-12 mb-5">
-                <h3><a href="#createSeriesContent" data-toggle="collapse">Created Series</a></h3>
-                <div class="comiclist collapse show" id="createSeriesContent">
-
-                    <div class="row mt-3" id="mySeries1Row">
-
-                        <div th:each="s,iterStat:${creatSeries}" class="col-md-9 col-sm-6 col-6">
+            <br>
+                <!--Subscribed Series-->
+            <div class="row ml-1">
+                <div class="col-12">
+                    <h3><a href="#subSeriesContent" data-toggle="collapse" th:style="${editable} ? 'display:normal' : 'display:none'">Subscribed Series</a></h3>
+                </div>
+                <div class="comiclist collapse show" id="subSeriesContent" th:style="${editable} ? 'display:normal' : 'display:none'">
+                    <div th:each="subseries,iterStat:${subedseries}" class="col-md-6 col-12">
 
                         <div class="col-md-3 col-sm-6 col-6">
-                            <a th:href="'ViewSeries?seriesId='+${s.id}">
-                                <img class="img-fluid img-thumbnail" th:src="${imageURL[iterStat.index]}">
+                            <a th:href="'ViewSeries?seriesId='+${subseries.id}">
+                                <img class="img-fluid img-thumbnail" th:src="${subcover[iterStat.index]}">
                             </a>
                         </div>
 
-                            <a  th:href="'ViewSeries?seriesId='+${s.id}">
-                            <h5 th:text="'Series: '+${s.title}"></h5>
+                        <a  th:href="'ViewSeries?seriesId='+${subseries.id}">
+                            <h5 th:text="${update[iterStat.index]} ?'Series: '+${subseries.title} +' newChapter ':'Series: '+${subseries.title} " th:style="${update[iterStat.index]} ? 'color:red' : 'color:white'"></h5>
+                        </a>
+                        <a href="#"th:href="'Profile?profileEmail=' + ${subseries.owner}">
+                            <p class="username" th:text="'owner: '+${#strings.substringBefore(subseries.owner,'@')}">by username123</p>
+                        </a>
+                        <p th:text="'description: '+ ${subseries.description}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                        <a  class="btn btn-danger" th:href="'sub?series=' + ${subseries.id}">Unsubscribe</a>
+                        <div class="col-12 ml-3 mt-2">
+                            <a href="#mySeries1Content" data-toggle="collapse">
+                                Chapters
                             </a>
-                            <a href="#"th:href="'Profile?profileEmail=' + ${s.owner}">
-                            <p class="username" th:text="'owner: '+${#strings.substringBefore(s.owner,'@')}">by username123</p>
-                            </a>
-                            <p th:text="'description: '+ ${s.description}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-                            <td>
-                                <form action="#" th:action="@{/editSeries}" th:object="${post}" method="post">
-                                    <input th:id="id + ${s.id}" type="hidden" name="series" th:field="*{series.id}">
-                                    <input class="btn btn-warning" th:type="${editable} ? 'submit' : 'hidden'" value="Edit">
-                                </form>
-                            </td>
-                                <script th:inline="javascript">/*<![CDATA[*/ /*[+ document.getElementById([['id' + ${s.id}]]).value=[[${s.id}]]; +]*/ /*]]>*/</script>
-                            <td>
-                            <form action="#" th:action="@{/Deleteseries}" th:object="${post}" method="post"
-                                      onsubmit="return confirm('Are you sure you want to permanently delete this series?')">
-                                    <input th:id="delete + ${s.id}" type="hidden" name="series" th:field="*{series.id}">
-                                    <input class="btn btn-danger" th:type="${editable} ? 'submit' : 'hidden'" value="Delete">
-                                </form>
-                            </td>
-                                <script th:inline="javascript">/*<![CDATA[*/ /*[+ document.getElementById([['delete' + ${s.id}]]).value=[[${s.id}]]; +]*/ /*]]>*/</script>
-                            <div class="col-12 ml-3 mt-2">
-                                <a href="#mySeries1Content" data-toggle="collapse">
-                                    Chapters
-                                </a>
-                            </div>
+                        </div>
 
                         <div class="row ml-1 mt-1 collapse" id="mySeries1Content">
-                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6"th:each="c:${comics[iterStat.index]}">
-                                <a th:href="'ViewComic?comicId=' + ${c.id}">
-                                    <img class="img-fluid img-thumbnail" th:src="${(chapterCover[iterStat.index])[cStat.index]}"src="images/thumbnail.jpg">
-                                    <h5 th:text="${c.title}" > Chapter 1</h5>
+                            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6"th:each="suballcomic:${suballcomic[iterStat.index]}">
+                                <a th:href="'ViewComic?comicId=' + ${suballcomic.id}">
+                                    <img class="img-fluid img-thumbnail" th:src="${(subchapterCover[iterStat.index])[suballcomicStat.index]}"src="images/thumbnail.jpg">
+                                    <h5 th:text="${suballcomic.title}" > Chapter 1</h5>
                                 </a>
-                                <td>
-                                    <form action="#" th:action="@{/Create.html}" th:object="${post}" method="post">
-                                        <input th:id="id + ${c.id}" type="hidden" name="comic" th:field="*{comic.id}">
-                                        <input class="btn btn-warning" th:type="${editable} ? 'submit' : 'hidden'" value="Edit">
-                                    </form>
-                                    <script th:inline="javascript">/*<![CDATA[*/ /*[+ document.getElementById([['id' + ${c.id}]]).value=[[${c.id}]]; +]*/ /*]]>*/</script>
-                                </td>
-                                <td>
-                                    <form action="#" th:action="@{/DeleteComic.html}" th:object="${post}" method="post"
-                                          onsubmit="return confirm('Are you sure you want to permanently delete this comic?')">
-                                        <input th:id="delete + ${c.id}" type="hidden" name="comic" th:field="*{comic.id}">
-                                        <input class="btn btn-danger" th:type="${editable} ? 'submit' : 'hidden'" value="Delete">
-                                    </form>
-                                    <script th:inline="javascript">/*<![CDATA[*/ /*[+ document.getElementById([['delete' + ${c.id}]]).value=[[${c.id}]]; +]*/ /*]]>*/</script>
-                                </td>
+
                             </div>
                         </div>
-                        </div>
-
-
-
-
-
-
                     </div>
                 </div>
             </div>
+            <!--/row-->
+
+        <br>
+            <!--Followed Authors-->
+            <div class="row ml-1">
+                <div class="col-12">
+                    <h3><a href="#followedAuthorsContent" data-toggle="collapse">Followed Authors</a></h3>
+                </div>
+                <div class="col-12">
+                    <div class="collapse show" id="followedAuthorsContent">
+                        <div class="row">
+                            <!--Template for block of username + unfollow button-->
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <a href="#">
+                                    <span class="username" style="font-size: 150%;" th:text="${'&gt;' + usernameVariableHere}">&gt;username123</span>
+                                </a>
+                                <button class="btn btn-danger">Unfollow</button>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <a href="#">
+                                    <span class="username" style="font-size: 150%;" th:text="${'&gt;' + usernameVariableHere}">&gt;username123</span>
+                                </a>
+                                <button class="btn btn-danger">Unfollow</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--/row-->
+            <br>
+            <!--Created-->
+            <div class="row ml-1 mb-5">
+                <div class="col-12">
+                    <h3><a href="#createSeriesContent" data-toggle="collapse">Created Series</a></h3>
+                    <div class="comiclist collapse show" id="createSeriesContent">
+
+                        <div class="row mt-3" id="mySeries1Row">
+
+                            <div th:each="s,iterStat:${creatSeries}" class="col-md-6 col-12">
+
+                            <div class="col-md-3 col-sm-6 col-6">
+                                <a th:href="'ViewSeries?seriesId='+${s.id}">
+                                    <img class="img-fluid img-thumbnail" th:src="${imageURL[iterStat.index]}">
+                                </a>
+                            </div>
+
+                                <a  th:href="'ViewSeries?seriesId='+${s.id}">
+                                <h5 th:text="'Series: '+${s.title}"></h5>
+                                </a>
+                                <a href="#"th:href="'Profile?profileEmail=' + ${s.owner}">
+                                <p class="username" th:text="'owner: '+${#strings.substringBefore(s.owner,'@')}">by username123</p>
+                                </a>
+                                <p th:text="'description: '+ ${s.description}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                                <td>
+                                    <form action="#" th:action="@{/editSeries}" th:object="${post}" method="post">
+                                        <input th:id="id + ${s.id}" type="hidden" name="series" th:field="*{series.id}">
+                                        <input class="btn btn-warning" th:type="${editable} ? 'submit' : 'hidden'" value="Edit">
+                                    </form>
+                                </td>
+                                    <script th:inline="javascript">/*<![CDATA[*/ /*[+ document.getElementById([['id' + ${s.id}]]).value=[[${s.id}]]; +]*/ /*]]>*/</script>
+                                <td>
+                                <form action="#" th:action="@{/Deleteseries}" th:object="${post}" method="post"
+                                          onsubmit="return confirm('Are you sure you want to permanently delete this series?')">
+                                        <input th:id="delete + ${s.id}" type="hidden" name="series" th:field="*{series.id}">
+                                        <input class="btn btn-danger" th:type="${editable} ? 'submit' : 'hidden'" value="Delete">
+                                    </form>
+                                </td>
+                                    <script th:inline="javascript">/*<![CDATA[*/ /*[+ document.getElementById([['delete' + ${s.id}]]).value=[[${s.id}]]; +]*/ /*]]>*/</script>
+                                <div class="col-12 ml-3 mt-2">
+                                    <a href="#mySeries1Content" data-toggle="collapse">
+                                        Chapters
+                                    </a>
+                                </div>
+
+                            <div class="row ml-1 mt-1 collapse" id="mySeries1Content">
+                                <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6"th:each="c:${comics[iterStat.index]}">
+                                    <a th:href="'ViewComic?comicId=' + ${c.id}">
+                                        <img class="img-fluid img-thumbnail" th:src="${(chapterCover[iterStat.index])[cStat.index]}"src="images/thumbnail.jpg">
+                                        <h5 th:text="${c.title}" > Chapter 1</h5>
+                                    </a>
+                                    <td>
+                                        <form action="#" th:action="@{/Create.html}" th:object="${post}" method="post">
+                                            <input th:id="id + ${c.id}" type="hidden" name="comic" th:field="*{comic.id}">
+                                            <input class="btn btn-warning" th:type="${editable} ? 'submit' : 'hidden'" value="Edit">
+                                        </form>
+                                        <script th:inline="javascript">/*<![CDATA[*/ /*[+ document.getElementById([['id' + ${c.id}]]).value=[[${c.id}]]; +]*/ /*]]>*/</script>
+                                    </td>
+                                    <td>
+                                        <form action="#" th:action="@{/DeleteComic.html}" th:object="${post}" method="post"
+                                              onsubmit="return confirm('Are you sure you want to permanently delete this comic?')">
+                                            <input th:id="delete + ${c.id}" type="hidden" name="comic" th:field="*{comic.id}">
+                                            <input class="btn btn-danger" th:type="${editable} ? 'submit' : 'hidden'" value="Delete">
+                                        </form>
+                                        <script th:inline="javascript">/*<![CDATA[*/ /*[+ document.getElementById([['delete' + ${c.id}]]).value=[[${c.id}]]; +]*/ /*]]>*/</script>
+                                    </td>
+                                </div>
+                            </div>
+                            </div>
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/row-->
         </div>
     </div>
-    
+
+
     
 
 
