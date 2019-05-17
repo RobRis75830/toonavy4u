@@ -167,7 +167,13 @@ for (int i=0;i<creatSeries.size();i++){
         //add check update
             update.add(updateNew(email,subSeries.get(i).getSeries()));
         }
+        //follow list
 
+        List<Follows>  follow=FollowsRepository.findByIdFollower(email);
+       List<String> follower=  new ArrayList<String>();
+       for (int i=0;i<follow.size();i++){
+           follower.add(follow.get(i).getFollowed());
+       }
 
 
 
@@ -185,6 +191,7 @@ for (int i=0;i<creatSeries.size();i++){
         model.addAttribute("followNumber", followNumber);
         model.addAttribute("editable",true);
         model.addAttribute("update",update);
+        model.addAttribute("follower",follower);
         model.addAttribute("post", new Post());
 
         return "Profile";
@@ -327,6 +334,15 @@ for (int i=0;i<creatSeries.size();i++){
             update.add(updateNew(email,subSeries.get(i).getSeries()));
 
         }
+        //follow list
+
+        List<Follows>  followed=FollowsRepository.findByIdFollower(email);
+        List<String> follower=  new ArrayList<String>();
+        for (int i=0;i<followed.size();i++){
+            follower.add(followed.get(i).getFollowed());
+        }
+
+
 
 
 
@@ -345,6 +361,7 @@ for (int i=0;i<creatSeries.size();i++){
         model.addAttribute("subchapterCover", subchapterCover);
         model.addAttribute("subcover", subcover);
         model.addAttribute("update",update);
+        model.addAttribute("follower",follower);
         model.addAttribute("post", new Post());
 
         return "Profile";
@@ -403,6 +420,59 @@ for (int i=0;i<creatSeries.size();i++){
         model.addAttribute("profileEmail", profileEmail);
         return new ModelAndView("redirect:/Profile", model);
     }
+
+
+    @RequestMapping(value = "/followed", method = {RequestMethod.PUT,RequestMethod.GET})
+    public ModelAndView followed(@RequestParam("profileEmail") String profileEmail, ModelMap model, OAuth2AuthenticationToken authentication) {
+        String email = "";
+        if (authentication != null) {
+            email = getEmail(authentication, authorizedClientService);
+        }
+
+        Follows follow =  new Follows();
+        follow.setFollower(email);
+        follow.setFollowed(profileEmail);
+
+        List<Follows> follows=FollowsRepository.findByIdFollowerAndIdFollowed(email,follow.getFollowed());
+        boolean isfollow=false;
+        if (follows.isEmpty()){
+            isfollow=false;
+        }else{
+            isfollow=true;
+        }
+        List<Series> seriessub=seriesRepository.findByOwnerIsLikeAndPublished(profileEmail, 1);
+        Subscription sub=new Subscription();
+
+        if (isfollow){
+            FollowsRepository.delete(follow);
+            for (int i=0;i<seriessub.size();i++){
+                sub.setSeries(seriessub.get(i).getId());
+                sub.setSubscriber(email);
+                subscriptionRepository.delete(sub);
+            }
+
+
+        }else{
+            FollowsRepository.save(follow);
+            for (int i=0;i<seriessub.size();i++){
+                sub.setSeries(seriessub.get(i).getId());
+                sub.setSubscriber(email);
+                subscriptionRepository.save(sub);
+                List<Comic> comic= comicRepository.findBySeriesAndPublishedOrderByCreatedDesc(seriessub.get(i).getId(),1);
+                for (int k=0;k<comic.size();k++){
+                    if (ViewsRepository.findByIdViewerAndIdComic(email,comic.get(k).getId()).isEmpty()){
+                        Views view=new Views();
+                        view.setComic(comic.get(k).getId());
+                        view.setViewer(email);
+                        ViewsRepository.save(view);
+                    } }
+            }
+
+        }
+        model.addAttribute("profileEmail", email);
+        return new ModelAndView("redirect:/Profile", model);
+    }
+
 
 
 

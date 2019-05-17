@@ -10,4 +10,5 @@ public interface FollowsRepository extends CrudRepository<Follows, FollowKey> {
     public List<Follows> findByIdFollowerAndIdFollowed(String follower, String followed);
 
     public List<Follows> findByIdFollowed(String followed);
+    public List<Follows> findByIdFollower(String follower);
 }
