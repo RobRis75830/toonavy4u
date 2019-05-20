@@ -82,10 +82,10 @@
                     <h3><a href="#followedAuthorsContent" data-toggle="collapse">Followed Authors</a></h3>
                 </div>
                 <div class="col-12">
-                    <div class="collapse show" id="followedAuthorsContent" th:each="subfollower,iterStat:${follower}">
+                    <div class="collapse show" id="followedAuthorsContent" >
                         <div class="row">
                             <!--Template for block of username + unfollow button-->
-                            <div class="col-lg-4 col-md-6 col-12">
+                            <div class="col-lg-4 col-md-6 col-12" th:each="subfollower,iterStat:${follower}">
                                 <a href="#" th:href="'Profile?profileEmail=' + ${subfollower}">
                                     <span class="username" style="font-size: 150%;" th:text="${#strings.substringBefore(subfollower,'@')}">&gt;username123</span>
                                 </a>
